@@ -75,9 +75,8 @@ export interface Doctor {
 
 // 医生分页数据
 export interface DoctorPage {
-  pageTotal: number;
-  total: number;
-  rows: Doctor[];
+  current: number;
+  pageSize: number;
 }
 
 /** 关注的类型，doc医生 knowledge文章 topic百科话题 disease疾病 */
