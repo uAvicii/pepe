@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+import type { Patient, IAddPatient,AddPatient } from '@/types/user'
 
 // 登录 API
 export const loginAPI = (mobile: string, password: string) => {
