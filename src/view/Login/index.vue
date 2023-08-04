@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onUnmounted } from 'vue'
+import { ref, onUnmounted, computed } from 'vue'
 import { mobileRules, passwordRules } from '@/utils/rules'
 import { showToast, showFailToast, showSuccessToast } from 'vant'
 import { loginAPI, sendCodeAPI, loginByCodeAPI } from '@/services/user'
@@ -25,8 +25,8 @@ const onLogin = async () => {
     ? await loginAPI(mobile.value, password.value)
     : await loginByCodeAPI(mobile.value, code.value)
   // 登陆失败处理
-  console.log(res);
-  
+  console.log(res)
+
   if (res.data.code == 500) return showFailToast(res.data.message)
   // 使用pinia保存用户信息
   store.saveUser(res.data.data)
@@ -44,12 +44,9 @@ const onLogin = async () => {
 // 发送验证码
 const sendCode = async () => {
   const res = await sendCodeAPI(mobile.value)
-  
   if (res.data.code == 500) return showFailToast(res.data.message)
   showSuccessToast('发送成功')
-  setTimeout(() => {
-    code.value = res.data.code
-  }, 2000)
+  code.value = res.data.data.code
   second.value = 60
   timerId = setInterval(() => {
     second.value--
@@ -60,9 +57,13 @@ onUnmounted(() => {
   clearInterval(timerId)
 })
 
+// 注册页
 const goRegister = () => {
   router.push('/register')
 }
+
+// 密码框是否可见
+const inputType = computed(() => (show.value ? 'text' : 'password'))
 </script>
 
 <template>
@@ -88,7 +89,7 @@ const goRegister = () => {
         placeholder="请输入密码"
         v-model="password"
         :rules="passwordRules"
-        type="password"
+        :type="inputType"
       >
         <template #button>
           <cp-icon
