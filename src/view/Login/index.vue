@@ -25,7 +25,9 @@ const onLogin = async () => {
     ? await loginAPI(mobile.value, password.value)
     : await loginByCodeAPI(mobile.value, code.value)
   // 登陆失败处理
-  if (res.code == 500) return showFailToast(res.message)
+  console.log(res);
+  
+  if (res.data.code == 500) return showFailToast(res.data.message)
   // 使用pinia保存用户信息
   store.saveUser(res.data.data)
   // 提示
@@ -42,7 +44,8 @@ const onLogin = async () => {
 // 发送验证码
 const sendCode = async () => {
   const res = await sendCodeAPI(mobile.value)
-  if (res.code == 500) return showFailToast(res.message)
+  
+  if (res.data.code == 500) return showFailToast(res.data.message)
   showSuccessToast('发送成功')
   setTimeout(() => {
     code.value = res.data.code

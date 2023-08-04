@@ -57,6 +57,7 @@ export interface User {
          * 已完成
          * */
         refund?: number;
+        finishedNumber?: number;
     };
 }
 export interface Patient {

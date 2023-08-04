@@ -13,6 +13,8 @@ const userInfo = ref<User>({} as User)
 const loadData = async () => {
   const res = await getUserInfoAPI()
   userInfo.value = res.data.data
+  console.log(userInfo.value);
+  
 }
 
 const tools = [
@@ -28,7 +30,7 @@ const tools = [
 const loginOut = async () => {
   await showConfirmDialog({
     title: '温馨提示',
-    message: '您确认要退出优医问诊吗？',
+    message: '您确认要退出洛克希德马丁吗？',
     cancelButtonText: '取消',
     confirmButtonText: '确认'
   })
@@ -76,7 +78,7 @@ onMounted(loadData)
       </div>
       <div class="user-page-order">
         <div class="head">
-          <h3>军火订单</h3>
+          <h3>Arms Order</h3>
           <router-link to="/order">全部订单 <van-icon name="arrow" /></router-link>
         </div>
         <van-row>
