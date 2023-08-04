@@ -2,7 +2,7 @@
 import { getPatientListAPI, addPatientAPI, editPatientAPI, delPatientAPI } from '@/services/user'
 import type { Patient, IAddPatient } from '@/types/user'
 import { ref, onMounted, computed, watch } from 'vue'
-import { showToast, showSuccessToast, showConfirmDialog } from 'vant'
+import { showToast, showSuccessToast, showConfirmDialog, Search } from 'vant'
 import Validator from 'id-validator'
 
 const isShow = ref(false)
@@ -79,22 +79,41 @@ const delById = async () => {
 onMounted(() => {
   loadData()
 })
+
+const value = ref('')
+const onSearch = async (value: string) => {
+  const newList = list.value.filter((item) => item.name.includes(value))
+  list.value = newList
+}
+const onCancel = () => {
+  loadData()
+}
 </script>
 
 <template>
   <div class="patient-page">
     <cp-nav-bar title="家庭档案" />
+    <van-search
+      shape="round"
+      v-model="value"
+      @search="onSearch"
+      @clear="onCancel"
+      placeholder="请输入名字搜索"
+    />
     <div class="patient-list">
-      <div class="patient-item" v-for="item in list" :key="item.id">
-        <div class="info">
-          <span class="name">{{ item.name }}</span>
-          <span class="id">{{ item.idCard }}</span>
-          <span>{{ item.genderValue }}</span>
-          <span>{{ item.age }}</span>
+      <div v-if="list.length">
+        <div class="patient-item" v-for="item in list" :key="item.id">
+          <div class="info">
+            <span class="name">{{ item.name }}</span>
+            <span class="id">{{ item.idCard }}</span>
+            <span>{{ item.genderValue }}</span>
+            <span>{{ item.age }}</span>
+          </div>
+          <div class="icon"><cp-icon name="user-edit" @click="showEdit(item)" /></div>
+          <div class="tag" v-if="item.defaultFlag === 1">默认</div>
         </div>
-        <div class="icon"><cp-icon name="user-edit" @click="showEdit(item)" /></div>
-        <div class="tag" v-if="item.defaultFlag === 1">默认</div>
       </div>
+      <van-empty v-else image="search" description="暂无数据" />
       <div class="patient-add" @click="isShow = true">
         <cp-icon name="user-add" />
         <p>添加killer</p>
@@ -137,8 +156,12 @@ onMounted(() => {
       width: 100%;
       height: 100%;
     }
+    .van-search {
+      padding-bottom: 0;
+    }
   }
 }
+
 .patient-list {
   padding: 15px;
 }

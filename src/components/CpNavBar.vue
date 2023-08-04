@@ -4,8 +4,11 @@ interface Props {
   title?: string
   rightText?: string
   onBack?: () => void
+  isLeftArrow?: boolean
 }
-const props = defineProps<Props>()
+const props = withDefaults(defineProps<Props>(), {
+  isLeftArrow: true
+})
 
 interface Emits {
   (e: 'click-right'): void
@@ -26,7 +29,7 @@ const clickLeft = () => {
     :right-text="rightText"
     @click-right="emit('click-right')"
     @click-left="clickLeft"
-    left-arrow
+    :left-arrow="isLeftArrow"
     fixed
     placeholder
   />

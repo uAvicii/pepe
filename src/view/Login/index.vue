@@ -43,10 +43,10 @@ const onLogin = async () => {
 
 // 发送验证码
 const sendCode = async () => {
-  const res = await sendCodeAPI(mobile.value)
-  if (res.data.code == 500) return showFailToast(res.data.message)
+  const { data } = await sendCodeAPI(mobile.value)
+  if (data.code == 500) return showFailToast(data.message)
   showSuccessToast('发送成功')
-  code.value = res.data.data.code
+  code.value = data.data.code
   second.value = 60
   timerId = setInterval(() => {
     second.value--
@@ -68,7 +68,7 @@ const inputType = computed(() => (show.value ? 'text' : 'password'))
 
 <template>
   <div class="login-page">
-    <cp-nav-bar right-text="注册" @click="goRegister"></cp-nav-bar>
+    <cp-nav-bar right-text="注册" :isLeftArrow="false" @click="goRegister"></cp-nav-bar>
     <div class="login-head">
       <h3>{{ isPass ? '密码登录' : '短信验证码登录' }}</h3>
       <a href="javascript:;" @click="isPass = !isPass">
