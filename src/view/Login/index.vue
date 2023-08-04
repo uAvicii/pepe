@@ -4,7 +4,7 @@ import { mobileRules, passwordRules } from '@/utils/rules'
 import { showToast, showFailToast, showSuccessToast } from 'vant'
 import { loginAPI, sendCodeAPI, loginByCodeAPI } from '@/services/user'
 import { useRoute, useRouter } from 'vue-router'
-import { useUserStore } from '@/stores'
+import { useUserStore } from '@/stores/index'
 const router = useRouter()
 const route = useRoute()
 const store = useUserStore()
@@ -16,7 +16,7 @@ const mobile = ref('13230000001') // 手机号
 const password = ref('abc12345') // 密码
 const code = ref('') // 验证码
 const second = ref(0) // 倒计时
-let timerId: NodeJS.Timeout
+let timerId: number
 
 // 表单提交 -登陆
 const onLogin = async () => {

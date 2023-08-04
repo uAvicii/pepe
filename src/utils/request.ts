@@ -1,8 +1,7 @@
 // 二次封装axios
 import axios from "axios"
 import { useUserStore } from '@/stores/index'
-
-import { showFailToast } from 'vant'
+import { showFailToast,showToast } from 'vant'
 import router from '@/router'
 export const baseURL = 'https://consult-api.itheima.net/'
 const request = axios.create({
@@ -44,7 +43,7 @@ request.interceptors.response.use(
             showToast('登录超时, 请重新登录')
             // 删除用户信息
             const store = useUserStore()
-            store.delUserInfo()
+            store.delUser()
             // 跳转登录，带上接口失效所在页面的地址，登录完成后回跳使用
             router.push({
                 path: '/login',
