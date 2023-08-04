@@ -12,9 +12,7 @@ const userInfo = ref<User>({} as User)
 
 const loadData = async () => {
   const res = await getUserInfoAPI()
-  userInfo.value = res.data.data
-  console.log(userInfo.value);
-  
+  userInfo.value = res.data.data  
 }
 
 const tools = [
