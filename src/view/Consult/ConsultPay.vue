@@ -10,9 +10,11 @@ import type { OrderPreData } from '@/types/consult'
 import { onBeforeRouteLeave } from 'vue-router'
 import type { Patient } from '@/types/user'
 import { onMounted, ref } from 'vue'
-import { showToast, showLoadingToast } from 'vant'
+import { useRouter } from 'vue-router'
+import { showToast, showLoadingToast, showDialog } from 'vant'
 
 const store = useConsultStore()
+const router = useRouter()
 
 const payInfo = ref<OrderPreData>({})
 const loadData = async () => {
@@ -51,7 +53,7 @@ const onPay = async () => {
     orderId: orderId.value,
     paymentMethod: paymentMethod.value,
     payCallback: 'http://localhost:3000/room'
-  })  
+  })
   window.location.href = res.data.data.payUrl
   // 打开新页面跳转支付
   // window.open(res.data.data.payUrl)
@@ -61,6 +63,20 @@ onBeforeRouteLeave(() => {
   if (orderId.value) return false
 })
 onMounted(() => {
+  if (
+    !store.consult.type ||
+    !store.consult.illnessType ||
+    !store.consult.depId ||
+    !store.consult.patientId
+  ) {
+    return showDialog({
+      title: '温馨提示',
+      message: '问诊信息不完整请重新填写，如有未支付的问诊订单可在问诊记录中继续支付',
+      closeOnPopstate: false
+    }).then(() => {
+      router.push('/')
+    })
+  }
   loadData()
   loadPatient()
 })
