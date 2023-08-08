@@ -1,10 +1,16 @@
 <script setup lang="ts">
-import { getPatientDetail, getPreOrderAPI, createOrderAPI } from '@/services/consult'
+import {
+  getPatientDetail,
+  getPreOrderAPI,
+  createOrderAPI,
+  getOrderPayUrl
+} from '@/services/consult'
 import { useConsultStore } from '@/stores'
 import type { OrderPreData } from '@/types/consult'
+import { onBeforeRouteLeave } from 'vue-router'
 import type { Patient } from '@/types/user'
 import { onMounted, ref } from 'vue'
-import { showToast } from 'vant'
+import { showToast, showLoadingToast } from 'vant'
 
 const store = useConsultStore()
 
@@ -38,7 +44,22 @@ const onSubmit = async () => {
   loading.value = false
   isShow.value = true
 }
+const onPay = async () => {
+  if (paymentMethod.value === undefined) return showToast('请选择支付方式')
+  showLoadingToast('跳转支付')
+  const res = await getOrderPayUrl({
+    orderId: orderId.value,
+    paymentMethod: paymentMethod.value,
+    payCallback: 'http://localhost:3000/room'
+  })  
+  window.location.href = res.data.data.payUrl
+  // 打开新页面跳转支付
+  // window.open(res.data.data.payUrl)
+}
 
+onBeforeRouteLeave(() => {
+  if (orderId.value) return false
+})
 onMounted(() => {
   loadData()
   loadPatient()
@@ -86,11 +107,17 @@ onMounted(() => {
       :price="payInfo.actualPayment! * 100"
       button-text="立即支付"
       text-align="left"
+      :loading="loading"
       @click="onSubmit"
     />
 
     <!-- 支付选项卡片 -->
-    <van-action-sheet v-model:show="isShow" title="选择支付方式">
+    <van-action-sheet
+      v-model:show="isShow"
+      :close-on-popstate="false"
+      :closeable="false"
+      title="选择支付方式"
+    >
       <div class="pay-type">
         <p class="amount">￥{{ payInfo.actualPayment!.toFixed(2) }}元</p>
         <van-cell-group>
@@ -104,7 +131,7 @@ onMounted(() => {
           </van-cell>
         </van-cell-group>
         <div class="btn">
-          <van-button type="primary" round block>立即支付</van-button>
+          <van-button type="primary" round block @click="onPay">立即支付</van-button>
         </div>
       </div>
     </van-action-sheet>

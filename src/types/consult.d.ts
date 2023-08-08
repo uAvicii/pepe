@@ -173,3 +173,10 @@ export interface OrderPreData {
 
 /** 请求订单支付信息的参数 */
 export type OrderPreParams = Pick<OrderPreData, 'type' | 'illnessType'>
+
+/** 请求支付地址接口的参数类型 */
+export type PayUrlParams = {
+  paymentMethod: 0 | 1
+  orderId: string
+  payCallback: string
+}

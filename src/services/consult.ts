@@ -4,7 +4,8 @@ import type {
   IFollowType,
   TopDep,
   OrderPreParams,
-  PartialConsult
+  PartialConsult,
+  PayUrlParams
 } from '@/types/consult'
 import request from '@/utils/request'
 
@@ -51,4 +52,9 @@ export const getPatientDetail = (id: string) => {
 /** 生成订单接口 */
 export const createOrderAPI = (data: PartialConsult) => {
   return request({ url: '/patient/consult/order', method: 'POST', data })
+}
+
+/** 获取支付地址  0 是微信  1 支付宝 */
+export const getOrderPayUrl = (data: PayUrlParams) => {
+  return request({ url: '/patient/consult/pay', method: 'post', data })
 }

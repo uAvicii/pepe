@@ -114,7 +114,6 @@ onMounted(() => {
     <div class="illness-img">
       <van-uploader
         v-model="fileList"
-        multiple
         upload-icon="photo-o"
         upload-text="上传图片"
         max-count="9"
