@@ -11,6 +11,9 @@
   "compilerOptions": {
     "outDir": "./dist", // 输出目录 
     "declaration": true,
+    "declarationDir": "./dist",
+    "emitDeclarationOnly": false,
+    "allowJs": true,
     "types": [
       "vue",
       "vue-router",
@@ -41,10 +44,15 @@
     }
   },
   "include": [
+    "src",
     "src/**/*.ts",
     "src/**/*.d.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
     "*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/__test__/*"
   ]
 }

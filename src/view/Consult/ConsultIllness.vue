@@ -10,7 +10,7 @@ import { uploadImageAPI } from '@/services/consult'
 import { computed, watch, ref, onMounted } from 'vue'
 const store = useConsultStore()
 const router = useRouter()
-type UploadFile = typeof Uploader['file']
+type UploadFile = (typeof Uploader)['file']
 const timeOptions = [
   { label: '一周内', value: IllnessTime.Week },
   { label: '一月内', value: IllnessTime.Month },
@@ -23,17 +23,9 @@ const flagOptions = [
 ]
 
 const fileList = ref<UploaderFileListItem[]>([])
-// 将 formData.value.pictures 等于 fileList
-watch(fileList, () => {
-  // formData.value.pictures = fileList.value
-  ;(formData.value as any).pictures = fileList.value
-})
 
 type UploaderAfterRead = (item: UploadFile) => void
 const onAfterRead: UploaderAfterRead = (item: any) => {
-  console.log(111)
-  console.log(item)
-
   if (Array.isArray(item)) return
   if (!item.file) return
   // 开始上传
@@ -43,8 +35,8 @@ const onAfterRead: UploaderAfterRead = (item: any) => {
     .then((res: any) => {
       item.status = 'done'
       item.message = undefined
-      item.url = res.data.url
-      formData.value.pictures?.push(res.data)
+      item.url = res.data.data.url
+      formData.value.pictures?.push(res.data.data)
     })
     .catch(() => {
       item.status = 'failed'
@@ -63,10 +55,7 @@ const disabled = computed(
     formData.value.illnessTime === undefined ||
     formData.value.consultFlag === undefined
 )
-// 监听formData的变化
-watch(formData.value, () => {
-  console.log(formData.value)
-})
+
 const onNext = () => {
   store.setIllness(formData.value)
   // 跳转档案管理（复用），需要根据 isSelect 实现选择功能
@@ -92,16 +81,16 @@ onMounted(() => {
 
 <template>
   <div class="consult-illness-page">
-    <cp-nav-bar title="图文问诊" />
+    <cp-nav-bar title="图文咨询" />
   </div>
 
   <!-- 医生提示 -->
   <div class="illness-tip van-hairline--bottom">
     <img class="img" src="@/assets/avatar-doctor.svg" />
     <div class="info">
-      <p class="tit">在线医生</p>
+      <p class="tit">在线killer</p>
       <p class="tip">请描述你的疾病或症状、是否用药、就诊经历，需要我听过什么样的帮助</p>
-      <p class="safe"><cp-icon name="consult-safe" /><span>内容仅医生可见</span></p>
+      <p class="safe"><cp-icon name="consult-safe" /><span>内容仅killer可见</span></p>
     </div>
   </div>
 
@@ -130,7 +119,7 @@ onMounted(() => {
         upload-text="上传图片"
         max-count="9"
         :max-size="5 * 1024 * 1024"
-        @after-read="onAfterRead"
+        :after-read="onAfterRead"
         @delete="onDelete"
       />
       <p class="tip" v-show="!fileList.length">上传内容仅医生可见,最多9张图,最大5MB</p>
