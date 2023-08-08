@@ -12,7 +12,7 @@ const userInfo = ref<User>({} as User)
 
 const loadData = async () => {
   const res = await getUserInfoAPI()
-  userInfo.value = res.data.data  
+  userInfo.value = res.data.data
 }
 
 const tools = [
@@ -46,6 +46,16 @@ onMounted(loadData)
 
 <template>
   <div class="user-page" v-if="userInfo">
+    <!-- 水印标签 -->
+    <!-- <van-watermark
+      image="/public/x.png"
+      :gap-x="10"
+      :gap-y="10"
+      :width="50"
+      :height="50"
+      opacity="0.1"
+    /> -->
+
     <div class="user-page">
       <div class="user-page-head">
         <div class="top">

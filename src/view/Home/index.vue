@@ -2,8 +2,11 @@
 import { ref } from 'vue'
 import KnowledgeList from './components/KnowledgeList.vue'
 import FollowDoctor from './components/FollowDoctor.vue'
-
+import { useConsultStore } from '@/stores'
+import { ConsultType } from '@/enums'
 import type { IKnowledgeType } from '@/types/consult'
+
+const store = useConsultStore()
 
 const active = ref<IKnowledgeType>('recommend')
 const value = ref('')
@@ -40,7 +43,7 @@ const onCancel = () => {
           </router-link>
         </van-col>
         <van-col span="8">
-          <router-link to="/" class="nav">
+          <router-link to="/consult/fast" @click="store.setType(ConsultType.Fast)" class="nav">
             <cp-icon name="home-graphic"></cp-icon>
             <p class="title">question</p>
             <p class="desc">20s极速回复</p>

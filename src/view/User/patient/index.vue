@@ -1,15 +1,31 @@
+<!-- 档案 -->
 <script setup lang="ts">
 import { getPatientListAPI, addPatientAPI, editPatientAPI, delPatientAPI } from '@/services/user'
 import type { Patient, IAddPatient } from '@/types/user'
 import { ref, onMounted, computed, watch } from 'vue'
 import { showToast, showSuccessToast, showConfirmDialog, Search } from 'vant'
+import { useRoute, useRouter } from 'vue-router'
+import { useConsultStore } from '@/stores'
+const route = useRoute()
+const router = useRouter()
+const store = useConsultStore()
 import Validator from 'id-validator'
 
+const isSelect = route.query.isSelect
 const isShow = ref(false)
 const list = ref<Patient[]>([])
 const loadData = async () => {
   const res = await getPatientListAPI()
   list.value = res.data.data
+
+  // 设置默认选中的ID，当你是选择患者的时候，且有患者信息的时候
+  if (!isSelect || !list.value.length) return
+  const defPatient = list.value.find((item) => item.defaultFlag === 1)
+  if (defPatient) {
+    selectId.value = defPatient.id
+  } else {
+    selectId.value = list.value[0].id
+  }
 }
 
 // 新增弹出层数据
@@ -49,7 +65,9 @@ const submit = async () => {
   const { sex } = validate.getInfo(formData.value.idCard)
   if (formData.value.gender !== sex) return showToast('性别和身份证不符')
 
-  formData.value.id ? await editPatientAPI(formData.value) : await addPatientAPI(formData.value)
+  formData.value.id
+    ? await editPatientAPI(formData.value)
+    : await addPatientAPI(formData.value as any)
 
   isShow.value = false
   loadData()
@@ -81,18 +99,41 @@ onMounted(() => {
 })
 
 const value = ref('')
+
 const onSearch = async (value: string) => {
-  const newList = list.value.filter((item) => item.name.includes(value))
+  const newList = list.value.filter((item: any) => item?.name.includes(value))
   list.value = newList
 }
 const onCancel = () => {
   loadData()
 }
+
+//设置选中效果
+const selectId = ref<string>()
+interface Item {
+  id: string
+}
+const setId = (item: Item) => {
+  if (isSelect) {
+    selectId.value = item.id
+  }
+}
+
+// 下一步跳转支付
+const onNext = () => {
+  if (!selectId.value) return showToast('请选择患者')
+  store.setId(selectId.value)
+  router.push('/consult/pay')
+}
 </script>
 
 <template>
   <div class="patient-page">
-    <cp-nav-bar title="家庭档案" />
+    <cp-nav-bar :title="isSelect ? '选择killer' : 'killers'" />
+    <div class="patient-change" v-if="isSelect">
+      <h3>请选择患者信息</h3>
+      <p>以便医生给出更准确的治疗，信息仅医生可见</p>
+    </div>
     <van-search
       shape="round"
       v-model="value"
@@ -102,7 +143,13 @@ const onCancel = () => {
     />
     <div class="patient-list">
       <div v-if="list.length">
-        <div class="patient-item" v-for="item in list" :key="item.id">
+        <div
+          class="patient-item"
+          v-for="item in list"
+          :key="item.id"
+          @click="setId(item as any)"
+          :class="{ selected: selectId === item.id }"
+        >
           <div class="info">
             <span class="name">{{ item.name }}</span>
             <span class="id">{{ item.idCard }}</span>
@@ -119,6 +166,9 @@ const onCancel = () => {
         <p>添加killer</p>
       </div>
       <div class="patient-tip">最多可添加 6 人</div>
+    </div>
+    <div class="patient-next" v-if="isSelect">
+      <van-button @click="onNext" type="primary" round block>下一步</van-button>
     </div>
     <van-popup v-model:show="isShow" position="right">
       <cp-nav-bar
@@ -236,6 +286,26 @@ const onCancel = () => {
 .patient-tip {
   color: var(--cp-tag);
   padding: 12px 0;
+}
+.patient-change {
+  padding: 15px;
+  > h3 {
+    font-weight: normal;
+    margin-bottom: 5px;
+  }
+  > p {
+    color: var(--cp-text3);
+  }
+}
+.patient-next {
+  padding: 15px;
+  background-color: #fff;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 80px;
+  box-sizing: border-box;
 }
 // 底部操作栏
 .van-action-bar {

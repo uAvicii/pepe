@@ -19,11 +19,11 @@ export interface User {
     /**
      * refreshToken
      */
-    refreshToken: string;
+    refreshToken?: string;
     /**
      * token
      */
-    token: string;
+    token?: string;
     /**
     * 收藏
     */
@@ -62,13 +62,13 @@ export interface User {
 }
 export interface Patient {
     // 患者id
-    id: string;
-    name: string;
-    idCard: string
-    genderValue: string
-    age: number
-    defaultFlag: number
-    gender: number
+    id?: string;
+    name?: string;
+    idCard?: string
+    genderValue?: string
+    age?: number
+    defaultFlag?: number
+    gender?: number
 }
 
 export interface AddPatient {
