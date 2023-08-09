@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { OrderType } from '@/enums'
+import { OrderType, IllnessTime } from '@/enums'
 import { getOrderDetailAPI } from '@/services/consult'
 import type { ConsultOrderItem } from '@/types/consult'
 import { useShowPrescription, usecancelOrder, useDelOrder } from '@/composable'
@@ -9,6 +9,27 @@ import { showDialog, showToast } from 'vant'
 import { useClipboard } from '@vueuse/core'
 const route = useRoute()
 const router = useRouter()
+
+const timeOptions = [
+  { label: '一周内', value: IllnessTime.Week },
+  { label: '一月内', value: IllnessTime.Month },
+  { label: '半年内', value: IllnessTime.HalfYear },
+  { label: '大于半年', value: IllnessTime.More }
+]
+// 根据返回的时长 渲染对应的label
+const renderTime = (time: IllnessTime) => {
+  const item = timeOptions.find((item) => item.value === time)
+  return item?.label
+}
+const flagOptions = [
+  { label: '就诊过', value: 0 },
+  { label: '没就诊过', value: 1 }
+]
+//根据返回的value 渲染对应的label
+const renderFlag = (flag: number) => {
+  const item = flagOptions.find((item) => item.value === flag)
+  return item?.label
+}
 
 const show = ref(false)
 const { loading, onCancel } = usecancelOrder()
@@ -63,8 +84,8 @@ onMounted(async () => {
           title="患者信息"
           :value="`${detail?.patientInfo.name} | ${detail?.patientInfo.genderValue} | ${detail?.patientInfo.age}岁`"
         />
-        <van-cell title="患病时长" :value="detail?.illnessTime" />
-        <van-cell title="就诊情况" :value="detail?.consultFlag" />
+        <van-cell title="患病时长" :value="renderTime(detail.illnessTime)" />
+        <van-cell title="就诊情况" :value="renderFlag(detail.consultFlag!)" />
         <van-cell title="病情描述" :label="detail?.illnessDesc" />
       </van-cell-group>
     </div>
@@ -124,7 +145,9 @@ onMounted(async () => {
     </div>
     <!-- 已取消 -->
     <div class="detail-action van-hairline--top" v-if="detail.status === OrderType.ConsultCancel">
-      <van-button type="default" round> 删除订单 </van-button>
+      <van-button type="default" round :loading="loadings" @click="onDel(detail!)">
+        删除订单
+      </van-button>
       <van-button type="primary" round to="/">咨询其他医生</van-button>
     </div>
     <!-- 支付抽屉 -->
@@ -239,9 +262,15 @@ onMounted(async () => {
     font-size: 16px;
     color: var(--cp-price);
   }
+  &::after {
+    content: '';
+    display: block;
+    height: 60px;
+    background-color: var(--cp-bg);
+  }
 }
 .detail-action {
-  height: 65px;
+  height: 60px;
   width: 100%;
   position: fixed;
   left: 0;

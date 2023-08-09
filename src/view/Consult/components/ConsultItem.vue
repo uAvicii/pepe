@@ -69,7 +69,7 @@ defineProps<{ item: ConsultOrderItem }>()
       <van-button class="gray" plain size="small" round :loading="loading" @click="onCancel(item)"
         >取消问诊</van-button
       >
-      <van-button type="primary" plain size="small" round to="`/consult/${item.id}`">
+      <van-button type="primary" plain size="small" round :to="`/consult/${item.id}`">
         去支付
       </van-button>
     </div>

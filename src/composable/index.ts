@@ -42,8 +42,8 @@ export const usecancelOrder = () => {
   return { loading, onCancel }
 }
 
+// 删除订单
 export const useDelOrder = (cb: () => void) => {
-  // 删除订单
   const loadings = ref(false)
   const onDel = async (item: ConsultOrderItem) => {
     loadings.value = true

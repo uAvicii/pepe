@@ -9,6 +9,7 @@ interface Props {
 }
 
 const { orderId } = defineProps<Props>()
+
 const isShow = ref(false)
 const paymentMethod = ref<0 | 1>(1)
 const onPay = async () => {
@@ -18,7 +19,9 @@ const onPay = async () => {
     paymentMethod: paymentMethod.value,
     payCallback: 'http://localhost:3000/room'
   })
-  window.location.href = res.data.payUrl
+  window.location.href = res.data.data.payUrl
+  // 打开新页面跳转
+  // window.open(res.data.data.payUrl)
 }
 </script>
 
