@@ -84,7 +84,7 @@ onMounted(async () => {
           title="患者信息"
           :value="`${detail?.patientInfo.name} | ${detail?.patientInfo.genderValue} | ${detail?.patientInfo.age}岁`"
         />
-        <van-cell title="患病时长" :value="renderTime(detail.illnessTime)" />
+        <van-cell title="患病时长" :value="renderTime(detail.illnessTime!)" />
         <van-cell title="就诊情况" :value="renderFlag(detail.consultFlag!)" />
         <van-cell title="病情描述" :label="detail?.illnessDesc" />
       </van-cell-group>
@@ -266,7 +266,8 @@ onMounted(async () => {
     content: '';
     display: block;
     height: 60px;
-    background-color: var(--cp-bg);
+    background-color: transparent;
+    // background-color: var(--cp-bg);
   }
 }
 .detail-action {
