@@ -36,7 +36,7 @@ const onCancel = () => {
     <div class="home-navs">
       <van-row>
         <van-col span="8">
-          <router-link to="/" class="nav">
+          <router-link to="/room" class="nav">
             <cp-icon name="home-doctor"></cp-icon>
             <p class="title">student</p>
             <p class="desc">汤米·谢尔比</p>

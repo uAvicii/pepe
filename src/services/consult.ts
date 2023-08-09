@@ -5,7 +5,8 @@ import type {
   TopDep,
   OrderPreParams,
   PartialConsult,
-  PayUrlParams
+  PayUrlParams,
+  ConsultOrderListParams
 } from '@/types/consult'
 import request from '@/utils/request'
 
@@ -57,4 +58,29 @@ export const createOrderAPI = (data: PartialConsult) => {
 /** 获取支付地址  0 是微信  1 支付宝 */
 export const getOrderPayUrl = (data: PayUrlParams) => {
   return request({ url: '/patient/consult/pay', method: 'post', data })
+}
+
+// 问诊记录
+export const getOrderRecordsAPI = (params: ConsultOrderListParams) => {
+  return request({ url: '/patient/consult/order/list', params })
+}
+
+/** 取消订单API */
+export const cancelOrderAPI = (id: string) => {
+  return request({ url: `/patient/order/cancel/${id}`, method: 'PUT' })
+}
+
+/** 删除订单 */
+export const deleteOrderAPI = (id: string) => {
+  return request({ url: `/patient/order/${id}`, method: 'DELETE' })
+}
+
+/** 获取处方 */
+export const getPrescriptionPicAPI = (id: string) => {
+  return request({ url: `/patient/consult/prescription/${id}` })
+}
+
+/** 订单详情 */
+export const getOrderDetailAPI = (id: string) => {
+  return request({ url: `/patient/consult/order/detail?orderId=${id}` })
 }
