@@ -11,6 +11,11 @@ const router = createRouter({
   routes: [
     { path: '/login', component: () => import('@/view/Login/index.vue'), meta: { title: '登录' } },
     {
+      path: '/login/callback',
+      component: () => import('@/view/Login/LoginCallback.vue'),
+      meta: { title: '扣扣登录-绑定手机' }
+    },
+    {
       path: '/register',
       component: () => import('@/view/Register/index.vue'),
       meta: { title: '注册' }
@@ -122,7 +127,7 @@ const router = createRouter({
 router.beforeEach((to: any) => {
   NProgress.start()
   // 1. 定义白名单
-  const whiteList = ['/login', '/register']
+  const whiteList = ['/login', '/register', '/login/callback']
   // 用户仓库
   const store = useUserStore()
   // 2. 如果没有登录且不在白名单内，去登录

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onUnmounted, computed } from 'vue'
+import { ref, onUnmounted, computed, onMounted } from 'vue'
 import { mobileRules, passwordRules } from '@/utils/rules'
 import { showToast, showFailToast, showSuccessToast } from 'vant'
 import { loginAPI, sendCodeAPI, loginByCodeAPI } from '@/services/user'
@@ -129,9 +129,12 @@ const inputType = computed(() => (show.value ? 'text' : 'password'))
 
     <div class="login-other">
       <van-divider>第三方登录</van-divider>
-      <div class="icon">
+      <a
+        class="icon"
+        href="https://graph.qq.com/oauth2.0/authorize?client_id=102015968&response_type=token&scope=all&redirect_uri=http%3A%2F%2Fconsult-patients.itheima.net%2Flogin%2Fcallback"
+      >
         <img src="@/assets/qq.svg" alt="" />
-      </div>
+      </a>
     </div>
   </div>
 </template>

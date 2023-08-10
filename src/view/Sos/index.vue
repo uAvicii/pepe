@@ -20,7 +20,7 @@ const onIkun = (e: MouseEvent) => {
   height: 75px;
   background-color: #ff7802;
   border-radius: 50%;
-  animation: ikun 3s infinite;
+  animation: ikun 1s infinite;
   position: absolute;
   top: 49%;
   left: 12%;
@@ -33,7 +33,7 @@ const onIkun = (e: MouseEvent) => {
     transform: scale(1.2);
 
     background-color: red;
-    transform: translateY(100px);
+    transform: translateY(120px);
   }
   100% {
     transform: scale(1);
@@ -42,13 +42,13 @@ const onIkun = (e: MouseEvent) => {
 
 .shade {
   position: absolute;
-  top: 75%;
+  top: 79%;
   left: 17%;
   width: 40px;
   height: 20px;
   border-radius: 50%;
   background: radial-gradient(#666, transparent 50%);
-  animation: shadeMove 3s infinite;
+  animation: shadeMove 1s infinite;
   transform: scale(2);
 }
 @keyframes shadeMove {
