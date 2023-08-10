@@ -50,7 +50,7 @@ const onCancel = () => {
           </router-link>
         </van-col>
         <van-col span="8">
-          <router-link to="/" class="nav">
+          <router-link to="/sos" class="nav">
             <cp-icon name="home-prescribe"></cp-icon>
             <p class="title">sos</p>
             <p class="desc">昆汀·塔伦蒂诺</p>

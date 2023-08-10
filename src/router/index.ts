@@ -109,6 +109,11 @@ const router = createRouter({
       path: '/order/logistics/:id',
       component: () => import('@/view/Order/OrderLogistics.vue'),
       meta: { title: '物流详情' }
+    },
+    {
+      path: '/sos',
+      component: () => import('@/view/Sos/index.vue'),
+      meta: { title: 'iKun' }
     }
   ]
 })
