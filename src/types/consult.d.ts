@@ -194,10 +194,30 @@ export type ConsultOrderPage = {
   /** 总条数 */
   total: number
   /** 列表数据 */
-  rows: ConsultOrderItem[]
+  rows: ConsultOrderItemw[]
 }
 
 export type ConsultOrderItem = {
+  /** 创建时间 */
+  createTime: string
+  /** 医生信息 */
+  docInfo?: Doctor
+  /** 患者信息 */
+  patientInfo: Patient
+
+  /** 订单状态 */
+  status: number
+  /** 状态文字 */
+  statusValue: string
+  /** 类型问诊文字 */
+  typeValue: string
+  /** 倒计时时间 */
+  /** 处方ID */
+  /** 评价ID */
+  /** 应付款 */
+  /** 优惠券抵扣 */
+  /** 积分抵扣 */
+  /** 实付款 */
   /**
    * 开药门诊必有-过敏史0无1有2不清楚
    */
@@ -285,7 +305,6 @@ export type ConsultOrderItem = {
   /**
    * 订单状态：图文问诊或者开药问诊的订单-1待支付2待接诊3咨询中4已完成5已取消/药品订单-10待支付11待发货12待收货13已完成14已取消
    */
-  statusValue?: string
   /**
    * 订单类型1问医生2极速问诊2开药问诊--默认是1
    */

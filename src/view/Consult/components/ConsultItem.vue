@@ -78,7 +78,7 @@ defineProps<{ item: ConsultOrderItem }>()
       <van-button class="gray" plain size="small" round :loading="loading" @click="onCancel(item)"
         >取消问诊</van-button
       >
-      <van-button type="primary" plain size="small" round to="`/room?orderId=${item.id}`">
+      <van-button type="primary" plain size="small" round :to="`/room?orderId=${item.id}`">
         继续沟通
       </van-button>
     </div>
@@ -94,7 +94,7 @@ defineProps<{ item: ConsultOrderItem }>()
       >
         查看处方
       </van-button>
-      <van-button type="primary" plain size="small" round to="`/room?orderId=${item.id}`">
+      <van-button type="primary" plain size="small" round :to="`/room?orderId=${item.id}`">
         继续沟通
       </van-button>
     </div>

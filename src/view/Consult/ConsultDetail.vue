@@ -265,13 +265,13 @@ onMounted(async () => {
   &::after {
     content: '';
     display: block;
-    height: 60px;
+    height: 65px;
     background-color: transparent;
     // background-color: var(--cp-bg);
   }
 }
 .detail-action {
-  height: 60px;
+  height: 65px;
   width: 100%;
   position: fixed;
   left: 0;

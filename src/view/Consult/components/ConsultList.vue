@@ -40,7 +40,7 @@ const onLoad = async () => {
       @load="onLoad"
       @on-del="onDel"
     >
-      <consult-item v-for="item in list" :key="item?.id" :item="item"></consult-item>
+      <consult-item v-for="i in list" :key="i?.id" :item="i"></consult-item>
     </van-list>
   </div>
 </template>

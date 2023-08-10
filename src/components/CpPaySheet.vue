@@ -7,8 +7,18 @@ interface Props {
   orderId: string
   actualPayment: number
 }
+const {
+  orderId,
+  show,
+  payCallback = 'http://localhost:3000/room'
+} = defineProps<{
+  orderId: string
+  actualPayment: number
+  show: boolean
+  payCallback: string
+}>()
 
-const { orderId } = defineProps<Props>()
+// const { orderId } = defineProps<Props>()
 
 const isShow = ref(false)
 const paymentMethod = ref<0 | 1>(1)
@@ -17,7 +27,8 @@ const onPay = async () => {
   const res = await getOrderPayUrl({
     orderId: orderId,
     paymentMethod: paymentMethod.value,
-    payCallback: 'http://localhost:3000/room'
+    // payCallback: 'http://localhost:3000/room'
+    payCallback
   })
   window.location.href = res.data.data.payUrl
   // 打开新页面跳转

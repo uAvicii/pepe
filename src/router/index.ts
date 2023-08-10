@@ -90,7 +90,25 @@ const router = createRouter({
     {
       path: '/room',
       component: () => import('@/view/Room/index.vue'),
-      meta: { title: '面壁室' }
+      meta: { title: '面壁室' },
+      beforeEnter(to) {
+        if (to.query.payResult === 'false') return '/consult'
+      }
+    },
+    {
+      path: '/order/pay',
+      component: () => import('@/view/Order/OrderPay.vue'),
+      meta: { title: '魔法支付' }
+    },
+    {
+      path: '/order/:id',
+      component: () => import('@/view/Order/OrderDetail.vue'),
+      meta: { title: '订单详情' }
+    },
+    {
+      path: '/order/logistics/:id',
+      component: () => import('@/view/Order/OrderLogistics.vue'),
+      meta: { title: '物流详情' }
     }
   ]
 })

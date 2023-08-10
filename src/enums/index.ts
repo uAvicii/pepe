@@ -52,15 +52,40 @@ export enum PrescriptionStatus {
   Invalid = 3
 }
 
+/** 问诊订单的状态 */
 export enum OrderType {
-  //待支付
+  /** 待支付 */
   ConsultPay = 1,
-  //待接诊
+  /** 待接诊 */
   ConsultWait = 2,
-  //问诊中
+  /** 问诊中 */
   ConsultChat = 3,
-  //已完成
+  /** 问诊完成 */
   ConsultComplete = 4,
-  //问诊取消
-  ConsultCancel = 5
+  /** 取消问诊 */
+  ConsultCancel = 5,
+  /** 药品订单 */
+  /** 待支付 */
+  MedicinePay = 10,
+  /** 待发货 */
+  MedicineSend = 11,
+  /** 待收货 */
+  MedicineTake = 12,
+  /** 已完成 */
+  MedicineComplete = 13,
+  /** 取消订单 */
+  MedicineCancel = 14
+}
+
+export enum ExpressStatus {
+  /** 已发货 */
+  Delivered = 1,
+  /** 已揽件 */
+  Received = 2,
+  /** 运输中 */
+  Transit = 3,
+  /** 派送中 */
+  Delivery = 4,
+  /** 已签收 */
+  Signed = 5
 }

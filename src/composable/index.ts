@@ -4,11 +4,13 @@ import {
   getPrescriptionPicAPI,
   deleteOrderAPI
 } from '@/services/consult'
+import { getMedicalOrderDetailAPI } from '@/services/order'
 import { showImagePreview } from 'vant'
 import type { ConsultOrderItem, IFollowType } from '@/types/consult'
+import type { OrderDetail } from '@/types/order'
 import { ImagePreview, showSuccessToast, showFailToast } from 'vant'
 import { OrderType } from '@/enums'
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 
 // 封装查看处方逻辑
 export const useShowPrescription = () => {
@@ -59,4 +61,15 @@ export const useDelOrder = (cb: () => void) => {
     }
   }
   return { loadings, onDel }
+}
+
+// 获取订单详情数据
+export const useOrderDetail = (id: string) => {
+  const order = ref<OrderDetail>()
+  onMounted(async () => {
+    const res = await getMedicalOrderDetailAPI(id)
+    console.log(res)
+    order.value = res.data.data
+  })
+  return { order }
 }
