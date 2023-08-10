@@ -1,16 +1,84 @@
 <!-- 物流信息 -->
 <script setup lang="ts">
 import { getLogisticsAPI } from '@/services/order'
+import endImg from '@/assets/end.png'
+import startImg from '@/assets/start.png'
+import carImg from '@/assets/car.png'
 import type { Logistics } from '@/types/order'
 import { onMounted, ref } from 'vue'
+import AMapLoader from '@amap/amap-jsapi-loader'
 import { useRoute } from 'vue-router'
+import { nextTick } from 'vue'
 
+window._AMapSecurityConfig = {
+  securityJsCode: '415e917da833efcf2d5b69f4d821784b'
+}
 // 获取物流信息
 const logistics = ref<Logistics>()
 const route = useRoute()
 onMounted(async () => {
   const res = await getLogisticsAPI(route.params.id as string)
   logistics.value = res.data.data
+
+  // 加载地图
+  AMapLoader.load({
+    key: '4eed3d61125c8b9c168fc22414aaef7e',
+    version: '2.0',
+    plugins: ['AMap.Driving']
+  }).then((AMap) => {
+    // 使用 Amap 初始化地图
+    const map = new AMap.Map('map', {
+      mapStyle: 'amap://styles/whitesmoke',
+      zoom: 12
+    })
+
+    AMap.plugin('AMap.Driving', function () {
+      const driving = new AMap.Driving({
+        map: map,
+        showTraffic: false,
+        hideMarkers: true
+      })
+
+      // 起点
+      const start = res.data.data.logisticsInfo.shift()
+      const startMarker = new AMap.Marker({
+        position: [start?.longitude, start?.latitude],
+        icon: startImg
+      })
+      map.add(startMarker)
+      // 终点
+      const end = res.data.data.logisticsInfo.pop()
+      const endMarker = new AMap.Marker({
+        position: [end?.longitude, end?.latitude],
+        icon: endImg
+      })
+      map.add(endMarker)
+
+      // 3. 添加车的图标
+      const carMarker = new AMap.Marker({
+        icon: carImg,
+        position: [
+          logistics.value?.currentLocationInfo.longitude,
+          logistics.value?.currentLocationInfo.latitude
+        ]
+      })
+      map.add(carMarker)
+      driving.search(
+        [start?.longitude, start?.latitude],
+        [end?.longitude, end?.latitude],
+        {
+          waypoints: res.data.data.logisticsInfo.map((item: any) => [item.longitude, item.latitude])
+        },
+        function () {
+          // 3s后，定位到货车，放大地图
+          setTimeout(() => {
+            map.setFitView([carMarker])
+            map.setZoom(10)
+          }, 3000)
+        }
+      )
+    })
+  })
 })
 </script>
 
