@@ -110,7 +110,7 @@ defineProps<{ item: ConsultOrderItem }>()
           <template #reference> 更多 </template>
         </van-popover>
       </div>
-      <van-button class="gray" plain size="small" round to="`/room?orderId=${item.id}`">
+      <van-button class="gray" plain size="small" round :to="`/room?orderId=${item.id}`">
         问诊记录
       </van-button>
       <!-- 未评价 -->

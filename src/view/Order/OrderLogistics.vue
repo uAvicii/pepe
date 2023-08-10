@@ -8,7 +8,6 @@ import type { Logistics } from '@/types/order'
 import { onMounted, ref } from 'vue'
 import AMapLoader from '@amap/amap-jsapi-loader'
 import { useRoute } from 'vue-router'
-import { nextTick } from 'vue'
 
 window._AMapSecurityConfig = {
   securityJsCode: '415e917da833efcf2d5b69f4d821784b'
