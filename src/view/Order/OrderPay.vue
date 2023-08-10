@@ -80,8 +80,8 @@ onMounted(loadData)
       text-align="left"
     ></van-submit-bar>
   </div>
-
-  <cp-nav-bar title="药品支付" />
+  <div>
+    <cp-nav-bar title="药品支付" />
     <van-skeleton title :row="4" style="margin-top: 30px" />
     <van-skeleton title :row="4" style="margin-top: 30px" />
   </div>

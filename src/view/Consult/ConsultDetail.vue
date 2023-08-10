@@ -152,6 +152,7 @@ onMounted(async () => {
     </div>
     <!-- 支付抽屉 -->
     <cp-pay-sheet
+      payCallback=""
       v-model:show="show"
       :order-id="detail.id"
       :actualPayment="detail.actualPayment!"

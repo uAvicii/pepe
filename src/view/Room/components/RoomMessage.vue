@@ -48,9 +48,11 @@ const showPic = (img: any) => {
 }
 
 // 点击处方的跳转
-const onBuy = (pre: PrescriptionStatus) => {
-  if (pre.status === PrescriptionStatus.Invalid) return showToast('处方已失效')
-  if (pre.status === PrescriptionStatus.NotPayment && !pre.orderId)
+const onBuy = (pre: any) => {
+  console.log(pre)
+
+  if (pre?.status === PrescriptionStatus.Invalid) return showToast('处方已失效')
+  if (pre?.status === PrescriptionStatus.NotPayment && !pre.orderId)
     return router.push(`/order/pay?id=${pre.id}`)
   router.push(`/order/${pre.orderId}`)
 }
@@ -148,7 +150,7 @@ const onBuy = (pre: PrescriptionStatus) => {
             <div class="num">x{{ med.quantity }}</div>
           </div>
         </div>
-        <div class="foot"><span @click="onBuy(msg.prescription!)">购买药品</span></div>
+        <div class="foot"><span @click="onBuy(msg?.prescription)">购买药品</span></div>
       </div>
     </div>
 
