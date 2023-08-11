@@ -2,17 +2,43 @@
 import { ref } from 'vue'
 import KnowledgeList from './components/KnowledgeList.vue'
 import FollowDoctor from './components/FollowDoctor.vue'
-import { useConsultStore } from '@/stores'
+import { useUserStore } from '@/stores'
 import { ConsultType } from '@/enums'
 import type { IKnowledgeType } from '@/types/consult'
+import axios from 'axios'
+import { showLoadingToast } from 'vant'
 
-const store = useConsultStore()
-
+const store = useUserStore()
 const active = ref<IKnowledgeType>('recommend')
-const value = ref('')
+
+const values = ref('')
+let showCenter = ref(false)
+const historyList = ref([])
+const searchResult = ref('')
 const onSearch = (value: string) => {
-  console.log(value)
+  showLoadingToast({
+    message: 'wait please',
+    forbidClick: true,
+    duration: 10 * 1000
+  })
+  store.saveSearchHistory(value)
+  axios.get(`https://rj9gijf3ua.us.aircode.run/chat?question=${value}`).then((res) => {
+    if (!res) {
+      return showLoadingToast({
+        message: 'wait please',
+        forbidClick: true,
+        duration: 10 * 1000
+      })
+    }
+    console.log(res.data.reply)
+    showCenter.value = true
+    searchResult.value = res.data.reply
+  })
+  historyList.value = store.searchHistory.reverse()
+  values.value = ''
 }
+const showHistory = ref(false)
+
 const onCancel = () => {
   console.log('cancel')
 }
@@ -25,7 +51,7 @@ const onCancel = () => {
         <h1>养蛙</h1>
         <van-search
           shape="round"
-          v-model="value"
+          v-model="values"
           @search="onSearch"
           @clear="onCancel"
           placeholder="Search anything you want"
@@ -104,6 +130,15 @@ const onCancel = () => {
       <van-tab title="减脂" name="fatReduction"><KnowledgeList type="fatReduction" /></van-tab>
       <van-tab title="饮食" name="food"><KnowledgeList type="food" /></van-tab>
     </van-tabs>
+    <van-popup v-model:show="showCenter" round class="popup"
+      >{{ searchResult }}
+      <van-button type="primary" size="mini" @click="showHistory = true"
+        >历史记录</van-button
+      ></van-popup
+    >
+    <van-popup v-model:show="showHistory" :style="{ marginTop: '200px' }" round position="center">
+      {{ historyList }}</van-popup
+    >
   </div>
 </template>
 
@@ -201,5 +236,22 @@ const onCancel = () => {
     width: 100%;
     height: 100%;
   }
+}
+::v-deep .van-popup {
+  width: 200px;
+  height: 200px;
+  // 换行
+  white-space: pre-wrap;
+  word-wrap: break-word;
+
+  background-color: aqua;
+  padding: 5px 5px;
+  transform: translateY(-244.2px);
+}
+.van-button {
+  position: fixed;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 </style>
