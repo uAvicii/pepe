@@ -1,11 +1,14 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, nextTick } from 'vue'
+import type { Ref } from 'vue'
 import KnowledgeList from './components/KnowledgeList.vue'
 import FollowDoctor from './components/FollowDoctor.vue'
 import { useUserStore, useConsultStore } from '@/stores'
 import { ConsultType } from '@/enums'
 import type { IKnowledgeType } from '@/types/consult'
 import axios from 'axios'
+
+
 
 const store = useUserStore()
 const stores = useConsultStore()
@@ -19,19 +22,18 @@ const isShow = ref(false) // loading
 const showPopover = ref(false) // 历史记录显示
 let actions = ref<any[]>([]) // 历史记录列表
 const showHistory = ref(false) // 显示历史记录
+const searchs = ref<Ref | null>(null) // ref
 
 // 聚焦 显示 历史记录
 const onFocus = () => {
   setTimeout(() => {
     if (values.value) return (showPopover.value = false)
     showPopover.value = true
+
+    actions.value = store.searchHistory.slice(0, 9).map((item: any) => {
+      return { text: item }
+    })
   })
-  let history = store.searchHistory.reverse()
-  actions.value = history.map((item: any) => {
-    return { text: item }
-  })
-  //只渲染前六项
-  actions.value = actions.value.slice(0, 9)
 }
 
 // 输入框值改变
@@ -41,9 +43,17 @@ const updateValues = (value: string) => {
 }
 
 // 历史记录选中
-const onSelect = (e: any) => {
+const onSelect = async (e: any) => {
   values.value = e.text
-  onFocus()
+  console.log('searchs.value',searchs.value);
+  searchs.value!.focus()
+
+  await nextTick()
+
+  const inputElement = searchs.value.$el.querySelector('input') // 获取输入框的 DOM 元素
+  const inputValueLength = inputElement.value.length
+  inputElement.selectionStart = inputValueLength // 将光标位置设置到输入框的末尾
+  inputElement.selectionEnd = inputValueLength
 }
 
 // 搜索
@@ -55,7 +65,8 @@ const onSearch = (value: string) => {
     showCenter.value = true
     searchResult.value = res.data.reply
   })
-  historyList.value = store.searchHistory.reverse()
+  historyList.value = store.searchHistory
+  historyList.value = historyList.value.reverse()
   values.value = ''
 }
 
@@ -78,6 +89,7 @@ const onCancel = () => {
         >
           <template #reference>
             <van-search
+              ref="searchs"
               autocomplete="off"
               shape="round"
               v-model="values"
@@ -92,9 +104,7 @@ const onCancel = () => {
         </van-popover>
       </div>
     </div>
-    <van-overlay :show="isShow">
-      <van-loading />
-    </van-overlay>
+
     <div class="home-navs">
       <van-row>
         <van-col span="8">
@@ -157,6 +167,10 @@ const onCancel = () => {
         </van-swipe-item>
       </van-swipe>
     </div>
+
+    <van-overlay :show="isShow">
+      <van-loading />
+    </van-overlay>
     <van-tabs shrink sticky v-model:active="active">
       <van-tab title="关注" name="like">
         <follow-doctor></follow-doctor>
