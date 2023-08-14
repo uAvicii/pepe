@@ -2,35 +2,26 @@
 import { ref } from 'vue'
 import KnowledgeList from './components/KnowledgeList.vue'
 import FollowDoctor from './components/FollowDoctor.vue'
-import { useUserStore } from '@/stores'
+import { useUserStore, useConsultStore } from '@/stores'
 import { ConsultType } from '@/enums'
 import type { IKnowledgeType } from '@/types/consult'
 import axios from 'axios'
-import { showLoadingToast } from 'vant'
 
 const store = useUserStore()
+const stores = useConsultStore()
 const active = ref<IKnowledgeType>('recommend')
 
 const values = ref('')
 let showCenter = ref(false)
-const historyList = ref([])
+let historyList = ref<string[]>([])
 const searchResult = ref('')
+
+const isShow = ref(false)
 const onSearch = (value: string) => {
-  showLoadingToast({
-    message: 'wait please',
-    forbidClick: true,
-    duration: 10 * 1000
-  })
+  isShow.value = true
   store.saveSearchHistory(value)
   axios.get(`https://rj9gijf3ua.us.aircode.run/chat?question=${value}`).then((res) => {
-    if (!res) {
-      return showLoadingToast({
-        message: 'wait please',
-        forbidClick: true,
-        duration: 10 * 1000
-      })
-    }
-    console.log(res.data.reply)
+    if (res) isShow.value = false
     showCenter.value = true
     searchResult.value = res.data.reply
   })
@@ -58,7 +49,9 @@ const onCancel = () => {
         />
       </div>
     </div>
-
+    <van-overlay :show="isShow">
+      <van-loading />
+    </van-overlay>
     <div class="home-navs">
       <van-row>
         <van-col span="8">
@@ -69,7 +62,7 @@ const onCancel = () => {
           </router-link>
         </van-col>
         <van-col span="8">
-          <router-link to="/consult/fast" @click="store.setType(ConsultType.Fast)" class="nav">
+          <router-link to="/consult/fast" @click="stores.setType(ConsultType.Fast)" class="nav">
             <cp-icon name="home-graphic"></cp-icon>
             <p class="title">question</p>
             <p class="desc">20s极速回复</p>
