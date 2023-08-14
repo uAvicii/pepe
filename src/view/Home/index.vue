@@ -11,12 +11,42 @@ const store = useUserStore()
 const stores = useConsultStore()
 const active = ref<IKnowledgeType>('recommend')
 
-const values = ref('')
-let showCenter = ref(false)
-let historyList = ref<string[]>([])
-const searchResult = ref('')
+const values = ref('') // 搜索框值
+let showCenter = ref(false) // 显示搜索结果
+let historyList = ref<string[]>([]) // 历史记录列表
+const searchResult = ref('') // 搜索结果
+const isShow = ref(false) // loading
+const showPopover = ref(false) // 历史记录显示
+let actions = ref<any[]>([]) // 历史记录列表
+const showHistory = ref(false) // 显示历史记录
 
-const isShow = ref(false)
+// 聚焦 显示 历史记录
+const onFocus = () => {
+  setTimeout(() => {
+    if (values.value) return (showPopover.value = false)
+    showPopover.value = true
+  })
+  let history = store.searchHistory.reverse()
+  actions.value = history.map((item: any) => {
+    return { text: item }
+  })
+  //只渲染前六项
+  actions.value = actions.value.slice(0, 9)
+}
+
+// 输入框值改变
+const updateValues = (value: string) => {
+  // 隐藏历史记录
+  if (value) showPopover.value = false
+}
+
+// 历史记录选中
+const onSelect = (e: any) => {
+  values.value = e.text
+  onFocus()
+}
+
+// 搜索
 const onSearch = (value: string) => {
   isShow.value = true
   store.saveSearchHistory(value)
@@ -28,7 +58,6 @@ const onSearch = (value: string) => {
   historyList.value = store.searchHistory.reverse()
   values.value = ''
 }
-const showHistory = ref(false)
 
 const onCancel = () => {
   console.log('cancel')
@@ -40,13 +69,27 @@ const onCancel = () => {
     <div class="home-header">
       <div class="con">
         <h1>养蛙</h1>
-        <van-search
-          shape="round"
-          v-model="values"
-          @search="onSearch"
-          @clear="onCancel"
-          placeholder="Search anything you want"
-        />
+        <van-popover
+          v-model:show="showPopover"
+          :actions="actions"
+          @select="onSelect"
+          placement="bottom-start"
+          style="width: 300px"
+        >
+          <template #reference>
+            <van-search
+              autocomplete="off"
+              shape="round"
+              v-model="values"
+              @update:model-value="updateValues"
+              @focus="onFocus"
+              @blur="showPopover = false"
+              @search="onSearch"
+              @clear="onCancel"
+              placeholder="Search anything you want"
+            />
+          </template>
+        </van-popover>
       </div>
     </div>
     <van-overlay :show="isShow">
@@ -129,7 +172,12 @@ const onCancel = () => {
         >历史记录</van-button
       ></van-popup
     >
-    <van-popup v-model:show="showHistory" :style="{ marginTop: '200px' }" round position="center">
+    <van-popup
+      v-model:show="showHistory"
+      :style="{ marginTop: '200px', maxHeight: '300px' }"
+      round
+      position="center"
+    >
       {{ historyList }}</van-popup
     >
   </div>
@@ -141,6 +189,7 @@ const onCancel = () => {
   ::v-deep() {
     .van-search {
       padding: 0;
+      width: 345px;
       transform: translateY(-10px);
       background-color: transparent;
     }
@@ -231,8 +280,8 @@ const onCancel = () => {
   }
 }
 ::v-deep .van-popup {
-  width: 200px;
-  height: 200px;
+  width: 300px;
+  max-height: 500px;
   // 换行
   white-space: pre-wrap;
   word-wrap: break-word;
@@ -241,10 +290,29 @@ const onCancel = () => {
   padding: 5px 5px;
   transform: translateY(-244.2px);
 }
-.van-button {
-  position: fixed;
-  bottom: 10px;
-  left: 50%;
+
+::v-deep .van-loading {
+  position: absolute;
+  left: 51%;
+  top: 19%;
   transform: translateX(-50%);
+}
+</style>
+
+<style lang="scss">
+.van-popup {
+  .van-popover__arrow {
+    color: aqua;
+  }
+  .van-popover__content {
+    .van-popover__action {
+      width: 100%;
+      height: auto;
+      background-color: aqua;
+      .van-popover__action-text {
+        justify-content: start;
+      }
+    }
+  }
 }
 </style>
