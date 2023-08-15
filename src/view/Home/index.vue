@@ -8,8 +8,6 @@ import { ConsultType } from '@/enums'
 import type { IKnowledgeType } from '@/types/consult'
 import axios from 'axios'
 
-
-
 const store = useUserStore()
 const stores = useConsultStore()
 const active = ref<IKnowledgeType>('recommend')
@@ -38,14 +36,22 @@ const onFocus = () => {
 
 // 输入框值改变
 const updateValues = (value: string) => {
-  // 隐藏历史记录
-  if (value) showPopover.value = false
+  showPopover.value = true
+  actions.value = actions.value.filter((item: any) => {
+    return item.text.indexOf(value) > -1
+  })
+
+  if (!value) {
+    actions.value = store.searchHistory.slice(0, 9).map((item: any) => {
+      return { text: item }
+    })
+  }
 }
 
 // 历史记录选中
 const onSelect = async (e: any) => {
   values.value = e.text
-  console.log('searchs.value',searchs.value);
+  // 聚焦
   searchs.value!.focus()
 
   await nextTick()
