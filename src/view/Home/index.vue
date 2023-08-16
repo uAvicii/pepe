@@ -7,6 +7,10 @@ import { useUserStore, useConsultStore } from '@/stores'
 import { ConsultType } from '@/enums'
 import type { IKnowledgeType } from '@/types/consult'
 import axios from 'axios'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+const { locale } = useI18n()
 
 const store = useUserStore()
 const stores = useConsultStore()
@@ -84,13 +88,18 @@ const handerClose = () => {
 const onCancel = () => {
   console.log('cancel')
 }
+
+const handerChangeL = () => {
+  console.log('handerChangeL')
+  locale.value = locale.value === 'en' ? 'zh' : 'en'
+}
 </script>
 
 <template>
   <div class="home-page">
     <div class="home-header">
       <div class="con">
-        <h1>养蛙</h1>
+        <h1 @click="handerChangeL">{{ t('home.title') }}</h1>
         <van-popover
           v-model:show="showPopover"
           :actions="actions"
@@ -109,7 +118,7 @@ const onCancel = () => {
               @blur="showPopover = false"
               @search="onSearch"
               @clear="onCancel"
-              placeholder="Search anything you want"
+              :placeholder="t('home.searchText')"
             />
           </template>
         </van-popover>
@@ -121,8 +130,8 @@ const onCancel = () => {
         <van-col span="8">
           <router-link to="/" class="nav">
             <cp-icon name="home-doctor"></cp-icon>
-            <p class="title">student</p>
-            <p class="desc">汤米·谢尔比</p>
+            <p class="title">{{ t('home.userText') }}</p>
+            <p class="desc">{{ t('home.userText2') }}</p>
           </router-link>
         </van-col>
         <van-col span="8">
@@ -243,7 +252,7 @@ const onCancel = () => {
       font-weight: normal;
       padding: 20px 0;
       line-height: 1;
-      padding-left: 5px;
+      float: right;
     }
     .search {
       height: 40px;

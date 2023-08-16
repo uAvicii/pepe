@@ -19,9 +19,6 @@ const tools = [
   { label: '阿帕奇', path: '/consult' },
   { label: '本拉登', path: '/' },
   { label: '档案', path: '/patient' },
-  { label: '地址', path: '/address' },
-  { label: '评价', path: '/' },
-  { label: '客服', path: '/' },
   { label: '设置', path: '/' }
 ]
 

@@ -7,10 +7,12 @@ import './styles/main.scss'
 import 'virtual:svg-icons-register'
 import Vant from 'vant'
 import 'vant/lib/index.css'
+import i18n from './language/i18n'
 
 const app = createApp(App)
 
 app.use(router)
 app.use(pinia)
 app.use(Vant)
+app.use(i18n)
 app.mount('#app')
