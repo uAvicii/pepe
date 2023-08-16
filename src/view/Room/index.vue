@@ -67,7 +67,6 @@ onMounted(() => {
     data.forEach((item, i) => {
       list.value.push(...item.items)
     })
-    console.log(list.value)
   })
   socket.on('statusChange', loadDetailData)
   // 接收消息

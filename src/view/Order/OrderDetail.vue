@@ -5,7 +5,6 @@ import OrderMedical from './components/OrderMedical.vue'
 
 const route = useRoute()
 const { order } = useOrderDetail(route.params.id as string)
-console.log('order', order)
 </script>
 
 <template>

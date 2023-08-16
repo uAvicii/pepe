@@ -90,7 +90,6 @@ const onCancel = () => {
 }
 
 const handerChangeL = () => {
-  console.log('handerChangeL')
   locale.value = locale.value === 'en' ? 'zh' : 'en'
 }
 </script>

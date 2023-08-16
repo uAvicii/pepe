@@ -2,9 +2,7 @@
 import logo from '@/assets/logo.svg'
 import xhz from '@/assets/xhz.jpg'
 import { ref } from 'vue'
-const onIkun = (e: MouseEvent) => {
-  console.log(e)
-}
+const onIkun = (e: MouseEvent) => {}
 </script>
 
 <template>

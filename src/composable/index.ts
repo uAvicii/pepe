@@ -68,7 +68,6 @@ export const useOrderDetail = (id: string) => {
   const order = ref<OrderDetail>()
   onMounted(async () => {
     const res = await getMedicalOrderDetailAPI(id)
-    console.log(res)
     order.value = res.data.data
   })
   return { order }

@@ -49,8 +49,6 @@ const showPic = (img: any) => {
 
 // 点击处方的跳转
 const onBuy = (pre: any) => {
-  console.log(pre)
-
   if (pre?.status === PrescriptionStatus.Invalid) return showToast('处方已失效')
   if (pre?.status === PrescriptionStatus.NotPayment && !pre.orderId)
     return router.push(`/order/pay?id=${pre.id}`)

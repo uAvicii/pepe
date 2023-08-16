@@ -6,7 +6,6 @@ defineProps<{ item: Doctor }>()
 
 const follow = async (item: Doctor) => {
   const res = await followDoctorAPI(item.id)
-  console.log(res)
   showSuccessToast(item.likeFlag === 0 ? '关注成功' : '取消关注')
   item.likeFlag = item.likeFlag === 1 ? 0 : 1
 }

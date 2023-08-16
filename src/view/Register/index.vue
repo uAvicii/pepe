@@ -14,7 +14,6 @@ const randomColor = (type: number) => {
   const b = Math.floor(Math.random() * 256)
   if (type == 1) {
     count.value *= 2
-    console.log('count.value:', count.value)
     bgcColor.value = `rgb(${r},${g},${b})`
   } else {
     btnColor.value = `rgb(${r},${g},${b})`
