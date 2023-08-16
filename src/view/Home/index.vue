@@ -128,21 +128,21 @@ const handerChangeL = () => {
       <van-row>
         <van-col span="8">
           <router-link to="/" class="nav">
-            <cp-icon name="home-doctor"></cp-icon>
+            <cp-icon name="home-bicycle"></cp-icon>
             <p class="title">{{ t('home.userText') }}</p>
             <p class="desc">{{ t('home.userText2') }}</p>
           </router-link>
         </van-col>
         <van-col span="8">
           <router-link to="/consult/fast" @click="stores.setType(ConsultType.Fast)" class="nav">
-            <cp-icon name="home-graphic"></cp-icon>
+            <cp-icon name="home-olympic"></cp-icon>
             <p class="title">question</p>
             <p class="desc">20s极速回复</p>
           </router-link>
         </van-col>
         <van-col span="8">
           <router-link to="/sos" class="nav">
-            <cp-icon name="home-prescribe"></cp-icon>
+            <cp-icon name="home-tree"></cp-icon>
             <p class="title">sos</p>
             <p class="desc">昆汀·塔伦蒂诺</p>
           </router-link>
@@ -151,25 +151,25 @@ const handerChangeL = () => {
       <van-row>
         <van-col span="6">
           <router-link to="/" class="nav min">
-            <cp-icon name="home-order"></cp-icon>
+            <cp-icon name="home-goggles"></cp-icon>
             <p class="title">Arms Order</p>
           </router-link>
         </van-col>
         <van-col span="6">
           <router-link to="/" class="nav min">
-            <cp-icon name="home-docs"></cp-icon>
+            <cp-icon name="home-baseball"></cp-icon>
             <p class="title">本拉登</p>
           </router-link>
         </van-col>
         <van-col span="6">
           <router-link to="/" class="nav min">
-            <cp-icon name="home-rp"></cp-icon>
+            <cp-icon name="home-boxing"></cp-icon>
             <p class="title">鱿鱼须</p>
           </router-link>
         </van-col>
         <van-col span="6">
           <router-link to="/" class="nav min">
-            <cp-icon name="home-find"></cp-icon>
+            <cp-icon name="home-kayak"></cp-icon>
             <p class="title">Search</p>
           </router-link>
         </van-col>
