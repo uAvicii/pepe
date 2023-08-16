@@ -179,26 +179,48 @@ const handerChangeL = () => {
     <div class="home-banner">
       <van-swipe indicator-color="#fff" :autoplay="2000">
         <van-swipe-item>
-          <img src="@/assets/ad.png" alt="" />
+          <img src="@/assets/pepe1.jpg" alt="" />
         </van-swipe-item>
         <van-swipe-item>
-          <img src="@/assets/ad2.jpg" alt="" />
+          <img src="@/assets/pepe2.jpg" alt="" />
+        </van-swipe-item>
+        <van-swipe-item>
+          <img src="@/assets/pepe3.jpg" alt="" />
+        </van-swipe-item>
+        <van-swipe-item>
+          <img src="@/assets/pepe4.jpg" alt="" />
+        </van-swipe-item>
+        <van-swipe-item>
+          <img src="@/assets/pepe5.jpg" alt="" />
+        </van-swipe-item>
+        <van-swipe-item>
+          <img src="@/assets/pepe6.jpg" alt="" />
+        </van-swipe-item>
+        <van-swipe-item>
+          <img src="@/assets/pepe7.jpg" alt="" />
+        </van-swipe-item>
+        <van-swipe-item>
+          <img src="@/assets/pepe8.jpg" alt="" />
+        </van-swipe-item>
+        <van-swipe-item>
+          <img src="@/assets/pepe9.jpg" alt="" />
         </van-swipe-item>
       </van-swipe>
     </div>
 
+    <van-tabs shrink sticky v-model:active="active">
+      <van-tab title="喜歡的影片" name="like">
+        <!-- <follow-doctor></follow-doctor> -->
+        <KnowledgeList type="like" />
+      </van-tab>
+      <van-tab title="媒體庫" name="recommend"><KnowledgeList type="recommend" /></van-tab>
+      <van-tab title="觀看歷史" name="fatReduction"><KnowledgeList type="fatReduction" /></van-tab>
+      <van-tab title="稍後觀看" name="food"><KnowledgeList type="food" /></van-tab>
+    </van-tabs>
+
     <van-overlay :show="isShow">
       <van-loading />
     </van-overlay>
-    <van-tabs shrink sticky v-model:active="active">
-      <van-tab title="关注" name="like">
-        <follow-doctor></follow-doctor>
-        <KnowledgeList type="like" />
-      </van-tab>
-      <van-tab title="推荐" name="recommend"><KnowledgeList type="recommend" /></van-tab>
-      <van-tab title="减脂" name="fatReduction"><KnowledgeList type="fatReduction" /></van-tab>
-      <van-tab title="饮食" name="food"><KnowledgeList type="food" /></van-tab>
-    </van-tabs>
     <van-popup v-model:show="showCenter" @close="handerClose" round class="popup"
       >{{ searchResult }}
       <van-button type="primary" size="mini" @click="showHistory = true"
@@ -306,10 +328,10 @@ const handerChangeL = () => {
 
 .home-banner {
   padding: 10px 15px;
-  height: 100px;
+  height: 200px;
   img {
     width: 100%;
-    height: 100%;
+    height: 200px;
   }
 }
 ::v-deep .van-popup {
@@ -346,6 +368,15 @@ const handerChangeL = () => {
         justify-content: start;
       }
     }
+  }
+}
+.van-tabs {
+  .van-tab {
+    padding: 0 8px;
+  }
+  .van-tabs__line {
+    width: 30px;
+    background-color: var(--cp-primary);
   }
 }
 </style>

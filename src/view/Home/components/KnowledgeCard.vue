@@ -1,47 +1,47 @@
 <script setup lang="ts">
-import type { Knowledge } from '@/types/consult'
 import { showImagePreview } from 'vant'
-defineProps<{ item: Knowledge }>()
-const showImage = (url: any) => {
+
+const showPhoto = (url: string) => {
   showImagePreview([url])
 }
+const imgList = [
+  'https://image-cdn.neatoshop.com/styleimg/79482/none/gray/default/400251-20;1539015967y.jpg',
+  'https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg',
+  'https://pbs.twimg.com/media/FvtmITrXsAEZ2gr?format=jpg&name=4096x4096'
+]
 </script>
 
 <template>
   <div class="knowledge-card van-hairline--bottom">
     <div class="head">
-      <van-image round class="avatar" :src="item.creatorAvatar"></van-image>
+      <van-image
+        round
+        class="avatar"
+        src="./x.png"
+      ></van-image>
       <div class="info">
-        <p class="name">{{ item.creatorName }}</p>
-        <p class="dep van-ellipsis">
-          {{ item.creatorHospatalName }} {{ item.creatorDep }}
-          {{ item.creatorTitles }}
-        </p>
+        <p class="name">巴閉超</p>
+        <p class="dep van-ellipsis">美利坚 哥潭市</p>
       </div>
-      <van-button class="btn" size="small" round>
-        {{ item.likeFlag === 1 ? '已关注' : '+ 关注' }}
-      </van-button>
+      <van-button class="btn" size="small" round>+ 关注</van-button>
     </div>
     <div class="body">
-      <h3 class="title van-ellipsis">{{ item.title }}</h3>
+      <h3 class="title van-ellipsis">AK-47是一种设计于1947年的自动步枪,原产于前苏联,由米哈伊尔·卡拉什尼科夫所设计。</h3>
       <p class="tag">
-        <span v-for="(tag, i) in item.topics" :key="i"># {{ tag }}</span>
+        <span># 正确的</span>
+        <span># 中肯的</span>
       </p>
       <p class="intro van-multi-ellipsis--l2">
-        {{ item.content.replace(/<[^>]+>/g, '') }}
+        6年的时间，不管是减重，还是护肤，我都做到了满分自律 回顾以前，嗯......也有蛮多经验想说说
+        不过，话说在前面 ① 玻璃心的别看，我下面会说“狠话”“重话” ② 逻辑会乱，因为想到啥写啥 ③
+        以下会有推荐/链接，不是带货（我有工资，不靠这个挣钱） ④ 杠精退退退，你杠就是你对
       </p>
-      <div class="imgs" :class="{ large: item.coverUrl.length === 1 }">
-        <van-image
-          @click="showImage(url)"
-          fit="cover"
-          v-for="(url, i) in item.coverUrl"
-          :key="i"
-          :src="url"
-        />
+      <div class="imgs">
+        <van-image v-for="i in imgList" :key="i" :src="i" @click="showPhoto(i)" />
       </div>
       <p class="logs">
-        <span>{{ item.collectionNumber }} 收藏</span>
-        <span>{{ item.commentNumber }} 评论</span>
+        <span>10 收藏</span>
+        <span>50 评论</span>
       </p>
     </div>
   </div>

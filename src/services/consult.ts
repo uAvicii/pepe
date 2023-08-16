@@ -21,8 +21,8 @@ export const getDoctorPageAPI = (params: DoctorPage) => {
 }
 
 // 关注医生
-export const followDoctorAPI = (id: string, type: IFollowType = 'doc') => {
-  return request({ url: '/like', method: 'POST', params: { id, type } })
+export const followDoctorAPI = (data) => {
+  return request({ url: '/like', method: 'POST', data})
 }
 
 // 科室列表

@@ -4,12 +4,12 @@ export default {
     homeText: '主页',
     mineText: '个人中心',
     clearText: '取消',
-    submitText: '确认'
+    submitText: '確認'
   },
   home: {
     title: '养蛙',
-    userText: '巴闭超',
-    userText2: '巴巴闭闭超超',
-    searchText: '请输入搜索内容'
+    userText: '巴閉超',
+    userText2: '巴巴閉閉超超',
+    searchText: '請輸入搜索内容...'
   }
 }

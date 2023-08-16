@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { getKnowledgePageAPI } from '@/services/consult'
-import  KnowledgeCard  from './KnowledgeCard.vue'
+import KnowledgeCard from './KnowledgeCard.vue'
 import type { KnowledgePage, Knowledge, IKnowledgeType, KnowledgeParams } from '@/types/consult'
+import { Empty } from 'vant'
 
 const props = defineProps<{
   type: IKnowledgeType
 }>()
 
 const list = ref<Knowledge[]>([])
-const loading = ref(false)
 const params = ref<KnowledgeParams>({
   type: props.type,
   current: 1,
@@ -24,20 +24,15 @@ const onLoad = async () => {
   } else {
     params.value.current++
   }
-  loading.value = false
 }
 </script>
 
 <template>
   <div class="knowledge-list">
-    <van-list
-      v-model:loading="loading"
-      :finished="finished"
-      finished-text="没有更多了"
-      @load="onLoad"
-    >
+    <van-list :finished="finished" finished-text="没有更多了" @load="onLoad">
       <knowledge-card v-for="item in list" :key="item.id" :item="item" />
     </van-list>
+    <Empty image="./x.png" />
   </div>
 </template>
 

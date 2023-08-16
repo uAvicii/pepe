@@ -5,7 +5,11 @@ import { showSuccessToast } from 'vant'
 defineProps<{ item: Doctor }>()
 
 const follow = async (item: Doctor) => {
-  const res = await followDoctorAPI(item.id)
+  const params = {
+    id: item.id,
+    type: 'doc'
+  }
+  const res = await followDoctorAPI(params)
   showSuccessToast(item.likeFlag === 0 ? '关注成功' : '取消关注')
   item.likeFlag = item.likeFlag === 1 ? 0 : 1
 }
