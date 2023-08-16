@@ -178,7 +178,11 @@ const handerChangeL = () => {
 
     <div class="home-banner">
       <van-swipe indicator-color="#fff" :autoplay="2000">
-        <van-swipe-item>
+        <van-swipe-item v-for="index in 9" :key="index">
+          <img :src="`src/assets/pepe${index}.jpg`" />
+        </van-swipe-item>
+
+        <!-- <van-swipe-item>
           <img src="@/assets/pepe1.jpg" alt="" />
         </van-swipe-item>
         <van-swipe-item>
@@ -204,7 +208,7 @@ const handerChangeL = () => {
         </van-swipe-item>
         <van-swipe-item>
           <img src="@/assets/pepe9.jpg" alt="" />
-        </van-swipe-item>
+        </van-swipe-item> -->
       </van-swipe>
     </div>
 

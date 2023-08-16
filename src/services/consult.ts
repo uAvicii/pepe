@@ -21,7 +21,7 @@ export const getDoctorPageAPI = (params: DoctorPage) => {
 }
 
 // 关注医生
-export const followDoctorAPI = (data) => {
+export const followDoctorAPI = (data:any) => {
   return request({ url: '/like', method: 'POST', data})
 }
 
