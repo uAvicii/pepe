@@ -12,7 +12,7 @@ const store = useUserStore()
 const stores = useConsultStore()
 const active = ref<IKnowledgeType>('recommend')
 
-const values = ref('') // 搜索框值
+let values = ref('') // 搜索框值
 let showCenter = ref(false) // 显示搜索结果
 let historyList = ref<string[]>([]) // 历史记录列表
 const searchResult = ref('') // 搜索结果
@@ -73,6 +73,11 @@ const onSearch = (value: string) => {
   })
   historyList.value = store.searchHistory
   historyList.value = historyList.value.reverse()
+}
+
+// 关闭历史记录弹窗
+const handerClose = () => {
+  // 清空搜索框
   values.value = ''
 }
 
@@ -186,7 +191,7 @@ const onCancel = () => {
       <van-tab title="减脂" name="fatReduction"><KnowledgeList type="fatReduction" /></van-tab>
       <van-tab title="饮食" name="food"><KnowledgeList type="food" /></van-tab>
     </van-tabs>
-    <van-popup v-model:show="showCenter" round class="popup"
+    <van-popup v-model:show="showCenter" @close="handerClose" round class="popup"
       >{{ searchResult }}
       <van-button type="primary" size="mini" @click="showHistory = true"
         >历史记录</van-button
