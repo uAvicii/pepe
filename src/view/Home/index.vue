@@ -243,6 +243,7 @@ const handerChangeL = () => {
     >
       {{ historyList }}</van-popup
     >
+    <van-back-top right="7.5vw" bottom="15vh" />
   </div>
 </template>
 
@@ -386,5 +387,8 @@ const handerChangeL = () => {
     width: 30px;
     background-color: var(--cp-primary);
   }
+}
+.van-back-top {
+  background-color: #ebb0d3;
 }
 </style>
