@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { showImagePreview } from 'vant'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const showPhoto = (url: string) => {
   showImagePreview([url])
 }
@@ -14,28 +16,26 @@ const imgList = [
 <template>
   <div class="knowledge-card van-hairline--bottom">
     <div class="head">
-      <van-image
-        round
-        class="avatar"
-        src="./x.png"
-      ></van-image>
+      <van-image round class="avatar" src="./x.png"></van-image>
       <div class="info">
-        <p class="name">巴閉超</p>
-        <p class="dep van-ellipsis">美利坚 哥潭市</p>
+        <p class="name">{{ t('home.cardTittle') }}</p>
+        <p class="dep van-ellipsis">{{ t('home.cardPlace') }}</p>
       </div>
-      <van-button class="btn" size="small" round>+ 关注</van-button>
+      <van-button class="btn" size="small" round>+ {{ t('home.cardTip') }}</van-button>
     </div>
     <div class="body">
-      <h3 class="title van-ellipsis">林黛玉一拳打死鲁智深🤏</h3>
+      <h3 class="title van-ellipsis">{{ t('home.cardNav') }}</h3>
       <p class="tag">
-        <span># 正确的</span>
-        <span># 中肯的</span>
+        <span># {{ t('home.cardTag1') }}</span>
+        <span># {{ t('home.cardTag2') }}</span>
       </p>
-      <p class="intro van-multi-ellipsis--l2">
-        6年的时间，不管是减重，还是护肤，我都做到了满分自律 回顾以前，嗯......也有蛮多经验想说说
-        不过，话说在前面 ① 玻璃心的别看，我下面会说“狠话”“重话” ② 逻辑会乱，因为想到啥写啥 ③
-        以下会有推荐/链接，不是带货（我有工资，不靠这个挣钱） ④ 杠精退退退，你杠就是你对
-      </p>
+      <!-- <p class="intro">{{ t('home.cardContent') }}</p> -->
+      <van-text-ellipsis
+        rows="3"
+        :content="t('home.cardContent')"
+        :expand-text="t('home.cardOpen')"
+        :collapse-text="t('home.cardColse')"
+      />
       <div class="imgs">
         <van-image v-for="i in imgList" :key="i" :src="i" @click="showPhoto(i)" />
       </div>

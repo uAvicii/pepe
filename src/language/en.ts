@@ -22,6 +22,16 @@ export default {
     tabText1: 'favourite ',
     tabText2: 'media',
     tabText3: 'history',
-    tabText4: 'later'
+    tabText4: 'later',
+    cardTittle: 'Bahaichao',
+    cardPlace: 'Gotham USA',
+    cardTip: 'follow',
+    cardNav: 'Lin Daiyu killed Lu Zhishen with one punch🤏',
+    cardTag1: 'correct',
+    cardTag2: 'pertinent',
+    cardContent:
+      'An investigation of the dimensions of knowledge required to make pedagogical content decisions has been conducted and an approach to designing an instructional component which represents and reasons about this knowledge is presented. ',
+    cardOpen: 'open',
+    cardColse: 'close'
   }
 }

@@ -217,8 +217,12 @@ const handerChangeL = () => {
         <!-- <follow-doctor></follow-doctor> -->
         <KnowledgeList type="like" />
       </van-tab>
-      <van-tab :title="t('home.tabText2')" name="recommend"><KnowledgeList type="recommend" /></van-tab>
-      <van-tab :title="t('home.tabText3')" name="fatReduction"><KnowledgeList type="fatReduction" /></van-tab>
+      <van-tab :title="t('home.tabText2')" name="recommend"
+        ><KnowledgeList type="recommend"
+      /></van-tab>
+      <van-tab :title="t('home.tabText3')" name="fatReduction"
+        ><KnowledgeList type="fatReduction"
+      /></van-tab>
       <van-tab :title="t('home.tabText4')" name="food"><KnowledgeList type="food" /></van-tab>
     </van-tabs>
 
@@ -264,7 +268,7 @@ const handerChangeL = () => {
     top: 0;
     width: 100%;
     height: 90px;
-    background: linear-gradient(180deg, rgba(62, 206, 197, 0.85), #26bcc6);
+    background: linear-gradient(180deg, #ef9ac6, #e3ebf5);
     border-bottom-left-radius: 150px 20px;
     border-bottom-right-radius: 150px 20px;
   }
