@@ -89,8 +89,13 @@ const onCancel = () => {
   console.log('cancel')
 }
 
+// 国际化
 const handerChangeL = () => {
   locale.value = locale.value === 'en' ? 'zh' : 'en'
+}
+const jiGe = ref('')
+const handerZhiyin = () => {
+  jiGe.value = 'zhiYin'
 }
 </script>
 
@@ -142,7 +147,7 @@ const handerChangeL = () => {
         </van-col>
         <van-col span="8">
           <router-link to="/sos" class="nav">
-            <cp-icon name="home-tree"></cp-icon>
+            <cp-icon name="home-tree" class="zhiYin" @mouseover="handerZhiyin"></cp-icon>
             <p class="title">{{ t('home.rText') }}</p>
             <p class="desc">{{ t('home.rText2') }}</p>
           </router-link>
@@ -282,7 +287,7 @@ const handerChangeL = () => {
       font-weight: normal;
       padding: 20px 0;
       line-height: 1;
-      float: right;
+      // float: right;
     }
     .search {
       height: 40px;
@@ -311,6 +316,27 @@ const handerChangeL = () => {
     padding: 10px 0;
     .cp-icon {
       font-size: 48px;
+    }
+    .zhiYin {
+      // animation: v-bind(jiGe) 2s infinite;
+      animation: zhiYin 2s infinite;
+    }
+    @keyframes zhiYin {
+      0% {
+        transform: scale(1);
+      }
+      25% {
+        transform: translate(10px, -10px);
+      }
+      50% {
+        transform: translate(0, 0);
+      }
+      75% {
+        transform: translate(-10px, -10px);
+      }
+      100% {
+        transform: scale(1);
+      }
     }
     .title {
       font-weight: 500;

@@ -1,16 +1,17 @@
 <script setup lang="ts">
 import { showImagePreview } from 'vant'
 import { useI18n } from 'vue-i18n'
-
+import edc1 from '@/assets/edc1.jpg'
+import edc2 from '@/assets/edc2.jpg'
+import edc3 from '@/assets/edc3.jpg'
 const { t } = useI18n()
 const showPhoto = (url: string) => {
-  showImagePreview([url])
+  showImagePreview({
+    images: [url],
+    showIndex: false
+  })
 }
-const imgList = [
-  'https://image-cdn.neatoshop.com/styleimg/79482/none/gray/default/400251-20;1539015967y.jpg',
-  'https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg',
-  'https://pbs.twimg.com/media/FvtmITrXsAEZ2gr?format=jpg&name=4096x4096'
-]
+const imgList = [edc3, edc1, edc2]
 </script>
 
 <template>
