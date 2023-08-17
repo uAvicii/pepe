@@ -26,7 +26,7 @@ const imgList = [
       <van-button class="btn" size="small" round>+ 关注</van-button>
     </div>
     <div class="body">
-      <h3 class="title van-ellipsis">AK-47是一种设计于1947年的自动步枪,原产于前苏联,由米哈伊尔·卡拉什尼科夫所设计。</h3>
+      <h3 class="title van-ellipsis">林黛玉一拳打死鲁智深🤏</h3>
       <p class="tag">
         <span># 正确的</span>
         <span># 中肯的</span>

@@ -136,15 +136,15 @@ const handerChangeL = () => {
         <van-col span="8">
           <router-link to="/consult/fast" @click="stores.setType(ConsultType.Fast)" class="nav">
             <cp-icon name="home-olympic"></cp-icon>
-            <p class="title">question</p>
-            <p class="desc">20s极速回复</p>
+            <p class="title">{{ t('home.oText') }}</p>
+            <p class="desc">{{ t('home.oText2') }}</p>
           </router-link>
         </van-col>
         <van-col span="8">
           <router-link to="/sos" class="nav">
             <cp-icon name="home-tree"></cp-icon>
-            <p class="title">sos</p>
-            <p class="desc">昆汀·塔伦蒂诺</p>
+            <p class="title">{{ t('home.rText') }}</p>
+            <p class="desc">{{ t('home.rText2') }}</p>
           </router-link>
         </van-col>
       </van-row>
@@ -152,25 +152,25 @@ const handerChangeL = () => {
         <van-col span="6">
           <router-link to="/" class="nav min">
             <cp-icon name="home-goggles"></cp-icon>
-            <p class="title">Arms Order</p>
+            <p class="title">{{ t('home.bannerText1') }}</p>
           </router-link>
         </van-col>
         <van-col span="6">
           <router-link to="/" class="nav min">
             <cp-icon name="home-baseball"></cp-icon>
-            <p class="title">本拉登</p>
+            <p class="title">{{ t('home.bannerText2') }}</p>
           </router-link>
         </van-col>
         <van-col span="6">
           <router-link to="/" class="nav min">
             <cp-icon name="home-boxing"></cp-icon>
-            <p class="title">鱿鱼须</p>
+            <p class="title">{{ t('home.bannerText3') }}</p>
           </router-link>
         </van-col>
         <van-col span="6">
           <router-link to="/" class="nav min">
             <cp-icon name="home-kayak"></cp-icon>
-            <p class="title">Search</p>
+            <p class="title">{{ t('home.bannerText4') }}</p>
           </router-link>
         </van-col>
       </van-row>
@@ -178,11 +178,11 @@ const handerChangeL = () => {
 
     <div class="home-banner">
       <van-swipe indicator-color="#fff" :autoplay="2000">
-        <van-swipe-item v-for="index in 9" :key="index">
-          <img :src="`src/assets/pepe${index}.jpg`" />
-        </van-swipe-item>
+        <!-- <van-swipe-item v-for="index in 9" :key="index">
+          <img :src="'src/assets/pepe'+index+'.jpg'" />
+        </van-swipe-item> -->
 
-        <!-- <van-swipe-item>
+        <van-swipe-item>
           <img src="@/assets/pepe1.jpg" alt="" />
         </van-swipe-item>
         <van-swipe-item>
@@ -208,18 +208,18 @@ const handerChangeL = () => {
         </van-swipe-item>
         <van-swipe-item>
           <img src="@/assets/pepe9.jpg" alt="" />
-        </van-swipe-item> -->
+        </van-swipe-item>
       </van-swipe>
     </div>
 
     <van-tabs shrink sticky v-model:active="active">
-      <van-tab title="喜歡的影片" name="like">
+      <van-tab :title="t('home.tabText1')" name="like">
         <!-- <follow-doctor></follow-doctor> -->
         <KnowledgeList type="like" />
       </van-tab>
-      <van-tab title="媒體庫" name="recommend"><KnowledgeList type="recommend" /></van-tab>
-      <van-tab title="觀看歷史" name="fatReduction"><KnowledgeList type="fatReduction" /></van-tab>
-      <van-tab title="稍後觀看" name="food"><KnowledgeList type="food" /></van-tab>
+      <van-tab :title="t('home.tabText2')" name="recommend"><KnowledgeList type="recommend" /></van-tab>
+      <van-tab :title="t('home.tabText3')" name="fatReduction"><KnowledgeList type="fatReduction" /></van-tab>
+      <van-tab :title="t('home.tabText4')" name="food"><KnowledgeList type="food" /></van-tab>
     </van-tabs>
 
     <van-overlay :show="isShow">
