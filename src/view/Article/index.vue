@@ -3,6 +3,7 @@ import { ref, reactive, onMounted } from 'vue'
 import axios from 'axios'
 import { showImagePreview } from 'vant'
 import { useI18n } from 'vue-i18n'
+import users from '@/mock/index'
 const { t } = useI18n()
 
 const image = ref('')
@@ -21,11 +22,11 @@ const handerSigning = (e: any) => {
   color.value = `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`
 }
 
-const userList = ref([])
-onMounted(async () => {
-  const res = await axios.get('/api/users')
-  userList.value = res.data.data
-})
+const userList = users
+// onMounted(async () => {
+//   const res = await axios.get('/api/users')
+//   userList.value = res.data.data
+// })
 </script>
 
 <template>
