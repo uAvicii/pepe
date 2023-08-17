@@ -55,6 +55,9 @@ devDependencies:
   '@tsconfig/node18':
     specifier: ^18.2.0
     version: 18.2.0
+  '@types/mockjs':
+    specifier: ^1.0.7
+    version: 1.0.7
   '@types/node':
     specifier: ^18.17.0
     version: 18.17.0
