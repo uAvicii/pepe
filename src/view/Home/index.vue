@@ -288,6 +288,7 @@ const handerZhiyin = () => {
       padding: 20px 0;
       line-height: 1;
       // float: right;
+      display: inline-block;
     }
     .search {
       height: 40px;
@@ -380,7 +381,9 @@ const handerZhiyin = () => {
   padding: 5px 5px;
   transform: translateY(-244.2px);
 }
-
+::v-deep .van-overlay{
+  z-index: 999999;
+}
 ::v-deep .van-loading {
   position: absolute;
   left: 51%;
