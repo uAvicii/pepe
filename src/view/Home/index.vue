@@ -3,17 +3,17 @@ import { ref, nextTick } from 'vue'
 import type { Ref } from 'vue'
 import KnowledgeList from './components/KnowledgeList.vue'
 import FollowDoctor from './components/FollowDoctor.vue'
-import { useUserStore, useConsultStore } from '@/stores'
+import { useUserStore, useConsultStore, useLangueStore } from '@/stores'
 import { ConsultType } from '@/enums'
 import type { IKnowledgeType } from '@/types/consult'
 import axios from 'axios'
 import { useI18n } from 'vue-i18n'
 
-const { t } = useI18n()
-const { locale } = useI18n()
+const { t, locale } = useI18n()
 
 const store = useUserStore()
 const stores = useConsultStore()
+const langStores = useLangueStore()
 const active = ref<IKnowledgeType>('recommend')
 
 let values = ref('') // 搜索框值
@@ -88,14 +88,16 @@ const handerClose = () => {
 const onCancel = () => {
   console.log('cancel')
 }
-
-// 国际化
-const handerChangeL = () => {
-  locale.value = locale.value === 'en' ? 'zh' : 'en'
-}
 const jiGe = ref('')
 const handerZhiyin = () => {
   jiGe.value = 'zhiYin'
+}
+
+// 国际化
+const handerChangeL = () => {
+  let lang = locale.value === 'en' ? 'zh' : 'en'
+  langStores.saveLangue(lang)
+  locale.value = lang
 }
 </script>
 
@@ -103,7 +105,7 @@ const handerZhiyin = () => {
   <div class="home-page">
     <div class="home-header">
       <div class="con">
-        <h1 @click="handerChangeL">{{ t('home.title') }}</h1>
+        <h1 @click="handerChangeL">{{ $t('home.title') }}</h1>
         <van-popover
           v-model:show="showPopover"
           :actions="actions"
@@ -381,7 +383,7 @@ const handerZhiyin = () => {
   padding: 5px 5px;
   transform: translateY(-244.2px);
 }
-::v-deep .van-overlay{
+::v-deep .van-overlay {
   z-index: 999999;
 }
 ::v-deep .van-loading {

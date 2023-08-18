@@ -5,7 +5,9 @@ import { useUserStore } from '@/stores'
 import { useRouter } from 'vue-router'
 import { showConfirmDialog } from 'vant'
 import type { User } from '@/types/user'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const router = useRouter()
 const store = useUserStore()
 const userInfo = ref<User>({} as User)
@@ -16,10 +18,10 @@ const loadData = async () => {
 }
 
 const tools = [
-  { label: '阿帕奇', path: '/consult' },
-  { label: '本拉登', path: '/' },
-  { label: '档案', path: '/patient' },
-  { label: '设置', path: '/' }
+  { label: t('user.label1'), path: '/consult' },
+  { label: t('user.label2'), path: '/' },
+  { label: t('user.label3'), path: '/patient' },
+  { label: t('user.label4'), path: '/' }
 ]
 
 const loginOut = async () => {
@@ -65,56 +67,56 @@ onMounted(loadData)
         <van-row>
           <van-col span="6">
             <p>{{ userInfo.collectionNumber }}</p>
-            <p>收藏</p>
+            <p>{{ t('user.tip1') }}</p>
           </van-col>
           <van-col span="6">
             <p>{{ userInfo.likeNumber }}</p>
-            <p>关注</p>
+            <p>{{ t('user.tip2') }}</p>
           </van-col>
           <van-col span="6">
             <p>{{ userInfo.score }}</p>
-            <p>积分</p>
+            <p>{{ t('user.tip3') }}</p>
           </van-col>
           <van-col span="6">
             <p>{{ userInfo.couponNumber }}</p>
-            <p>优惠券</p>
+            <p>{{ t('user.tip4') }}</p>
           </van-col>
         </van-row>
       </div>
       <div class="user-page-order">
         <div class="head">
-          <h3>Arms Order</h3>
-          <router-link to="/order">全部订单 <van-icon name="arrow" /></router-link>
+          <h3>{{ t('user.title') }}</h3>
+          <router-link to="/">{{ t('user.littleTitle') }} <van-icon name="arrow" /></router-link>
         </div>
         <van-row>
           <van-col span="6">
             <van-badge :content="userInfo.orderInfo?.paidNumber || ''">
               <cp-icon name="user-paid" />
             </van-badge>
-            <p>待付款</p>
+            <p>{{ t('user.orderStatus1') }}</p>
           </van-col>
           <van-col span="6">
             <van-badge :content="userInfo.orderInfo?.shippedNumber || ''">
               <cp-icon name="user-shipped" />
             </van-badge>
-            <p>待发货</p>
+            <p>{{ t('user.orderStatus2') }}</p>
           </van-col>
           <van-col span="6">
             <van-badge :content="userInfo.orderInfo?.receivedNumber || ''">
               <cp-icon name="user-received" />
             </van-badge>
-            <p>待收货</p>
+            <p>{{ t('user.orderStatus3') }}</p>
           </van-col>
           <van-col span="6">
             <van-badge :content="userInfo.orderInfo?.finishedNumber || ''">
               <cp-icon name="user-finished" />
             </van-badge>
-            <p>已完成</p>
+            <p>{{ t('user.orderStatus4') }}</p>
           </van-col>
         </van-row>
       </div>
       <div class="user-page-group">
-        <h3>快捷工具</h3>
+        <h3>{{ t('user.subTitle') }}</h3>
         <van-cell
           :title="item.label"
           is-link
@@ -127,7 +129,7 @@ onMounted(loadData)
           <template #icon><cp-icon :name="`user-tool-0${i + 1}`" /></template>
         </van-cell>
       </div>
-      <a class="logout" href="javascript:;" @click="loginOut">退出登录</a>
+      <a class="logout" href="javascript:;" @click="loginOut">{{ t('user.logOut') }}</a>
     </div>
   </div>
 </template>

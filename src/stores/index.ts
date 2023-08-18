@@ -13,3 +13,4 @@ export default pinia;
 
 export * from "./modules/user";
 export * from './modules/consult'
+export * from './modules/language'

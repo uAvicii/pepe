@@ -4,7 +4,8 @@ import en from './en'
 
 const i18n = createI18n({
   legacy: false, // 没有该参数可能会报错
-  locale: 'zh',
+  //
+  locale: JSON.parse(localStorage.getItem('language')).langue || 'zh',
   messages: {
     zh,
     en

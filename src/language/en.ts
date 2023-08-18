@@ -33,5 +33,23 @@ export default {
       'An investigation of the dimensions of knowledge required to make pedagogical content decisions has been conducted and an approach to designing an instructional component which represents and reasons about this knowledge is presented. ',
     cardOpen: 'open',
     cardColse: 'close'
+  },
+  user: {
+    tip1: 'collect',
+    tip2: 'focus',
+    tip3: 'total',
+    tip4: 'coupon',
+    title: 'order',
+    littleTitle: 'view more',
+    orderStatus1:'obligation',
+    orderStatus2:'wait deliver',
+    orderStatus3:'wait receiving',
+    orderStatus4:'done',
+    subTitle:'Shortcut tools',
+    label1:'Apachi',
+    label2:'Bin Laden',
+    label3:'record',
+    label4:'setting',
+    logOut:'log Out'
   }
 }
