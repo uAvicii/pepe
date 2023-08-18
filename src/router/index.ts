@@ -55,6 +55,12 @@ const router = createRouter({
       name: 'Consult'
     },
     {
+      path:'/sunny',
+      component:()=>import('@/view/Sunny/index.vue'),
+      meta:{title:'bick'},
+      name:'sunny'
+    },
+    {
       path: '/patient',
       component: () => import('@/view/User/patient/index.vue'),
       meta: { title: '档案' },

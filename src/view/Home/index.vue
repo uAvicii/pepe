@@ -134,7 +134,7 @@ const handerChangeL = () => {
     <div class="home-navs">
       <van-row>
         <van-col span="8">
-          <router-link to="/" class="nav">
+          <router-link to="/sunny" class="nav">
             <cp-icon name="home-bicycle"></cp-icon>
             <p class="title">{{ t('home.userText') }}</p>
             <p class="desc">{{ t('home.userText2') }}</p>
