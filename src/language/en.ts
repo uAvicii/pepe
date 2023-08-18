@@ -50,6 +50,7 @@ export default {
     label2:'Bin Laden',
     label3:'record',
     label4:'setting',
-    logOut:'log Out'
+    logOut:'log Out',
+    home:'index',
   }
 }

@@ -6,7 +6,6 @@ const onIkun = (e: MouseEvent) => {}
 </script>
 
 <template>
-  <CpNavBar title="SOS" />
   <img :src="logo" alt="" />
   <div class="kun"></div>
   <div class="shade"></div>

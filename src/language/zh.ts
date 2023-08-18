@@ -51,5 +51,8 @@ export default {
     label3:'档案',
     label4:'设置',
     logOut:'退出登录'
+  },
+  router:{
+    home:'主页',
   }
 }

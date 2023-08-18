@@ -35,9 +35,12 @@
 
 <style lang="scss" scoped>
 ::v-deep .van-tabbar {
-  height: 45px;
+  height: 55px;
   .van-tabbar-item {
     line-height: 10px;
+    .cp-icon{
+      font-size: 27px;
+    }
   }
 }
 </style>

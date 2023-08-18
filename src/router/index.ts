@@ -135,7 +135,7 @@ router.beforeEach((to: any) => {
 })
 //显示加载进度条
 router.afterEach((to: any) => {
-  document.title = `洛克希德马丁-${to.meta.title || ''}`
+  document.title = `佩-${to.meta.title || ''}`
   NProgress.done()
 })
 
