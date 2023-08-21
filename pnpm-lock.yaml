@@ -38,6 +38,9 @@ dependencies:
   three:
     specifier: ^0.155.0
     version: 0.155.0
+  vanilla-tilt:
+    specifier: ^1.8.0
+    version: 1.8.0
   vant:
     specifier: ^4.6.4
     version: 4.6.4(vue@3.3.4)
@@ -4088,6 +4091,10 @@ packages:
       spdx-correct: 3.2.0
       spdx-expression-parse: 3.0.1
     dev: true
+
+  /vanilla-tilt@1.8.0:
+    resolution: {integrity: sha512-wVCHyyfRuiRdKhDTNxKPb60lkagmywDSqLgFETEr71Sm646AvGxuf/14Kx9A8FaISyYvMoKQHk6FTqt+YLGhEw==}
+    dev: false
 
   /vant@4.6.4(vue@3.3.4):
     resolution: {integrity: sha512-cwdOfR2nmAr/HquFfQKfkqFDIiMMyIPCbLPSXVsfA6jsYf882bsGXYBfHumU4jaXzRbW5d3a0I0cPdlLB5GREQ==}

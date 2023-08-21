@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, nextTick } from 'vue'
+import { ref, nextTick, onMounted } from 'vue'
 import type { Ref } from 'vue'
 import KnowledgeList from './components/KnowledgeList.vue'
 import FollowDoctor from './components/FollowDoctor.vue'
@@ -8,6 +8,8 @@ import { ConsultType } from '@/enums'
 import type { IKnowledgeType } from '@/types/consult'
 import axios from 'axios'
 import { useI18n } from 'vue-i18n'
+import VanillaTilt from 'vanilla-tilt'
+import { on } from 'events'
 
 const { t, locale } = useI18n()
 
@@ -99,6 +101,13 @@ const handerChangeL = () => {
   langStores.saveLangue(lang)
   locale.value = lang
 }
+onMounted(() => {
+  VanillaTilt.init(document.querySelector('.box-item'), {
+    max: 100,
+    speed: 400
+  })
+  VanillaTilt.init(document.querySelectorAll('.box-item'))
+})
 </script>
 
 <template>
@@ -133,21 +142,21 @@ const handerChangeL = () => {
 
     <div class="home-navs">
       <van-row>
-        <van-col span="8">
+        <van-col span="8" class="box-item">
           <router-link to="/sunny" class="nav">
             <cp-icon name="home-bicycle"></cp-icon>
             <p class="title">{{ t('home.userText') }}</p>
             <p class="desc">{{ t('home.userText2') }}</p>
           </router-link>
         </van-col>
-        <van-col span="8">
+        <van-col span="8" class="box-item">
           <router-link to="/consult/fast" @click="stores.setType(ConsultType.Fast)" class="nav">
             <cp-icon name="home-olympic"></cp-icon>
             <p class="title">{{ t('home.oText') }}</p>
             <p class="desc">{{ t('home.oText2') }}</p>
           </router-link>
         </van-col>
-        <van-col span="8">
+        <van-col span="8" class="box-item">
           <router-link to="/sos" class="nav">
             <cp-icon name="home-tree" class="zhiYin" @mouseover="handerZhiyin"></cp-icon>
             <p class="title">{{ t('home.rText') }}</p>
@@ -156,25 +165,25 @@ const handerChangeL = () => {
         </van-col>
       </van-row>
       <van-row>
-        <van-col span="6">
+        <van-col span="6" class="box-item">
           <router-link to="/" class="nav min">
             <cp-icon name="home-goggles"></cp-icon>
             <p class="title">{{ t('home.bannerText1') }}</p>
           </router-link>
         </van-col>
-        <van-col span="6">
+        <van-col span="6" class="box-item">
           <router-link to="/" class="nav min">
             <cp-icon name="home-baseball"></cp-icon>
             <p class="title">{{ t('home.bannerText2') }}</p>
           </router-link>
         </van-col>
-        <van-col span="6">
+        <van-col span="6" class="box-item">
           <router-link to="/" class="nav min">
             <cp-icon name="home-boxing"></cp-icon>
             <p class="title">{{ t('home.bannerText3') }}</p>
           </router-link>
         </van-col>
-        <van-col span="6">
+        <van-col span="6" class="box-item">
           <router-link to="/" class="nav min">
             <cp-icon name="home-kayak"></cp-icon>
             <p class="title">{{ t('home.bannerText4') }}</p>
