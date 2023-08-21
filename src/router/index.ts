@@ -61,6 +61,12 @@ const router = createRouter({
       name:'sunny'
     },
     {
+      path:'/snake',
+      component:()=>import('@/view/Snake/index.vue'),
+      meta:{title:'snake'},
+      name:'snake'
+    },
+    {
       path: '/patient',
       component: () => import('@/view/User/patient/index.vue'),
       meta: { title: '档案' },

@@ -17,7 +17,8 @@
     "types": [
       "vue",
       "vue-router",
-      "@types/node"
+      "@types/node",
+      "three"
     ],
     "target": "esnext",
     "module": "esnext",
