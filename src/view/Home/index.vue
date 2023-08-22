@@ -101,8 +101,8 @@ const handerChangeL = () => {
   locale.value = lang
 }
 onMounted(() => {
-  const element = document.querySelector('.box-item') as HTMLElement | null;
-  const elements = Array.from(document.querySelectorAll('.box-item')) as HTMLElement[];
+  const element = document.querySelector('.box-item') as HTMLElement | null
+  const elements = Array.from(document.querySelectorAll('.box-item')) as HTMLElement[]
   if (element) {
     VanillaTilt.init(element, {
       max: 100,
