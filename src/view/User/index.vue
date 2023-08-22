@@ -21,7 +21,7 @@ const tools = [
   { label: t('user.label1'), path: '/consult' },
   { label: t('user.label2'), path: '/snake' },
   { label: t('user.label3'), path: '/patient' },
-  { label: t('user.label4'), path: '/' }
+  { label: t('user.label4'), path: '/map' }
 ]
 
 const loginOut = async () => {

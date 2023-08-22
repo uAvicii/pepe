@@ -55,16 +55,22 @@ const router = createRouter({
       name: 'Consult'
     },
     {
-      path:'/sunny',
-      component:()=>import('@/view/Sunny/index.vue'),
-      meta:{title:'bick'},
-      name:'sunny'
+      path: '/sunny',
+      component: () => import('@/view/Sunny/index.vue'),
+      meta: { title: 'bick' },
+      name: 'sunny'
     },
     {
-      path:'/snake',
-      component:()=>import('@/view/Snake/index.vue'),
-      meta:{title:'snake'},
-      name:'snake'
+      path: '/snake',
+      component: () => import('@/view/Snake/index.vue'),
+      meta: { title: 'snake' },
+      name: 'snake'
+    },
+    {
+      path: '/map',
+      component: () => import('@/view/Map/index.vue'),
+      meta: { title: 'map' },
+      name: 'map'
     },
     {
       path: '/patient',

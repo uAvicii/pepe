@@ -9,7 +9,6 @@ import type { IKnowledgeType } from '@/types/consult'
 import axios from 'axios'
 import { useI18n } from 'vue-i18n'
 import VanillaTilt from 'vanilla-tilt'
-import { on } from 'events'
 
 const { t, locale } = useI18n()
 
@@ -102,11 +101,22 @@ const handerChangeL = () => {
   locale.value = lang
 }
 onMounted(() => {
-  VanillaTilt.init(document.querySelector('.box-item'), {
-    max: 100,
-    speed: 400
-  })
-  VanillaTilt.init(document.querySelectorAll('.box-item'))
+  const element = document.querySelector('.box-item') as HTMLElement | null;
+  const elements = Array.from(document.querySelectorAll('.box-item')) as HTMLElement[];
+  if (element) {
+    VanillaTilt.init(element, {
+      max: 100,
+      speed: 400
+    })
+  }
+  if (elements.length > 0) {
+    elements.forEach((el) => {
+      VanillaTilt.init(el, {
+        max: 100,
+        speed: 400
+      })
+    })
+  }
 })
 </script>
 
