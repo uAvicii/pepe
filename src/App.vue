@@ -1,9 +1,6 @@
 <script setup lang="ts">
 import { createRouter, createWebHistory } from 'vue-router'
-import { useUserStore } from './stores'
-const onClick = () => {
-  console.log(11)
-}
+const onClick = () => {}
 </script>
 <template>
   <audio autoplay loop muted>

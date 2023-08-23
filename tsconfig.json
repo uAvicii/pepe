@@ -1,5 +1,13 @@
 {
   "files": [],
+  "include": [
+    "src",
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "*.ts"
+  ],
   "references": [
     {
       "path": "./tsconfig.node.json"
@@ -44,14 +52,6 @@
       ]
     }
   },
-  "include": [
-    "src",
-    "src/**/*.ts",
-    "src/**/*.d.ts",
-    "src/**/*.tsx",
-    "src/**/*.vue",
-    "*.ts"
-  ],
   "exclude": [
     "node_modules",
     "**/__test__/*"

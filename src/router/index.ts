@@ -73,6 +73,12 @@ const router = createRouter({
       name: 'map'
     },
     {
+      path: '/text',
+      component: () => import('@/view/Text/index.vue'),
+      meta: { title: 'text' },
+      name: 'text'
+    },
+    {
       path: '/patient',
       component: () => import('@/view/User/patient/index.vue'),
       meta: { title: '档案' },

@@ -179,7 +179,7 @@ let imgList = (index: number) => {
       </van-row>
       <van-row>
         <van-col span="6" class="box-item">
-          <router-link to="/" class="nav min">
+          <router-link to="/text" class="nav min">
             <cp-icon name="home-goggles"></cp-icon>
             <p class="title">{{ t('home.bannerText1') }}</p>
           </router-link>
@@ -205,10 +205,11 @@ let imgList = (index: number) => {
       </van-row>
     </div>
 
-    <div class="home-banner">
+    <div class="home-banner"><s></s>
       <van-swipe indicator-color="#fff" :autoplay="2000">
         <van-swipe-item v-for="index in 9" :key="index">
           <img :src="imgList(index)" />
+          <!-- <img :src="'./src/assets/pepe'+index+'.jpg'" /> -->
         </van-swipe-item>
       </van-swipe>
     </div>

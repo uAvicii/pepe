@@ -1,6 +1,13 @@
 {
-  "extends": "@vue/tsconfig/tsconfig.dom.json",
+  // "extends": "@vue/tsconfig/tsconfig.dom.json",
+  "extends": "./tsconfig/tsconfig.json",
   "include": [
+    "src",
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "*.ts",
     "env.d.ts",
     "src/**/*",
     "src/**/*.vue,",
@@ -9,10 +16,12 @@
     "src/**/*.js",
     "src/**/*.jsx",
     "src/**/*.json",
-    "src/**/*.md",
+    "src/**/*.md"
   ],
   "exclude": [
-    "src/**/__tests__/*"
+    "node_modules",
+    "src/**/__tests__/*",
+    "**/__test__/*"
   ],
   "compilerOptions": {
     "moduleResolution": "node",
