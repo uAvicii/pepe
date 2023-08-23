@@ -27,7 +27,7 @@ const tools = [
 const loginOut = async () => {
   await showConfirmDialog({
     title: '温馨提示',
-    message: '您确认要退出洛克希德马丁吗？',
+    message: '您确认要退出佩吗？',
     cancelButtonText: '取消',
     confirmButtonText: '确认'
   })
@@ -39,22 +39,28 @@ const goDetail = (path: any) => {
   router.push(path)
 }
 
-// loadData()
 onMounted(loadData)
+let paddingHeight = ref('20px')
+onMounted(() => {
+  // 根据不同的视口高度设置不同的padding-bottom值
+  const height = window.innerHeight
+  let heightToPaddingMap = {
+    0: '20px',
+    667: '30px',
+    736: '60px',
+    812: '85px',
+    896: '100px',
+    926: '120px'
+  }
+  const paddingHeightValue: string | undefined = Object.entries(heightToPaddingMap)
+    .find(([minHeight]) => height <= Number(minHeight))
+    ?.pop()
+  paddingHeight.value = paddingHeightValue || '20px'
+})
 </script>
 
 <template>
   <div class="user-page" v-if="userInfo">
-    <!-- 水印标签 -->
-    <!-- <van-watermark
-      image="/public/x.png"
-      :gap-x="10"
-      :gap-y="10"
-      :width="50"
-      :height="50"
-      opacity="0.1"
-    /> -->
-
     <div class="user-page">
       <div class="user-page-head">
         <div class="top">
@@ -85,7 +91,7 @@ onMounted(loadData)
       </div>
       <div class="user-page-order">
         <div class="head">
-          <h3>{{ t('user.title') }}</h3>
+          <h3>{{ $t('user.title') }}</h3>
           <router-link to="/">{{ t('user.littleTitle') }} <van-icon name="arrow" /></router-link>
         </div>
         <van-row>
@@ -93,7 +99,7 @@ onMounted(loadData)
             <van-badge :content="userInfo.orderInfo?.paidNumber || ''">
               <cp-icon name="user-paid" />
             </van-badge>
-            <p>{{ t('user.orderStatus1') }}</p>
+            <p>{{ $t('user.orderStatus1') }}</p>
           </van-col>
           <van-col span="6">
             <van-badge :content="userInfo.orderInfo?.shippedNumber || ''">
@@ -137,8 +143,8 @@ onMounted(loadData)
 <style lang="scss" scoped>
 .user-page {
   background-color: var(--cp-bg);
-  min-height: calc(100vh - 150px);
-  padding: 0 7.5px 65px;
+  // min-height: calc(100vh - 150px);
+  padding: 0 7.5px v-bind(paddingHeight);
   // 头部
   &-head {
     height: 200px;

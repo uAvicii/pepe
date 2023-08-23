@@ -118,6 +118,9 @@ onMounted(() => {
     })
   }
 })
+let imgList = (index: number) => {
+  return new URL(`../../assets/pepe${index}.jpg`, import.meta.url) as unknown as string
+}
 </script>
 
 <template>
@@ -204,36 +207,8 @@ onMounted(() => {
 
     <div class="home-banner">
       <van-swipe indicator-color="#fff" :autoplay="2000">
-        <!-- <van-swipe-item v-for="index in 9" :key="index">
-          <img :src="'src/assets/pepe'+index+'.jpg'" />
-        </van-swipe-item> -->
-
-        <van-swipe-item>
-          <img src="@/assets/pepe1.jpg" alt="" />
-        </van-swipe-item>
-        <van-swipe-item>
-          <img src="@/assets/pepe2.jpg" alt="" />
-        </van-swipe-item>
-        <van-swipe-item>
-          <img src="@/assets/pepe3.jpg" alt="" />
-        </van-swipe-item>
-        <van-swipe-item>
-          <img src="@/assets/pepe4.jpg" alt="" />
-        </van-swipe-item>
-        <van-swipe-item>
-          <img src="@/assets/pepe5.jpg" alt="" />
-        </van-swipe-item>
-        <van-swipe-item>
-          <img src="@/assets/pepe6.jpg" alt="" />
-        </van-swipe-item>
-        <van-swipe-item>
-          <img src="@/assets/pepe7.jpg" alt="" />
-        </van-swipe-item>
-        <van-swipe-item>
-          <img src="@/assets/pepe8.jpg" alt="" />
-        </van-swipe-item>
-        <van-swipe-item>
-          <img src="@/assets/pepe9.jpg" alt="" />
+        <van-swipe-item v-for="index in 9" :key="index">
+          <img :src="imgList(index)" />
         </van-swipe-item>
       </van-swipe>
     </div>
