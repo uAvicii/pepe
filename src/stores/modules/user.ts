@@ -6,10 +6,14 @@ export const useUserStore = defineStore(
   'cp-user',
   () => {
     const user = ref<User>()
+    const avatar = ref<string[]>([])
     // searchHistory 定义为空数组
     const searchHistory = ref<string[]>([])
     const saveSearchHistory = (u: any) => {
       searchHistory.value = [...searchHistory.value, u]
+    }
+    const saveAvatar = (u: any) => {
+      avatar.value = [...avatar.value, u]
     }
     const saveUser = (u: User) => {
       user.value = u
@@ -20,6 +24,8 @@ export const useUserStore = defineStore(
     }
 
     return {
+      avatar,
+      saveAvatar,
       searchHistory,
       saveSearchHistory,
       user,

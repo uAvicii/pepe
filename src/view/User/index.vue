@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { getUserInfoAPI } from '@/services/user'
+import { uploadImageAPI } from '@/services/consult'
 import { useUserStore } from '@/stores'
 import { useRouter } from 'vue-router'
 import { showConfirmDialog, showImagePreview } from 'vant'
@@ -40,11 +41,14 @@ const goDetail = (path: any) => {
 }
 
 const show = ref(false)
-const actions = [{ name: '查看大图' }]
+const actions = [{ name: '查看大图' }, { name: '查看上一张大头照' }]
 const onSelect = (i: any) => {
   if (i.name == '查看大图') {
     showImagePreview({ images: [userInfo.value.avatar!], showIndex: false })
   } else {
+    console.log(store.avatar)
+    // 获取数组最后一项
+    showImagePreview({ images: [store.avatar[store.avatar.length - 1]], showIndex: false })
   }
   show.value = false
 }
@@ -53,11 +57,16 @@ const handerAvata = () => {
 }
 const fileList = ref([])
 
-const onAfterRead = (file: any) => {
+const onAfterRead = async (file: any) => {
   // 通过 FileReader 将图片转换成 URL
   const reader = new FileReader()
   reader.onload = (event) => {
     userInfo.value.avatar = event.target!.result as string
+
+    // 上传接口
+    uploadImageAPI(file.file).then((res: any) => {
+      store.saveAvatar(res?.data.data.url)
+    })
   }
   reader.readAsDataURL(file.file)
 
