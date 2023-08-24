@@ -1,11 +1,10 @@
 {
-  // "extends": "@vue/tsconfig/tsconfig.dom.json",
-  "extends": "./tsconfig/tsconfig.json",
+  "extends": "@vue/tsconfig/tsconfig.dom.json",
+  // "extends": "./tsconfig/tsconfig.json",
   "include": [
     "src",
     "src/**/*.ts",
     "src/**/*.d.ts",
-    "src/**/*.tsx",
     "src/**/*.vue",
     "*.ts",
     "env.d.ts",

@@ -16,7 +16,7 @@ const mobile = ref('13230000001') // 手机号
 const password = ref('abc12345') // 密码
 const code = ref('') // 验证码
 const second = ref(0) // 倒计时
-let timerId: number
+let timerId: any
 
 // 表单提交 -登陆
 const onLogin = async () => {

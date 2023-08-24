@@ -32,7 +32,7 @@ const onSubmit = async () => {
   loginSuccess(res)
 }
 
-let timerId: number
+let timerId: any
 const onSendCode = async () => {
   const res = await sendCodeAPI(mobile.value, 'bindMobile')
   code.value = res.data.code
