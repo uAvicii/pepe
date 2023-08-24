@@ -3,7 +3,7 @@ import { onMounted, ref } from 'vue'
 import { getUserInfoAPI } from '@/services/user'
 import { useUserStore } from '@/stores'
 import { useRouter } from 'vue-router'
-import { showConfirmDialog } from 'vant'
+import { showConfirmDialog, showImagePreview } from 'vant'
 import type { User } from '@/types/user'
 import { useI18n } from 'vue-i18n'
 
@@ -39,6 +39,33 @@ const goDetail = (path: any) => {
   router.push(path)
 }
 
+const show = ref(false)
+const actions = [{ name: '查看大图' }]
+const onSelect = (i: any) => {
+  if (i.name == '查看大图') {
+    showImagePreview({ images: [userInfo.value.avatar!], showIndex: false })
+  } else {
+  }
+  show.value = false
+}
+const handerAvata = () => {
+  show.value = true
+}
+const fileList = ref([])
+
+const onAfterRead = (file: any) => {
+  // 通过 FileReader 将图片转换成 URL
+  const reader = new FileReader()
+  reader.onload = (event) => {
+    userInfo.value.avatar = event.target!.result as string
+  }
+  reader.readAsDataURL(file.file)
+
+  // 图片列表置空
+  fileList.value = []
+  // 下拉框隐藏
+  show.value = false
+}
 onMounted(loadData)
 let paddingHeight = ref('20px')
 onMounted(() => {
@@ -64,7 +91,12 @@ onMounted(() => {
     <div class="user-page">
       <div class="user-page-head">
         <div class="top">
-          <van-image round fit="cover" :src="userInfo.avatar" />
+          <van-image round fit="cover" @click="handerAvata" :src="userInfo.avatar" />
+          <van-action-sheet v-model:show="show" :actions="actions" @select="onSelect">
+            <van-uploader v-model="fileList" :after-read="onAfterRead">
+              <van-button>更换头像</van-button>
+            </van-uploader>
+          </van-action-sheet>
           <div class="name">
             <p>{{ userInfo.account }}</p>
             <p><van-icon name="edit" /></p>
@@ -171,6 +203,16 @@ onMounted(() => {
             color: var(--cp-primary);
             font-size: 16px;
           }
+        }
+      }
+      ::v-deep .van-popup--bottom.van-popup--round {
+        border-radius: 8px 8px 0 0;
+      }
+      ::v-deep .van-uploader__input-wrapper {
+        margin-left: 140px;
+        .van-button {
+          border: none;
+          font-size: 16px;
         }
       }
     }
