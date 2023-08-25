@@ -31,7 +31,7 @@ const userList = users
 
 <template>
   <div class="article-page">
-    <header>{{ t('message.tipsText') }}:</header>
+    <header>{{ t('message.tipsText') }}:陈述事实杀杀杀三生三世十里桃花杀杀杀</header>
     <van-signature
       @submit="onSubmit"
       @clear="onClear"

@@ -4,7 +4,7 @@ import { getUserInfoAPI } from '@/services/user'
 import { uploadImageAPI } from '@/services/consult'
 import { useUserStore } from '@/stores'
 import { useRouter } from 'vue-router'
-import { showConfirmDialog, showImagePreview } from 'vant'
+import { showConfirmDialog, showImagePreview, showToast, showFailToast } from 'vant'
 import type { User } from '@/types/user'
 import { useI18n } from 'vue-i18n'
 
@@ -41,14 +41,15 @@ const goDetail = (path: any) => {
 }
 
 const show = ref(false)
-const actions = [{ name: '查看大图' }, { name: '查看上一张大头照' }]
+const actions = [{ name: t('user.avatarText1') }, { name: t('user.avatarText2') }]
 const onSelect = (i: any) => {
-  if (i.name == '查看大图') {
-    showImagePreview({ images: [userInfo.value.avatar!], showIndex: false })
+  if (i.name == t('user.avatarText1')) {
+    showImagePreview({ images: [avatarUrl.value!], showIndex: false })
   } else {
-    console.log(store.avatar)
-    // 获取数组最后一项
-    showImagePreview({ images: [store.avatar[store.avatar.length - 1]], showIndex: false })
+    if (!store.avatar.length) return showToast(t('user.avatarText4'))
+    if (store.avatar.length == 1)
+      return showImagePreview({ images: [store.avatar[store.avatar.length - 1]], showIndex: false })
+    showImagePreview({ images: [store.avatar[store.avatar.length - 2]], showIndex: false })
   }
   show.value = false
 }
@@ -61,11 +62,11 @@ const onAfterRead = async (file: any) => {
   // 通过 FileReader 将图片转换成 URL
   const reader = new FileReader()
   reader.onload = (event) => {
-    userInfo.value.avatar = event.target!.result as string
-
     // 上传接口
     uploadImageAPI(file.file).then((res: any) => {
+      localStorage.setItem('avatarUrl', res?.data.data.url)
       store.saveAvatar(res?.data.data.url)
+      avatarUrl.value = res?.data.data.url
     })
   }
   reader.readAsDataURL(file.file)
@@ -93,6 +94,14 @@ onMounted(() => {
     ?.pop()
   paddingHeight.value = paddingHeightValue || '20px'
 })
+
+let avatarUrl = ref('')
+onMounted(() => {
+  avatarUrl.value =
+    localStorage.getItem('avatarUrl') ||
+    'https://p26-passport.byteacctimg.com/img/user-avatar/3227254b000ad5e103c72b91365dd4a0~90x90.awebp'
+  // 'https://www.google.com/logos/doodles/2023/celebrating-the-first-landing-on-the-moons-south-pole-6753651837110163.2-2xa.gif'
+})
 </script>
 
 <template>
@@ -100,10 +109,10 @@ onMounted(() => {
     <div class="user-page">
       <div class="user-page-head">
         <div class="top">
-          <van-image round fit="cover" @click="handerAvata" :src="userInfo.avatar" />
+          <van-image round fit="cover" @click="handerAvata" :src="avatarUrl" />
           <van-action-sheet v-model:show="show" :actions="actions" @select="onSelect">
             <van-uploader v-model="fileList" :after-read="onAfterRead">
-              <van-button>更换头像</van-button>
+              <van-button>{{ t('user.avatarText3') }}</van-button>
             </van-uploader>
           </van-action-sheet>
           <div class="name">
@@ -217,8 +226,12 @@ onMounted(() => {
       ::v-deep .van-popup--bottom.van-popup--round {
         border-radius: 8px 8px 0 0;
       }
-      ::v-deep .van-uploader__input-wrapper {
-        margin-left: 140px;
+      ::v-deep .van-uploader {
+        width: 100%;
+        text-align: center;
+        .van-uploader__input-wrapper {
+          width: 100%;
+        }
         .van-button {
           border: none;
           font-size: 16px;

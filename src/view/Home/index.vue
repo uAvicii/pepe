@@ -205,7 +205,8 @@ let imgList = (index: number) => {
       </van-row>
     </div>
 
-    <div class="home-banner"><s></s>
+    <div class="home-banner">
+      <s></s>
       <van-swipe indicator-color="#fff" :autoplay="2000">
         <van-swipe-item v-for="index in 9" :key="index">
           <img :src="imgList(index)" />
@@ -392,7 +393,7 @@ let imgList = (index: number) => {
 <style lang="scss">
 .van-popup {
   .van-popover__arrow {
-    color: aqua;
+    // color: aqua;
   }
   .van-popover__content {
     .van-popover__action {

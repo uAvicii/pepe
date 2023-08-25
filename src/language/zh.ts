@@ -46,13 +46,17 @@ export default {
     orderStatus3: '待收货',
     orderStatus4: '已完成',
     subTitle: '快捷工具',
-    label1:'阿帕奇',
-    label2:'本拉登',
-    label3:'档案',
-    label4:'设置',
-    logOut:'退出登录'
+    label1: '阿帕奇',
+    label2: '本拉登',
+    label3: '档案',
+    label4: '设置',
+    logOut: '退出登录',
+    avatarText1: '查看大图',
+    avatarText2: '查看上一张大头照',
+    avatarText3: '更换头像',
+    avatarText4: '没有更多了',
   },
-  router:{
-    home:'主页',
+  router: {
+    home: '主页'
   }
 }
