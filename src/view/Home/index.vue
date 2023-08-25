@@ -9,6 +9,7 @@ import type { IKnowledgeType } from '@/types/consult'
 import axios from 'axios'
 import { useI18n } from 'vue-i18n'
 import VanillaTilt from 'vanilla-tilt'
+import { showImagePreview } from 'vant'
 
 const { t, locale } = useI18n()
 
@@ -119,7 +120,13 @@ onMounted(() => {
   }
 })
 let imgList = (index: number) => {
-  return new URL(`../../assets/pepe${index}.jpg`, import.meta.url) as unknown as string
+  return new URL(`../../assets/pepe${index}.jpg`, import.meta.url) as unknown as string as any
+}
+const showimageUrl = (i: any) => {
+  showImagePreview({
+    images: [imgList(i)?.href],
+    showIndex: false
+  })
 }
 </script>
 
@@ -206,10 +213,9 @@ let imgList = (index: number) => {
     </div>
 
     <div class="home-banner">
-      <s></s>
       <van-swipe indicator-color="#fff" :autoplay="2000">
         <van-swipe-item v-for="index in 9" :key="index">
-          <img :src="imgList(index)" />
+          <img :src="imgList(index)" @click="showimageUrl(index)" />
           <!-- <img :src="'./src/assets/pepe'+index+'.jpg'" /> -->
         </van-swipe-item>
       </van-swipe>

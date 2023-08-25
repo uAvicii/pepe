@@ -38,6 +38,7 @@ request.interceptors.response.use(
   },
   function (err) {
     if (err.message == 'Network Error') {
+      // 413 请求实体太大
       showFailToast('上传失败, 请检查图片格式')
     }
     if (err.response.status === 401) {
