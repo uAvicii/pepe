@@ -14,7 +14,7 @@ export default {
     oText: 'Ip Man',
     oText2: 'bare-handed fight',
     rText: 'chicken',
-    rText2: 'Five-star high school',
+    rText2: 'Five-star school',
     bannerText1: 'Sett',
     bannerText2: 'Bin Laden',
     bannerText3: 'Evan You',

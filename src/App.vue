@@ -14,6 +14,6 @@ const onClick = () => {}
 <style>
 @import './assets/font.css';
 body {
-  font-family: pingfang;
+  font-family: pingfang !important;
 }
 </style>
