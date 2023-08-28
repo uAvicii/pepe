@@ -83,7 +83,7 @@ onMounted(() => {
   const height = window.innerHeight
   let heightToPaddingMap = {
     0: '20px',
-    667: '30px',
+    667: '25px',
     736: '60px',
     812: '85px',
     896: '100px',
