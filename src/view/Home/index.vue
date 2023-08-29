@@ -10,7 +10,7 @@ import axios from 'axios'
 import { useI18n } from 'vue-i18n'
 import VanillaTilt from 'vanilla-tilt'
 import { showImagePreview } from 'vant'
-
+import OpenAI from 'openai'
 const { t, locale } = useI18n()
 
 const store = useUserStore()
@@ -27,6 +27,27 @@ const showPopover = ref(false) // 历史记录显示
 let actions = ref<any[]>([]) // 历史记录列表
 const showHistory = ref(false) // 显示历史记录
 const searchs = ref<Ref | null>(null) // ref
+
+//openAI Create image
+const key = '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'
+const openai = new OpenAI({ apiKey: key, dangerouslyAllowBrowser: true })
+async function createImg() {
+  showPopover.value = false
+  if (!values.value) return
+  isShow.value = true
+  store.saveSearchHistory(values.value)
+  const images = await openai.images.generate({ prompt: values.value })
+  if (images) isShow.value = false
+  showImagePreview({
+    images: [images.data[0].url] as any,
+    showIndex: false,
+    onClose() {
+      values.value = ''
+    }
+  })
+  console.log(images.data[0].url)
+}
+// main()
 
 // 聚焦 显示 历史记录
 const onFocus = () => {
@@ -144,8 +165,10 @@ const showimageUrl = (i: any) => {
         >
           <template #reference>
             <van-search
+              class="search"
               ref="searchs"
               autocomplete="off"
+              show-action
               shape="round"
               v-model="values"
               @update:model-value="updateValues"
@@ -154,7 +177,11 @@ const showimageUrl = (i: any) => {
               @search="onSearch"
               @clear="onCancel"
               :placeholder="t('home.searchText')"
-            />
+            >
+              <template #action>
+                <div @click="createImg" class="GenImg">GenImg</div>
+              </template>
+            </van-search>
           </template>
         </van-popover>
       </div>
@@ -295,18 +322,12 @@ const showimageUrl = (i: any) => {
       display: inline-block;
     }
     .search {
-      height: 40px;
-      border-radius: 20px;
-      box-shadow: 0px 15px 22px -7px rgba(224, 236, 250, 0.8);
-      background-color: #fff;
-      display: flex;
-      align-items: center;
-      padding: 0 20px;
-      color: var(--cp-dark);
-      font-size: 13px;
       .cp-icon {
         font-size: 16px;
         margin-right: 5px;
+      }
+      .GenImg {
+        font-weight: 700;
       }
     }
   }

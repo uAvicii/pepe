@@ -7,9 +7,4 @@ const onClick = () => {}
 </template>
 
 <style lang="scss" scoped></style>
-<style>
-@import './assets/font.css';
-body {
-  font-family: pingfang !important;
-}
-</style>
+<style></style>
