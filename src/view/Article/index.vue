@@ -148,9 +148,7 @@ const handleSpeak = (text: any) => {
 }
 onMounted(() => {
   setTimeout(() => {
-    console.log(1)
     handleSpeak('测试内容测试内容测试内容测试内容')
-    console.log(2)
   }, 1000)
 })
 </script>

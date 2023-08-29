@@ -11,6 +11,7 @@ import { useI18n } from 'vue-i18n'
 import VanillaTilt from 'vanilla-tilt'
 import { showImagePreview } from 'vant'
 import OpenAI from 'openai'
+import moment from 'moment'
 const { t, locale } = useI18n()
 
 const store = useUserStore()
@@ -55,9 +56,12 @@ const onFocus = () => {
     if (values.value) return (showPopover.value = false)
     showPopover.value = true
 
-    actions.value = store.searchHistory.slice(0, 9).map((item: any) => {
-      return { text: item }
-    })
+    actions.value = store.searchHistory
+      .map((item: any) => {
+        return { text: item }
+      })
+      .reverse()
+      .slice(0, 9)
   })
 }
 
@@ -92,14 +96,15 @@ const onSelect = async (e: any) => {
 // 搜索
 const onSearch = (value: string) => {
   isShow.value = true
-  store.saveSearchHistory(value)
+  const time = moment().format('YYYY-MM-DD HH:mm:ss')
+  store.saveSearchHistory(value + ' ' + time)
   axios.get(`https://rj9gijf3ua.us.aircode.run/chat?question=${value}`).then((res) => {
     if (res) isShow.value = false
     showCenter.value = true
     searchResult.value = res.data.reply
   })
   historyList.value = store.searchHistory
-  historyList.value = historyList.value.reverse()
+  // historyList.value = historyList.value.reverse()
 }
 
 // 关闭历史记录弹窗
@@ -419,9 +424,6 @@ const showimageUrl = (i: any) => {
 
 <style lang="scss">
 .van-popup {
-  .van-popover__arrow {
-    // color: aqua;
-  }
   .van-popover__content {
     .van-popover__action {
       width: 100%;
