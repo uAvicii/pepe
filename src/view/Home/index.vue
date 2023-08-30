@@ -10,6 +10,7 @@ import axios from 'axios'
 import { useI18n } from 'vue-i18n'
 import VanillaTilt from 'vanilla-tilt'
 import { showImagePreview } from 'vant'
+// import fs from 'fs'
 import OpenAI from 'openai'
 import moment from 'moment'
 const { t, locale } = useI18n()
@@ -29,12 +30,41 @@ let actions = ref<any[]>([]) // 历史记录列表
 const showHistory = ref(false) // 显示历史记录
 const searchs = ref<Ref | null>(null) // ref
 
-//openAI Create image
 const key = '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'
 const openai = new OpenAI({ apiKey: key, dangerouslyAllowBrowser: true })
+
+// 文字转语音
+const tts = (text: string) => {
+  // 创建一个新的语音合成器
+  let synth = window.speechSynthesis
+
+  // 创建一个文本到语音的请求
+  // let text = 'Hello, this is a text-to-speech example.'
+  let utterance = new SpeechSynthesisUtterance(text)
+
+  // 设置语音选项（可选）
+  utterance.rate = 1 // 语速，1为正常速度
+  utterance.pitch = 1 // 音调，1为正常音调
+  // 播放文本
+  synth.speak(utterance)
+}
+
+// 语音转文字
+const stt = async (e: any) => {
+  console.log(e)
+
+  // const transcription = await openai.audio.transcriptions.create({
+  //   file: fs.createReadStream('@/assets/3s.mp3'),
+  //   model: 'whisper-1'
+  // })
+  // console.log(transcription.text)
+}
+
+//openAI Create image
 async function createImg() {
   showPopover.value = false
   if (!values.value) return
+  tts('正在生成图片,please wait')
   isShow.value = true
   store.saveSearchHistory(values.value)
   const images = await openai.images.generate({ prompt: values.value })
@@ -46,9 +76,7 @@ async function createImg() {
       values.value = ''
     }
   })
-  console.log(images.data[0].url)
 }
-// main()
 
 // 聚焦 显示 历史记录
 const onFocus = () => {
@@ -61,7 +89,7 @@ const onFocus = () => {
         return { text: item }
       })
       .reverse()
-      .slice(0, 9)
+      .slice(0, 6)
   })
 }
 
@@ -94,15 +122,25 @@ const onSelect = async (e: any) => {
 }
 
 // 搜索
-const onSearch = (value: string) => {
+const onSearch = async (value: string) => {
   isShow.value = true
   const time = moment().format('YYYY-MM-DD HH:mm:ss')
-  store.saveSearchHistory(value + ' ' + time)
-  axios.get(`https://rj9gijf3ua.us.aircode.run/chat?question=${value}`).then((res) => {
-    if (res) isShow.value = false
-    showCenter.value = true
-    searchResult.value = res.data.reply
+  store.saveSearchHistory(value)
+  const completion = await openai.chat.completions.create({
+    messages: [{ role: 'system', content: value }],
+    model: 'gpt-3.5-turbo'
   })
+  if (completion) isShow.value = false
+  showCenter.value = true
+  searchResult.value = completion.choices[0].message.content as string
+  tts(searchResult.value)
+
+  // axios.get(`https://rj9gijf3ua.us.aircode.run/chat?question=${value}`).then((res) => {
+  //   if (res) isShow.value = false
+  //   showCenter.value = true
+  //   searchResult.value = res.data.reply
+  //   tts(searchResult.value)
+  // })
   historyList.value = store.searchHistory
   // historyList.value = historyList.value.reverse()
 }
@@ -183,6 +221,9 @@ const showimageUrl = (i: any) => {
               @clear="onCancel"
               :placeholder="t('home.searchText')"
             >
+              <template #right-icon>
+                <CpIcon @click="stt" name="home-mc" />
+              </template>
               <template #action>
                 <div @click="createImg" class="GenImg">GenImg</div>
               </template>
@@ -327,9 +368,20 @@ const showimageUrl = (i: any) => {
       display: inline-block;
     }
     .search {
+      position: relative;
       .cp-icon {
         font-size: 16px;
         margin-right: 5px;
+      }
+      // &::after {
+      //   content: url('@/icons/home/mc.svg');
+      //   position: absolute;
+      //   right: -3%;
+      //   transform: scale(0.13);
+      // }
+      .cp-icon {
+        font-size: 20px;
+        margin-top: 5px;
       }
       .GenImg {
         font-weight: 700;
@@ -424,13 +476,33 @@ const showimageUrl = (i: any) => {
 
 <style lang="scss">
 .van-popup {
+  top: 90px !important;
   .van-popover__content {
+    width: 74vw;
+    background: linear-gradient(180deg, #e3ebf5, #ef9ac6);
     .van-popover__action {
       width: 100%;
       height: auto;
-      background-color: aqua;
+      // background-color: #e3e9f4;
+      &:hover {
+        background-color: aqua;
+      }
+      &::before {
+        content: url('');
+        position: absolute;
+        left: 13px;
+        background-image: url('@/assets/history.svg');
+        background-size: contain;
+        background-repeat: no-repeat;
+        display: inline-block;
+        width: 15px;
+        height: 15px;
+      }
       .van-popover__action-text {
         justify-content: start;
+        height: 30px;
+        line-height: 30px;
+        padding-left: 20px;
       }
     }
   }

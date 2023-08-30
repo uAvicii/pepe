@@ -38,9 +38,20 @@ export default defineConfig({
       iconDirs: [path.resolve(process.cwd(), 'src/icons')]
     })
   ],
+  server: {
+    proxy: {
+      '/api': {
+        target: 'https://consult-api.itheima.net', // 这里配置您的后端服务器地址
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+      },
+    },
+  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
   }
 })
+
+

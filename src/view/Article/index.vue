@@ -135,22 +135,6 @@ let obj: { age: number; sex?: string } = {
 }
 obj.sex = '男'
 Object.defineProperty(obj, 'name', { value: '张三' })
-
-const synth = window.speechSynthesis
-const msg = new SpeechSynthesisUtterance()
-const handleSpeak = (text: any) => {
-  msg.text = text // 文字内容: 测试内容
-  msg.lang = 'zh-CN' // 使用的语言:中文
-  msg.volume = 99 // 声音音量：1
-  msg.rate = 1 // 语速：1
-  msg.pitch = 1 // 音高：1
-  synth.speak(msg) // 播放
-}
-onMounted(() => {
-  setTimeout(() => {
-    handleSpeak('测试内容测试内容测试内容测试内容')
-  }, 1000)
-})
 </script>
 
 <template>
