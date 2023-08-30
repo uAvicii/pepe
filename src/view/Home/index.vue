@@ -32,11 +32,11 @@ const searchs = ref<Ref | null>(null) // ref
 
 const key = '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'
 const openai = new OpenAI({ apiKey: key, dangerouslyAllowBrowser: true })
+let synth = window.speechSynthesis
 
 // 文字转语音
 const tts = (text: string) => {
   // 创建一个新的语音合成器
-  let synth = window.speechSynthesis
 
   // 创建一个文本到语音的请求
   // let text = 'Hello, this is a text-to-speech example.'
@@ -149,6 +149,8 @@ const onSearch = async (value: string) => {
 const handerClose = () => {
   // 清空搜索框
   values.value = ''
+  // 停止语言播报
+  synth.cancel()
 }
 
 const onCancel = () => {
@@ -200,6 +202,7 @@ const showimageUrl = (i: any) => {
       <div class="con">
         <h1 @click="handerChangeL">{{ $t('home.title') }}</h1>
         <van-popover
+          class="vanPopover"
           v-model:show="showPopover"
           :actions="actions"
           @select="onSelect"
@@ -475,7 +478,7 @@ const showimageUrl = (i: any) => {
 </style>
 
 <style lang="scss">
-.van-popup {
+.van-popup.vanPopover {
   top: 90px !important;
   .van-popover__content {
     width: 74vw;
