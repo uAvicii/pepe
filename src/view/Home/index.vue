@@ -169,6 +169,7 @@ const showimageUrl = (i: any) => {
   })
 }
 
+// 动画
 onMounted(() => {
   const element = document.querySelector('.box-item') as HTMLElement | null
   const elements = Array.from(document.querySelectorAll('.box-item')) as HTMLElement[]
