@@ -9,8 +9,7 @@ import type { IKnowledgeType } from '@/types/consult'
 import axios from 'axios'
 import { useI18n } from 'vue-i18n'
 import VanillaTilt from 'vanilla-tilt'
-import { showImagePreview } from 'vant'
-// import fs from 'fs'
+import { showImagePreview, showToast, showFailToast } from 'vant'
 import OpenAI from 'openai'
 import moment from 'moment'
 const { t, locale } = useI18n()
@@ -18,8 +17,8 @@ const { t, locale } = useI18n()
 const store = useUserStore()
 const stores = useConsultStore()
 const langStores = useLangueStore()
-const active = ref<IKnowledgeType>('recommend')
 
+const active = ref<IKnowledgeType>('recommend') // tab
 let values = ref('') // 搜索框值
 let showCenter = ref(false) // 显示搜索结果
 let historyList = ref<string[]>([]) // 历史记录列表
@@ -30,9 +29,9 @@ let actions = ref<any[]>([]) // 历史记录列表
 const showHistory = ref(false) // 显示历史记录
 const searchs = ref<Ref | null>(null) // ref
 
-const key = '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'
-const openai = new OpenAI({ apiKey: key, dangerouslyAllowBrowser: true })
-let synth = window.speechSynthesis
+const key = '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' // openAI key
+const openai = new OpenAI({ apiKey: key, dangerouslyAllowBrowser: true }) // openAI 实例
+let synth = window.speechSynthesis // 语音合成器
 
 // 文字转语音
 const tts = (text: string) => {
@@ -51,8 +50,7 @@ const tts = (text: string) => {
 
 // 语音转文字
 const stt = async (e: any) => {
-  console.log(e)
-
+  showToast('开发中 敬请期待..')
   // const transcription = await openai.audio.transcriptions.create({
   //   file: fs.createReadStream('@/assets/3s.mp3'),
   //   model: 'whisper-1'
@@ -67,15 +65,20 @@ async function createImg() {
   tts('正在生成图片,please wait')
   isShow.value = true
   store.saveSearchHistory(values.value)
-  const images = await openai.images.generate({ prompt: values.value })
-  if (images) isShow.value = false
-  showImagePreview({
-    images: [images.data[0].url] as any,
-    showIndex: false,
-    onClose() {
-      values.value = ''
-    }
-  })
+  try {
+    const images = await openai.images.generate({ prompt: values.value })
+    if (images) isShow.value = false
+    showImagePreview({
+      images: [images.data[0].url] as any,
+      showIndex: false,
+      onClose() {
+        values.value = ''
+      }
+    })
+  } catch (error) {
+    isShow.value = false
+    showFailToast('生成图片失败,请重试')
+  }
 }
 
 // 聚焦 显示 历史记录
@@ -153,9 +156,7 @@ const handerClose = () => {
   synth.cancel()
 }
 
-const onCancel = () => {
-  console.log('cancel')
-}
+// 只因
 const jiGe = ref('')
 const handerZhiyin = () => {
   jiGe.value = 'zhiYin'
@@ -185,6 +186,8 @@ onMounted(() => {
     })
   }
 })
+
+// 静态资源动态引入 轮播图
 let imgList = (index: number) => {
   return new URL(`../../assets/pepe${index}.jpg`, import.meta.url) as unknown as string as any
 }
@@ -221,7 +224,6 @@ const showimageUrl = (i: any) => {
               @focus="onFocus"
               @blur="showPopover = false"
               @search="onSearch"
-              @clear="onCancel"
               :placeholder="t('home.searchText')"
             >
               <template #right-icon>
@@ -504,9 +506,13 @@ const showimageUrl = (i: any) => {
       }
       .van-popover__action-text {
         justify-content: start;
-        height: 30px;
+        // height: 30px;
         line-height: 30px;
         padding-left: 20px;
+        // 文字溢出 显示省略号 一行显示
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
       }
     }
   }
