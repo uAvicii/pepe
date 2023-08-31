@@ -89,7 +89,7 @@ const onFocus = () => {
         return { text: item }
       })
       .reverse()
-      .slice(0, 6)
+      .slice(0, 7)
   })
 }
 
@@ -482,7 +482,8 @@ const showimageUrl = (i: any) => {
   top: 90px !important;
   .van-popover__content {
     width: 74vw;
-    background: linear-gradient(180deg, #e3ebf5, #ef9ac6);
+    // background: linear-gradient(180deg, #e3ebf5, #ef9ac6);
+    background-color: #f7f8fa;
     .van-popover__action {
       width: 100%;
       height: auto;
