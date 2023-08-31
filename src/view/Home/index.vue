@@ -12,8 +12,8 @@ import VanillaTilt from 'vanilla-tilt'
 import { showImagePreview, showToast, showFailToast } from 'vant'
 import OpenAI from 'openai'
 import moment from 'moment'
-const { t, locale } = useI18n()
 
+const { t, locale } = useI18n()
 const store = useUserStore()
 const stores = useConsultStore()
 const langStores = useLangueStore()
@@ -51,11 +51,6 @@ const tts = (text: string) => {
 // 语音转文字
 const stt = async (e: any) => {
   showToast('开发中 敬请期待..')
-  // const transcription = await openai.audio.transcriptions.create({
-  //   file: fs.createReadStream('@/assets/3s.mp3'),
-  //   model: 'whisper-1'
-  // })
-  // console.log(transcription.text)
 }
 
 //openAI Create image
@@ -156,18 +151,24 @@ const handerClose = () => {
   synth.cancel()
 }
 
-// 只因
-const jiGe = ref('')
-const handerZhiyin = () => {
-  jiGe.value = 'zhiYin'
-}
-
 // 国际化
 const handerChangeL = () => {
   let lang = locale.value === 'en' ? 'zh' : 'en'
   langStores.saveLangue(lang)
   locale.value = lang
 }
+
+// 静态资源动态引入 轮播图
+let imgList = (index: number) => {
+  return new URL(`../../assets/pepe${index}.jpg`, import.meta.url) as unknown as string as any
+}
+const showimageUrl = (i: any) => {
+  showImagePreview({
+    images: [imgList(i)?.href],
+    showIndex: false
+  })
+}
+
 onMounted(() => {
   const element = document.querySelector('.box-item') as HTMLElement | null
   const elements = Array.from(document.querySelectorAll('.box-item')) as HTMLElement[]
@@ -186,17 +187,6 @@ onMounted(() => {
     })
   }
 })
-
-// 静态资源动态引入 轮播图
-let imgList = (index: number) => {
-  return new URL(`../../assets/pepe${index}.jpg`, import.meta.url) as unknown as string as any
-}
-const showimageUrl = (i: any) => {
-  showImagePreview({
-    images: [imgList(i)?.href],
-    showIndex: false
-  })
-}
 </script>
 
 <template>
@@ -256,7 +246,7 @@ const showimageUrl = (i: any) => {
         </van-col>
         <van-col span="8" class="box-item">
           <router-link to="/sos" class="nav">
-            <cp-icon name="home-tree" class="zhiYin" @mouseover="handerZhiyin"></cp-icon>
+            <cp-icon name="home-tree" class="zhiYin"></cp-icon>
             <p class="title">{{ t('home.rText') }}</p>
             <p class="desc">{{ t('home.rText2') }}</p>
           </router-link>
@@ -406,7 +396,6 @@ const showimageUrl = (i: any) => {
       font-size: 48px;
     }
     .zhiYin {
-      // animation: v-bind(jiGe) 2s infinite;
       animation: zhiYin 2s infinite;
     }
     @keyframes zhiYin {
