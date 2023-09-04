@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import { render } from './three'
+import { render, loadModel } from './three'
 </script>
 
 <template>
-  <h1>
-    {{ render() }}
-  </h1>
+  <h1>{{ render() }}</h1>
 </template>
 
 <style lang="less" scoped></style>
