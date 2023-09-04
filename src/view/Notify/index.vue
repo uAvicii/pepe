@@ -17,11 +17,11 @@ setInterval(() => {
 
 <template>
   <p>ss</p>
-  <div class="content">
+  <!-- <div class="content">
     <div v-for="(url, index) in imgList" :key="index">
       <van-image :src="url"></van-image>
     </div>
-  </div>
+  </div> -->
   <div class="line">s</div>
 </template>
 

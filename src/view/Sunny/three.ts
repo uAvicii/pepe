@@ -11,25 +11,37 @@ const scene = new THREE.Scene()
 // 2.创建相机
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
 // 设置x、y、z轴坐标，即设置相机位置
-camera.position.set(10, 30, -30)
+camera.position.set(-10, 20, -40)
 // 将相机添加到场景之中
 scene.add(camera)
 
 // 引入第三方模型
 const loader = new GLTFLoader()
 export function loadModel() {
-  loader.load('car/scene.gltf', function (gltf) {
+  loader.load('./isColorCar/scene.gltf', function (gltf) {
     let car = gltf.scene
     car.position.set(3, 0, 3)
     scene.add(car)
 
     // 通过键盘实现对car的前进后退  左转后车头旋转 点击前进car朝车头方向前进
     let carForward = new Vector3(0, 0, 1)
+    let aKeyPressed = false
+    let bKeyPressed = false
     document.onkeydown = function (e) {
-      // 判断同时按下 w 和 a 键
-      if (e.keyCode === 87 && e.keyCode === 65) {
-        console.log(1)
+      if (e.key === 'w') {
+        aKeyPressed = true
+      } else if (e.key === 'a') {
+        bKeyPressed = true
       }
+      if (aKeyPressed && bKeyPressed) {
+        // 执行你的函数或逻辑
+        console.log('同时按下了A和B键')
+
+        // 重置键的状态
+        aKeyPressed = false
+        bKeyPressed = false
+      }
+
       let x
       let z
       switch (e.keyCode) {
@@ -62,6 +74,13 @@ export function loadModel() {
           car.position.x += x
           car.position.z += z
           break
+      }
+    }
+    document.onkeyup = function (event) {
+      if (event.key === 'a') {
+        aKeyPressed = false
+      } else if (event.key === 'w') {
+        bKeyPressed = false
       }
     }
 
@@ -132,12 +151,11 @@ function animateRain() {
 }
 animateRain()
 
-// 3.添加物体，创建几何体
+// 添加物体，创建几何体
 const cubeGeometry = new THREE.BoxGeometry(1, 1, 1) // 设置几何体大小
 const cubeMaterial = new THREE.MeshLambertMaterial({ color: 0xff0000 }) // 设置几何体材质
 // 根据几何体和材质创建物体
 const cube = new THREE.Mesh(cubeGeometry, cubeMaterial)
-
 // 修改物体的位置
 // cube.position.set(5,0,0)
 cube.position.y = 1.5
@@ -146,10 +164,10 @@ cube.scale.set(3, 2, 1) // x、y、z轴的缩放倍数
 // Math.PI是180度，rotation也是以x、y、z进行设置
 cube.rotation.set(Math.PI / 4, 0, 0, 'XYZ')
 cube.castShadow = true
-
 // 将几何体添加到场景之中
 scene.add(cube)
-// 4.初始化渲染器
+
+// 初始化渲染器
 const renderer = new THREE.WebGLRenderer()
 // 设置渲染的尺寸大小
 renderer.setSize(window.innerWidth, window.innerHeight)
@@ -158,11 +176,11 @@ renderer.shadowMap.enabled = true
 // 将webgl渲染的canvas内容添加到body上
 document.body.appendChild(renderer.domElement)
 // // 使用渲染器，通过相机将场景渲染出来
-// export const result = renderer.render(scene,camera)
+export const result = renderer.render(scene, camera)
 
 // 创建地面网格参照
 const planeGeometry = new THREE.PlaneGeometry(50, 50) // 平面几何的宽高
-const PlaneMateial = new THREE.MeshLambertMaterial({ color: 0xf8f8ff }) // 几何平面的颜色
+const PlaneMateial = new THREE.MeshPhongMaterial({ color: '#000' }) // 几何平面的颜色
 const plane = new THREE.Mesh(planeGeometry, PlaneMateial)
 plane.rotation.x = -0.5 * Math.PI
 plane.position.set(0, 0, 0)
@@ -170,19 +188,30 @@ plane.receiveShadow = true
 scene.add(plane)
 
 // 设置光源投影
-const ambienLight = new THREE.AmbientLight(0xaaaaa)
+const ambienLight = new THREE.AmbientLight('#fff')
 scene.add(ambienLight)
 
-// 设置光源
-const spotLight = new THREE.SpotLight(0xffffff) // 设置聚光灯
-spotLight.position.set(-60, 40, -65)
-spotLight.castShadow = true //让聚光灯产生阴影
-// 下面三行代码设置阴影效果
-spotLight.shadow.mapSize = new THREE.Vector2(1024, 1024)
-spotLight.shadow.camera.far = 130
-spotLight.shadow.camera.near = 40
-// 将阴影添加到场景中
+// 聚光光源
+const spotLight = new THREE.SpotLight('purple', 3)
+// 设置聚光光源位置
+spotLight.position.set(26, 26, 26)
+// 聚光灯光源指向网格模型
+spotLight.target = plane
+// 设置聚光光源发散角度
+spotLight.angle = Math.PI / 6
+// 设置聚光光源的阴影
+spotLight.castShadow = true
+// 设置聚光光源的阴影范围
+spotLight.shadow.camera.near = 1
+spotLight.shadow.camera.far = 100
+spotLight.shadow.camera.fov = 90
+// 设置聚光光源阴影的分辨率
+spotLight.shadow.mapSize.width = 1024
+spotLight.shadow.mapSize.height = 1024
+//光对象添加到scene场景中
 scene.add(spotLight)
+const spotLightHelp = new THREE.SpotLightHelper(spotLight)
+// scene.add(spotLightHelp)
 
 // 创建轨道控制器
 new OrbitControls(camera, renderer.domElement)
@@ -194,7 +223,7 @@ new OrbitControls(camera, renderer.domElement)
 export function render() {
   cube.position.x += 0.01
   cube.rotation.x += 0.01
-  if (cube.position.x > 5) {
+  if (cube.position.x > 20) {
     cube.position.x = 0
   }
   renderer.render(scene, camera)
