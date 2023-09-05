@@ -108,6 +108,32 @@ export function loadModel() {
     }
     // animateCar()
   })
+  loader.load('./spider/scene.gltf', function (spider) {
+    let spiderModel = spider.scene
+    spiderModel.position.set(-25, 0, -25)
+    spiderModel.scale.set(3, 3, 3)
+    spiderModel.castShadow = true
+    spiderModel.receiveShadow = true
+    scene.add(spiderModel)
+  })
+  loader.load('./spider/scene.gltf', function (spiders) {
+    let spiderModels = spiders.scene
+    spiderModels.position.set(-25, 0, 25)
+    // 旋转九十度
+    spiderModels.rotation.y = Math.PI / 2
+    spiderModels.scale.set(3, 3, 3)
+    spiderModels.castShadow = true
+    spiderModels.receiveShadow = true
+    scene.add(spiderModels)
+  })
+  loader.load('./vr_sunroom_hallway/scene.gltf', function (gltf) {
+    let vr = gltf.scene
+    vr.position.set(19, 0, 0)
+    vr.scale.set(2, 2, 2)
+    vr.castShadow = true
+    vr.receiveShadow = true
+    scene.add(vr)
+  })
 }
 loadModel()
 
@@ -184,7 +210,7 @@ const rainMaterial = new THREE.PointsMaterial({
   transparent: true
 })
 const rain = new THREE.Points(rainGeo, rainMaterial)
-scene.add(rain)
+// scene.add(rain)
 // 雨滴的动画效果
 function animateRain() {
   const positions = rainGeo.attributes.position.array
@@ -242,7 +268,7 @@ const ambienLight = new THREE.AmbientLight('#fff')
 scene.add(ambienLight)
 
 // 聚光光源
-const spotLight = new THREE.SpotLight('purple', 3)
+const spotLight = new THREE.SpotLight('purple', 5)
 // 设置聚光光源位置
 spotLight.position.set(36, 36, 36)
 // 聚光灯光源指向网格模型
@@ -255,13 +281,7 @@ spotLight.castShadow = true
 spotLight.shadow.mapSize.width = 2048
 spotLight.shadow.mapSize.height = 2048
 // 设置聚光光源的阴影范围
-const cam = spotLight.shadow.camera
-cam.near = 1
-cam.far = 500
-cam.left = -100
-cam.right = 100
-cam.top = 100
-cam.bottom = -100
+// let cam = spotLight.shadow.camera
 //光对象添加到scene场景中
 scene.add(spotLight)
 const spotLightHelp = new THREE.SpotLightHelper(spotLight)
