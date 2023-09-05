@@ -126,13 +126,32 @@ export function loadModel() {
     spiderModels.receiveShadow = true
     scene.add(spiderModels)
   })
-  loader.load('./vr_sunroom_hallway/scene.gltf', function (gltf) {
+  loader.load('./vr/scene.gltf', function (gltf) {
     let vr = gltf.scene
     vr.position.set(19, 0, 0)
     vr.scale.set(2, 2, 2)
     vr.castShadow = true
     vr.receiveShadow = true
     scene.add(vr)
+  })
+  loader.load('./church/scene.gltf', function (gltf) {
+    let church = gltf.scene
+    church.position.set(-8, -45, 36)
+    church.rotation.y = Math.PI / 2
+    church.scale.set(0.5, 0.5, 0.5)
+
+    church.castShadow = true
+    church.receiveShadow = true
+    scene.add(church)
+  })
+  loader.load('./vintage_gramophone_game-asset_by_rigdhi/scene.gltf', function (gltf) {
+    let rigdhi = gltf.scene
+    rigdhi.position.set(5.5, 0, -22)
+    rigdhi.rotation.y = Math.PI / 1
+    rigdhi.scale.set(10, 10, 10)
+    rigdhi.castShadow = true
+    rigdhi.receiveShadow = true
+    scene.add(rigdhi)
   })
 }
 loadModel()
@@ -210,7 +229,7 @@ const rainMaterial = new THREE.PointsMaterial({
   transparent: true
 })
 const rain = new THREE.Points(rainGeo, rainMaterial)
-// scene.add(rain)
+scene.add(rain)
 // 雨滴的动画效果
 function animateRain() {
   const positions = rainGeo.attributes.position.array
@@ -241,7 +260,7 @@ cube.scale.set(3, 2, 1) // x、y、z轴的缩放倍数
 cube.rotation.set(Math.PI / 4, 0, 0, 'XYZ')
 cube.castShadow = true
 // 将几何体添加到场景之中
-scene.add(cube)
+// scene.add(cube)
 
 // 初始化渲染器
 const renderer = new THREE.WebGLRenderer()
@@ -284,15 +303,15 @@ spotLight.shadow.mapSize.height = 2048
 // let cam = spotLight.shadow.camera
 //光对象添加到scene场景中
 scene.add(spotLight)
-const spotLightHelp = new THREE.SpotLightHelper(spotLight)
-scene.add(spotLightHelp)
+// const spotLightHelp = new THREE.SpotLightHelper(spotLight)
+// scene.add(spotLightHelp)
 
 // 创建轨道控制器
 new OrbitControls(camera, renderer.domElement)
 
 // 添加坐标轴辅助器
-const axesHelper = new THREE.AxesHelper(50) // 数值代表线的长度
-scene.add(axesHelper) // 添加到场景之中
+// const axesHelper = new THREE.AxesHelper(50) // 数值代表线的长度
+// scene.add(axesHelper) // 添加到场景之中
 
 export function render() {
   cube.position.x += 0.01
