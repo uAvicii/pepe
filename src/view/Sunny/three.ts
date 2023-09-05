@@ -21,6 +21,8 @@ export function loadModel() {
   loader.load('./isColorCar/scene.gltf', function (gltf) {
     let car = gltf.scene
     car.position.set(3, 0, 3)
+    car.castShadow = true
+    car.receiveShadow = true
     scene.add(car)
 
     // 通过键盘实现对car的前进后退  左转后车头旋转 点击前进car朝车头方向前进
@@ -109,14 +111,62 @@ export function loadModel() {
 }
 loadModel()
 
-// 创建球体
+// 创建球体 地球
 const sphereGeometry = new THREE.SphereGeometry(1, 30, 30) // 设置球体的大小
-const sphereMaterial = new THREE.MeshLambertMaterial({ color: 0x00ff00 }) // 设置球体的材质
+// 纹理贴图
+const textureLoader = new THREE.TextureLoader()
+const texture = textureLoader.load('./earth.jpg')
+const sphereMaterial = new THREE.MeshLambertMaterial({ map: texture }) // 设置球体的材质
 // 根据几何体和材质创建物体
 const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial)
 sphere.position.set(26, 26, 26)
 // 将物体添加到场景之中
 scene.add(sphere)
+
+// 创建球体 太阳
+const sunGeometry = new THREE.SphereGeometry(3, 30, 30) // 设置球体的大小
+const sunMaterial = new THREE.MeshLambertMaterial({ color: 'gold' }) // 设置球体的材质
+// 根据几何体和材质创建物体
+const sun = new THREE.Mesh(sunGeometry, sunMaterial)
+sun.position.set(36, 36, 36)
+// 将物体添加到场景之中
+scene.add(sun)
+
+// 创建球体 火星
+const marsGeometry = new THREE.SphereGeometry(1, 30, 30) // 设置球体的大小
+const marsMaterial = new THREE.MeshLambertMaterial({ color: 'gray' }) // 设置球体的材质
+// 根据几何体和材质创建物体
+const mars = new THREE.Mesh(marsGeometry, marsMaterial)
+mars.position.set(26, 35, 26)
+// 将物体添加到场景之中
+scene.add(mars)
+
+// 创建球体 水星
+const mercuryGeometry = new THREE.SphereGeometry(1, 30, 30) // 设置球体的大小
+const mercuryMaterial = new THREE.MeshLambertMaterial({ color: 'pink' }) // 设置球体的材质
+// 根据几何体和材质创建物体
+const mercury = new THREE.Mesh(mercuryGeometry, mercuryMaterial)
+mercury.position.set(33, 27, 20)
+// 将物体添加到场景之中
+scene.add(mercury)
+
+// 创建球体 金星
+const venusGeometry = new THREE.SphereGeometry(1, 30, 30) // 设置球体的大小
+const venusMaterial = new THREE.MeshLambertMaterial({ color: 'purple' }) // 设置球体的材质
+// 根据几何体和材质创建物体
+const venus = new THREE.Mesh(venusGeometry, venusMaterial)
+venus.position.set(20, 26, 33.5)
+// 将物体添加到场景之中
+scene.add(venus)
+
+// 创建球体 木星
+const jupiterGeometry = new THREE.SphereGeometry(2, 30, 30) // 设置球体的大小
+const jupiterMaterial = new THREE.MeshLambertMaterial({ color: 'hotpink' }) // 设置球体的材质
+// 根据几何体和材质创建物体
+const jupiter = new THREE.Mesh(jupiterGeometry, jupiterMaterial)
+jupiter.position.set(30, 20, 30)
+// 将物体添加到场景之中
+scene.add(jupiter)
 
 // 创建一个下雨的效果 通过粒子系统来实现
 const rainGeo = new THREE.BufferGeometry() // 创建一个几何体
@@ -180,7 +230,7 @@ export const result = renderer.render(scene, camera)
 
 // 创建地面网格参照
 const planeGeometry = new THREE.PlaneGeometry(50, 50) // 平面几何的宽高
-const PlaneMateial = new THREE.MeshPhongMaterial({ color: '#000' }) // 几何平面的颜色
+const PlaneMateial = new THREE.MeshPhongMaterial({ color: '#1e1e1e' }) // 几何平面的颜色
 const plane = new THREE.Mesh(planeGeometry, PlaneMateial)
 plane.rotation.x = -0.5 * Math.PI
 plane.position.set(0, 0, 0)
@@ -194,31 +244,35 @@ scene.add(ambienLight)
 // 聚光光源
 const spotLight = new THREE.SpotLight('purple', 3)
 // 设置聚光光源位置
-spotLight.position.set(26, 26, 26)
+spotLight.position.set(36, 36, 36)
 // 聚光灯光源指向网格模型
 spotLight.target = plane
 // 设置聚光光源发散角度
 spotLight.angle = Math.PI / 6
 // 设置聚光光源的阴影
 spotLight.castShadow = true
-// 设置聚光光源的阴影范围
-spotLight.shadow.camera.near = 1
-spotLight.shadow.camera.far = 100
-spotLight.shadow.camera.fov = 90
 // 设置聚光光源阴影的分辨率
-spotLight.shadow.mapSize.width = 1024
-spotLight.shadow.mapSize.height = 1024
+spotLight.shadow.mapSize.width = 2048
+spotLight.shadow.mapSize.height = 2048
+// 设置聚光光源的阴影范围
+const cam = spotLight.shadow.camera
+cam.near = 1
+cam.far = 500
+cam.left = -100
+cam.right = 100
+cam.top = 100
+cam.bottom = -100
 //光对象添加到scene场景中
 scene.add(spotLight)
 const spotLightHelp = new THREE.SpotLightHelper(spotLight)
-// scene.add(spotLightHelp)
+scene.add(spotLightHelp)
 
 // 创建轨道控制器
 new OrbitControls(camera, renderer.domElement)
 
 // 添加坐标轴辅助器
-// const axesHelper = new THREE.AxesHelper(5) // 数值代表线的长度
-// scene.add(axesHelper) // 添加到场景之中
+const axesHelper = new THREE.AxesHelper(50) // 数值代表线的长度
+scene.add(axesHelper) // 添加到场景之中
 
 export function render() {
   cube.position.x += 0.01
