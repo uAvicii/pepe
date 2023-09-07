@@ -28,6 +28,10 @@
       "@types/node",
       "three"
     ],
+    "typeRoots": [
+      "node_modules/@types",
+      "types"
+    ],
     "target": "esnext",
     "module": "esnext",
     "useDefineForClassFields": true,

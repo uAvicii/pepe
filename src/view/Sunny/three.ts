@@ -6,6 +6,9 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 
+import Ammo from 'ammo.js'
+console.log(Ammo)
+
 // 1.创建场景
 const scene = new THREE.Scene()
 // 2.创建相机
@@ -108,53 +111,24 @@ export function loadModel() {
     }
     // animateCar()
   })
-  loader.load('./spider/scene.gltf', function (spider) {
-    let spiderModel = spider.scene
-    spiderModel.position.set(-25, 0, -25)
-    spiderModel.scale.set(3, 3, 3)
-    spiderModel.castShadow = true
-    spiderModel.receiveShadow = true
-    scene.add(spiderModel)
-  })
-  loader.load('./spider/scene.gltf', function (spiders) {
-    let spiderModels = spiders.scene
-    spiderModels.position.set(-25, 0, 25)
-    // 旋转九十度
-    spiderModels.rotation.y = Math.PI / 2
-    spiderModels.scale.set(3, 3, 3)
-    spiderModels.castShadow = true
-    spiderModels.receiveShadow = true
-    scene.add(spiderModels)
-  })
-  loader.load('./vr/scene.gltf', function (gltf) {
-    let vr = gltf.scene
-    vr.position.set(19, 0, 0)
-    vr.scale.set(2, 2, 2)
-    vr.castShadow = true
-    vr.receiveShadow = true
-    scene.add(vr)
-  })
-  loader.load('./church/scene.gltf', function (gltf) {
-    let church = gltf.scene
-    church.position.set(-8, -45, 36)
-    church.rotation.y = Math.PI / 2
-    church.scale.set(0.5, 0.5, 0.5)
-
-    church.castShadow = true
-    church.receiveShadow = true
-    scene.add(church)
-  })
-  loader.load('./vintage_gramophone_game-asset_by_rigdhi/scene.gltf', function (gltf) {
-    let rigdhi = gltf.scene
-    rigdhi.position.set(5.5, 0, -22)
-    rigdhi.rotation.y = Math.PI / 1
-    rigdhi.scale.set(10, 10, 10)
-    rigdhi.castShadow = true
-    rigdhi.receiveShadow = true
-    scene.add(rigdhi)
-  })
 }
 loadModel()
+
+// 创建一个立方体 倾斜的立方体
+const cubeGeometry1 = new THREE.BoxGeometry(1, 3, 1) // 设置几何体大小
+const cubeMaterial1 = new THREE.MeshLambertMaterial({ color: 'pink' }) // 设置几何体材质
+// 根据几何体和材质创建物体
+const cube1 = new THREE.Mesh(cubeGeometry1, cubeMaterial1)
+// 修改物体的位置
+cube1.position.set(-5, 0, 0)
+cube1.position.y = 1.5
+// 实现物体的缩放
+cube1.scale.set(3, 2, 1) // x、y、z轴的缩放倍数
+// Math.PI是180度，rotation也是以x、y、z进行设置
+cube1.rotation.set(Math.PI / 4, 0, 0, 'XYZ')
+cube1.castShadow = true
+// 将几何体添加到场景之中
+scene.add(cube1)
 
 // 创建球体 地球
 const sphereGeometry = new THREE.SphereGeometry(1, 30, 30) // 设置球体的大小
@@ -260,7 +234,7 @@ cube.scale.set(3, 2, 1) // x、y、z轴的缩放倍数
 cube.rotation.set(Math.PI / 4, 0, 0, 'XYZ')
 cube.castShadow = true
 // 将几何体添加到场景之中
-// scene.add(cube)
+scene.add(cube)
 
 // 初始化渲染器
 const renderer = new THREE.WebGLRenderer()
@@ -319,6 +293,7 @@ export function render() {
   if (cube.position.x > 20) {
     cube.position.x = 0
   }
+
   renderer.render(scene, camera)
 
   // 接下来渲染下一帧的时候就会调用render函数
