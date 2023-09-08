@@ -150,43 +150,11 @@ export function loadModel() {
         case 17:
           car.position.y -= 0.3
           break
-
-        // 按esc car自动返回返回原点 动画效果
-        case 27:
-          animateCar()
-          // console.log(car.position)
-          // car.position.x = 0
-          // car.position.y = 0
-          // car.position.z = 0
-          break
       }
     }
 
     // 设置car的动画效果 循环执行
-    function animateCar() {
-      // console.log(car.position)
-      // 从car当前位置回到原点car.position.set(3, 0, 3) 旋转回初始角度
-      car.rotation.y -= 0.05
-      car.position.x -= 0.05
-      car.position.y -= 0.05
-      car.position.z -= 0.05
-      if (car.rotation.y < 0) {
-        car.rotation.y = 0
-      }
-      if (car.position.x < 0) {
-        car.position.x = 0
-      }
-      if (car.position.y < 0) {
-        car.position.y = 0
-      }
-      if (car.position.z < 0) {
-        car.position.z = 0
-      }
-      if (car.rotation.y == 0 && car.position.x == 0 && car.position.y == 0 && car.position.z == 0)
-        return
 
-      requestAnimationFrame(animateCar)
-    }
     // animateCar()
   })
 }

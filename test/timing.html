@@ -54,6 +54,7 @@
 
       const startButton = document.getElementById('startButton')
       startButton.addEventListener('click', init)
+      let floor
       function init() {
         const overlay = document.getElementById('overlay') // 覆盖层
         overlay.remove() // 移除覆盖层
@@ -67,7 +68,7 @@
         //
 
         camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100) // 相机 透视相机
-        camera.position.set(7, 3, 7) // 相机位置
+        camera.position.set(10, 5, 10) // 相机位置
 
         // lights
 
@@ -103,8 +104,9 @@
         const floorGeometry = new THREE.PlaneGeometry(10, 10) // 地板几何体
         const floorMaterial = new THREE.MeshLambertMaterial({ color: 0x4676b6 }) // 地板材质
 
-        const floor = new THREE.Mesh(floorGeometry, floorMaterial) // 地板 网格
+        floor = new THREE.Mesh(floorGeometry, floorMaterial) // 地板 网格
         floor.rotation.x = Math.PI * -0.5 // 地板旋转
+        floor.rotation.z = 0.01
         floor.receiveShadow = true // 接收阴影
         scene.add(floor) // 场景添加地板
 
@@ -173,7 +175,9 @@
       function animate() {
         // 动画
         requestAnimationFrame(animate) // 动画
-
+        let x = 0.01 * floor.rotation.z
+        floor.rotation.z += x
+        console.log(floor.rotation.z);
         render() // 渲染
       }
 
