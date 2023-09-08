@@ -1,13 +1,12 @@
 import * as THREE from 'three'
+import * as Ammo from 'ammo.js'
+
 import { Vector3, Euler } from 'three'
 
 // 导入轨道控制器
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
-
-import Ammo from 'ammo.js'
-console.log(Ammo)
 
 // 1.创建场景
 const scene = new THREE.Scene()
@@ -18,11 +17,87 @@ camera.position.set(-10, 20, -40)
 // 将相机添加到场景之中
 scene.add(camera)
 
+// 创建 Ammo.js 物理世界
+const collisionConfiguration = new Ammo.btDefaultCollisionConfiguration()
+const dispatcher = new Ammo.btCollisionDispatcher(collisionConfiguration)
+const overlappingPairCache = new Ammo.btDbvtBroadphase()
+const solver = new Ammo.btSequentialImpulseConstraintSolver()
+const physicsWorld = new Ammo.btDiscreteDynamicsWorld(
+  dispatcher,
+  overlappingPairCache,
+  solver,
+  collisionConfiguration
+)
+// 设置重力
+physicsWorld.setGravity(new Ammo.btVector3(0, -9.8, 0)) // 根据需要调整重力值
+
+// 创建一个地板
+const groundShape = new Ammo.btBoxShape(new Ammo.btVector3(50, 1, 50))
+const groundTransform = new Ammo.btTransform()
+groundTransform.setIdentity()
+groundTransform.setOrigin(new Ammo.btVector3(0, -1, 0))
+const groundMass = 0 // 地板通常是静态物体，质量设为0
+const localInertia = new Ammo.btVector3(0, 0, 0)
+groundShape.calculateLocalInertia(groundMass, localInertia)
+const groundMotionState = new Ammo.btDefaultMotionState(groundTransform)
+const groundInfo = new Ammo.btRigidBodyConstructionInfo(
+  groundMass,
+  groundMotionState,
+  groundShape,
+  localInertia
+)
+const groundBody = new Ammo.btRigidBody(groundInfo)
+physicsWorld.addRigidBody(groundBody)
+
+// 创建一个盒子刚体
+const boxShape = new Ammo.btBoxShape(new Ammo.btVector3(1, 1, 1))
+const boxTransform = new Ammo.btTransform()
+boxTransform.setIdentity()
+boxTransform.setOrigin(new Ammo.btVector3(0, 30, 0)) // 初始位置
+const boxMass = 1 // 刚体的质量
+const boxLocalInertia = new Ammo.btVector3(0, 0, 0)
+boxShape.calculateLocalInertia(boxMass, boxLocalInertia)
+const boxMotionState = new Ammo.btDefaultMotionState(boxTransform)
+const boxInfo = new Ammo.btRigidBodyConstructionInfo(
+  boxMass,
+  boxMotionState,
+  boxShape,
+  boxLocalInertia
+)
+const boxBody = new Ammo.btRigidBody(boxInfo)
+boxBody.setFriction(5) // 设置摩擦力
+boxBody.setRestitution(3) // 设置弹性
+// boxBody.setCollisionFlags(1) // 设置刚体的碰撞标志
+physicsWorld.addRigidBody(boxBody)
+
+// 创建 Three.js 盒子对象
+const boxGeometry = new THREE.BoxGeometry(3, 3, 3)
+const boxMaterial = new THREE.MeshBasicMaterial({ color: 'pink' })
+const boxMesh = new THREE.Mesh(boxGeometry, boxMaterial)
+// 阴影
+boxMesh.castShadow = true
+scene.add(boxMesh)
+
+// 在更新循环中执行物理模拟和碰撞检测
+function updatePhysics() {
+  const deltaTime = 1 / 60 // 时间步长
+  const maxSubSteps = 10 // 最大子步数
+  physicsWorld.stepSimulation(deltaTime, maxSubSteps)
+
+  // 更新 Three.js 中的盒子位置
+  const boxTransform = new Ammo.btTransform()
+  boxBody.getMotionState().getWorldTransform(boxTransform)
+  const position = boxTransform.getOrigin()
+  boxMesh.position.set(position.x(), position.y(), position.z())
+}
+
 // 引入第三方模型
 const loader = new GLTFLoader()
+let car
+let carBody
 export function loadModel() {
   loader.load('./isColorCar/scene.gltf', function (gltf) {
-    let car = gltf.scene
+    car = gltf.scene
     car.position.set(3, 0, 3)
     car.castShadow = true
     car.receiveShadow = true
@@ -33,20 +108,6 @@ export function loadModel() {
     let aKeyPressed = false
     let bKeyPressed = false
     document.onkeydown = function (e) {
-      if (e.key === 'w') {
-        aKeyPressed = true
-      } else if (e.key === 'a') {
-        bKeyPressed = true
-      }
-      if (aKeyPressed && bKeyPressed) {
-        // 执行你的函数或逻辑
-        console.log('同时按下了A和B键')
-
-        // 重置键的状态
-        aKeyPressed = false
-        bKeyPressed = false
-      }
-
       let x
       let z
       switch (e.keyCode) {
@@ -79,34 +140,51 @@ export function loadModel() {
           car.position.x += x
           car.position.z += z
           break
-      }
-    }
-    document.onkeyup = function (event) {
-      if (event.key === 'a') {
-        aKeyPressed = false
-      } else if (event.key === 'w') {
-        bKeyPressed = false
+
+        // 按空格 y轴上升
+        case 32:
+          car.position.y += 0.3
+          break
+
+        // 按ctrl y轴下降
+        case 17:
+          car.position.y -= 0.3
+          break
+
+        // 按esc car自动返回返回原点 动画效果
+        case 27:
+          animateCar()
+          // console.log(car.position)
+          // car.position.x = 0
+          // car.position.y = 0
+          // car.position.z = 0
+          break
       }
     }
 
     // 设置car的动画效果 循环执行
     function animateCar() {
-      car.position.z += 0.05
-      // car.position.x = 0
-      // car.position.y = 0
-      if (car.position.z > 13) {
-        // 旋转九十度
-        car.rotation.y = Math.PI / 2
-        // 停止动画 向x轴移动
-        car.position.z = 13
-        car.position.x += 0.05
-        if (car.position.x > 13) {
-          // 停止动画 向z轴移动
-          car.rotation.y = Math.PI / 1
-          car.position.x = 13
-          car.position.z -= 0.1
-        }
+      // console.log(car.position)
+      // 从car当前位置回到原点car.position.set(3, 0, 3) 旋转回初始角度
+      car.rotation.y -= 0.05
+      car.position.x -= 0.05
+      car.position.y -= 0.05
+      car.position.z -= 0.05
+      if (car.rotation.y < 0) {
+        car.rotation.y = 0
       }
+      if (car.position.x < 0) {
+        car.position.x = 0
+      }
+      if (car.position.y < 0) {
+        car.position.y = 0
+      }
+      if (car.position.z < 0) {
+        car.position.z = 0
+      }
+      if (car.rotation.y == 0 && car.position.x == 0 && car.position.y == 0 && car.position.z == 0)
+        return
+
       requestAnimationFrame(animateCar)
     }
     // animateCar()
@@ -115,17 +193,17 @@ export function loadModel() {
 loadModel()
 
 // 创建一个立方体 倾斜的立方体
-const cubeGeometry1 = new THREE.BoxGeometry(1, 3, 1) // 设置几何体大小
+const cubeGeometry1 = new THREE.BoxGeometry(1, 3, 3) // 设置几何体大小
 const cubeMaterial1 = new THREE.MeshLambertMaterial({ color: 'pink' }) // 设置几何体材质
 // 根据几何体和材质创建物体
 const cube1 = new THREE.Mesh(cubeGeometry1, cubeMaterial1)
 // 修改物体的位置
-cube1.position.set(-5, 0, 0)
+cube1.position.set(-10, 3, 0)
 cube1.position.y = 1.5
 // 实现物体的缩放
 cube1.scale.set(3, 2, 1) // x、y、z轴的缩放倍数
 // Math.PI是180度，rotation也是以x、y、z进行设置
-cube1.rotation.set(Math.PI / 4, 0, 0, 'XYZ')
+// cube1.rotation.set(Math.PI / 4, 0, 0, 'XYZ')
 cube1.castShadow = true
 // 将几何体添加到场景之中
 scene.add(cube1)
@@ -203,7 +281,7 @@ const rainMaterial = new THREE.PointsMaterial({
   transparent: true
 })
 const rain = new THREE.Points(rainGeo, rainMaterial)
-scene.add(rain)
+// scene.add(rain)
 // 雨滴的动画效果
 function animateRain() {
   const positions = rainGeo.attributes.position.array
@@ -277,15 +355,15 @@ spotLight.shadow.mapSize.height = 2048
 // let cam = spotLight.shadow.camera
 //光对象添加到scene场景中
 scene.add(spotLight)
-// const spotLightHelp = new THREE.SpotLightHelper(spotLight)
-// scene.add(spotLightHelp)
+const spotLightHelp = new THREE.SpotLightHelper(spotLight)
+scene.add(spotLightHelp)
 
 // 创建轨道控制器
 new OrbitControls(camera, renderer.domElement)
 
 // 添加坐标轴辅助器
-// const axesHelper = new THREE.AxesHelper(50) // 数值代表线的长度
-// scene.add(axesHelper) // 添加到场景之中
+const axesHelper = new THREE.AxesHelper(50) // 数值代表线的长度
+scene.add(axesHelper) // 添加到场景之中
 
 export function render() {
   cube.position.x += 0.01
@@ -293,6 +371,8 @@ export function render() {
   if (cube.position.x > 20) {
     cube.position.x = 0
   }
+
+  updatePhysics() // 更新物理模拟
 
   renderer.render(scene, camera)
 

@@ -261,10 +261,10 @@ onMounted(() => {
           </router-link>
         </van-col>
         <van-col span="6" class="box-item">
-          <router-link to="/" class="nav min">
+          <a href="/test/timing.html" class="nav min">
             <cp-icon name="home-baseball"></cp-icon>
             <p class="title">{{ t('home.bannerText2') }}</p>
-          </router-link>
+          </a>
         </van-col>
         <van-col span="6" class="box-item">
           <router-link to="/" class="nav min">
