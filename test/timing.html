@@ -48,7 +48,7 @@
 
       const objects = []
 
-      const speed = 2.5 // 速度
+      const speed = 1 // 速度
       const height = 3 // 高度
       const offset = 0.5 // 偏移量
 
@@ -66,136 +66,143 @@
 
         //
 
-        camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100)
-        camera.position.set(7, 3, 7)
+        camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100) // 相机 透视相机
+        camera.position.set(7, 3, 7) // 相机位置
 
         // lights
 
-        const ambientLight = new THREE.AmbientLight(0xcccccc)
-        scene.add(ambientLight)
+        const ambientLight = new THREE.AmbientLight('#fff') // 环境光
+        scene.add(ambientLight) // 添加到场景
 
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 2.5)
-        directionalLight.position.set(0, 5, 5)
-        scene.add(directionalLight)
+        const directionalLight = new THREE.DirectionalLight('orange', 2.5) // 平行光
+        directionalLight.position.set(0, 5, 5) // 平行光位置
+        scene.add(directionalLight) // 添加到场景
 
-        const d = 5
-        directionalLight.castShadow = true
-        directionalLight.shadow.camera.left = -d
-        directionalLight.shadow.camera.right = d
-        directionalLight.shadow.camera.top = d
-        directionalLight.shadow.camera.bottom = -d
+        const d = 5 // 距离
+        directionalLight.castShadow = true // 投影
+        directionalLight.shadow.camera.left = -d // 投影相机
+        directionalLight.shadow.camera.right = d // 投影相机
+        directionalLight.shadow.camera.top = d // 投影相机
+        directionalLight.shadow.camera.bottom = -d // 投影相机 近平面和远平面
 
-        directionalLight.shadow.camera.near = 1
-        directionalLight.shadow.camera.far = 20
+        directionalLight.shadow.camera.near = 1 // 投影相机 近平面
+        directionalLight.shadow.camera.far = 20 // 投影相机 远平面
 
-        directionalLight.shadow.mapSize.x = 1024
-        directionalLight.shadow.mapSize.y = 1024
+        directionalLight.shadow.mapSize.x = 1024 // 投影贴图大小
+        directionalLight.shadow.mapSize.y = 1024 // 投影贴图大小
 
         // audio
 
-        const audioLoader = new THREE.AudioLoader()
+        const audioLoader = new THREE.AudioLoader() // 音频加载器
 
-        const listener = new THREE.AudioListener()
-        camera.add(listener)
+        const listener = new THREE.AudioListener() // 音频监听器
+        camera.add(listener) // 相机添加监听器
 
         // floor
 
-        const floorGeometry = new THREE.PlaneGeometry(10, 10)
-        const floorMaterial = new THREE.MeshLambertMaterial({ color: 0x4676b6 })
+        const floorGeometry = new THREE.PlaneGeometry(10, 10) // 地板几何体
+        const floorMaterial = new THREE.MeshLambertMaterial({ color: 0x4676b6 }) // 地板材质
 
-        const floor = new THREE.Mesh(floorGeometry, floorMaterial)
-        floor.rotation.x = Math.PI * -0.5
-        floor.receiveShadow = true
-        scene.add(floor)
+        const floor = new THREE.Mesh(floorGeometry, floorMaterial) // 地板 网格
+        floor.rotation.x = Math.PI * -0.5 // 地板旋转
+        floor.receiveShadow = true // 接收阴影
+        scene.add(floor) // 场景添加地板
 
         // objects
 
-        const count = 5
-        const radius = 3
+        const count = 15 // 数量
+        const radius = 3 // 半径
 
-        const ballGeometry = new THREE.SphereGeometry(0.3, 32, 16)
-        ballGeometry.translate(0, 0.3, 0)
-        const ballMaterial = new THREE.MeshLambertMaterial({ color: 0xcccccc })
+        const ballGeometry = new THREE.SphereGeometry(0.3, 32, 16) // 球体几何体
+        ballGeometry.translate(0, 0.3, 0) // 球体几何体平移
+        const ballMaterial = new THREE.MeshLambertMaterial({ color: 'purple' }) // 球体材质
 
         // create objects when audio buffer is loaded
 
         audioLoader.load('sounds/ping_pong.mp3', function (buffer) {
+          // 加载音频
           for (let i = 0; i < count; i++) {
-            const s = (i / count) * Math.PI * 2
+            // 循环创建
+            const s = (i / count) * Math.PI * 2 // 角度
 
-            const ball = new THREE.Mesh(ballGeometry, ballMaterial)
-            ball.castShadow = true
-            ball.userData.down = false
+            const ball = new THREE.Mesh(ballGeometry, ballMaterial) // 球体 网格
+            ball.castShadow = true // 投影
+            ball.userData.down = false // 下降
 
-            ball.position.x = radius * Math.cos(s)
-            ball.position.z = radius * Math.sin(s)
+            ball.position.x = radius * Math.cos(s) // 球体位置
+            ball.position.z = radius * Math.sin(s) // 球体位置
 
-            const audio = new THREE.PositionalAudio(listener)
-            audio.setBuffer(buffer)
-            ball.add(audio)
+            const audio = new THREE.PositionalAudio(listener) // 位置音频
+            audio.setBuffer(buffer) // 设置音频缓冲
+            ball.add(audio) // 球体添加音频
 
-            scene.add(ball)
-            objects.push(ball)
+            scene.add(ball) // 场景添加球体
+            objects.push(ball) // 添加到数组
           }
 
-          animate()
+          animate() // 动画
         })
 
         //
 
-        renderer = new THREE.WebGLRenderer({ antialias: true })
-        renderer.setPixelRatio(window.devicePixelRatio)
-        renderer.setSize(window.innerWidth, window.innerHeight)
-        renderer.shadowMap.enabled = true
-        container.appendChild(renderer.domElement)
+        renderer = new THREE.WebGLRenderer({ antialias: true }) // 渲染器
+        renderer.setPixelRatio(window.devicePixelRatio) // 设置像素比
+        renderer.setSize(window.innerWidth, window.innerHeight) // 设置渲染器大小
+        renderer.shadowMap.enabled = true // 阴影
+        container.appendChild(renderer.domElement) // 容器添加渲染器dom元素
 
         //
 
-        const controls = new OrbitControls(camera, renderer.domElement)
-        controls.minDistance = 1
-        controls.maxDistance = 25
+        const controls = new OrbitControls(camera, renderer.domElement) // 轨道控制器
+        controls.minDistance = 1 // 最小距离
+        controls.maxDistance = 25 // 最大距离
 
         //
 
-        window.addEventListener('resize', onWindowResize)
+        window.addEventListener('resize', onWindowResize) // 窗口大小改变事件
       }
 
       function onWindowResize() {
-        camera.aspect = window.innerWidth / window.innerHeight
-        camera.updateProjectionMatrix()
+        // 窗口大小改变
+        camera.aspect = window.innerWidth / window.innerHeight // 相机长宽比
+        camera.updateProjectionMatrix() // 更新相机投影矩阵
 
-        renderer.setSize(window.innerWidth, window.innerHeight)
+        renderer.setSize(window.innerWidth, window.innerHeight) // 设置渲染器大小
       }
 
       function animate() {
-        requestAnimationFrame(animate)
+        // 动画
+        requestAnimationFrame(animate) // 动画
 
-        render()
+        render() // 渲染
       }
 
       function render() {
-        const time = clock.getElapsedTime()
+        const time = clock.getElapsedTime() // 获取时间
 
         for (let i = 0; i < objects.length; i++) {
-          const ball = objects[i]
+          // 循环
+          const ball = objects[i] // 球体
 
-          const previousHeight = ball.position.y
-          ball.position.y = Math.abs(Math.sin(i * offset + time * speed) * height)
+          const previousHeight = ball.position.y // 上一个高度
+          ball.position.y = Math.abs(Math.sin(i * offset + time * speed) * height) // 球体位置
 
           if (ball.position.y < previousHeight) {
-            ball.userData.down = true
+            // 下降
+            ball.userData.down = true // 下降
           } else {
+            // 上升
             if (ball.userData.down === true) {
               // ball changed direction from down to up
 
-              const audio = ball.children[0]
+              const audio = ball.children[0] // 音频 位置音频
               audio.play() // play audio with perfect timing when ball hits the surface
-              ball.userData.down = false
+              ball.userData.down = false // 上升
             }
           }
         }
 
-        renderer.render(scene, camera)
+        renderer.render(scene, camera) // 渲染 场景 相机
       }
     </script>
   </body>
