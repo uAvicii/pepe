@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { showImagePreview } from 'vant'
+import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import edc1 from '@/assets/edc1.jpg'
 import edc2 from '@/assets/edc2.jpg'
@@ -12,6 +13,11 @@ const showPhoto = (url: string) => {
   })
 }
 const imgList = [edc3, edc1, edc2]
+
+let focus = ref(false)
+const handerFocus = () => {
+  focus.value = !focus.value
+}
 </script>
 
 <template>
@@ -22,17 +28,28 @@ const imgList = [edc3, edc1, edc2]
         <p class="name">{{ t('home.cardTittle') }}</p>
         <p class="dep van-ellipsis">{{ t('home.cardPlace') }}</p>
       </div>
-      <van-button class="btn" size="small" round>+ {{ t('home.cardTip') }}</van-button>
+      <van-button
+        class="btn"
+        size="small"
+        plain
+        round
+        :color="focus ? 'pink' : 'hotpink'"
+        @click="handerFocus"
+      >
+        {{ focus ? t('home.cardTip2') : '+' + t('home.cardTip') }}</van-button
+      >
     </div>
     <div class="body">
       <h3 class="title van-ellipsis">{{ t('home.cardNav') }}</h3>
       <p class="tag">
         <span># {{ t('home.cardTag1') }}</span>
         <span># {{ t('home.cardTag2') }}</span>
+        <span># {{ t('home.cardTag3') }}</span>
       </p>
       <!-- <p class="intro">{{ t('home.cardContent') }}</p> -->
       <van-text-ellipsis
-        rows="3"
+        class="intro"
+        rows="4"
         :content="t('home.cardContent')"
         :expand-text="t('home.cardOpen')"
         :collapse-text="t('home.cardColse')"

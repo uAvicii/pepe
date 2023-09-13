@@ -26,11 +26,13 @@ export default {
     cardTittle: 'Bahaichao',
     cardPlace: 'Gotham USA',
     cardTip: 'follow',
+    cardTip2: 'followed',
     cardNav: 'Lin Daiyu killed Lu Zhishen with one punch🤏',
     cardTag1: 'correct',
     cardTag2: 'pertinent',
+    cardTag3: 'incisive',
     cardContent:
-      'An investigation of the dimensions of knowledge required to make pedagogical content decisions has been conducted and an approach to designing an instructional component which represents and reasons about this knowledge is presented. ',
+      'An investigation of the dimensions of knowledge required to make pedagogical content decisions has been conducted and an approach to designing an instructional component which represents and reasons about this knowledge is presented.🙏',
     cardOpen: 'open',
     cardColse: 'close'
   },

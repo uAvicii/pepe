@@ -26,9 +26,11 @@ export default {
     cardTittle: '巴閉超',
     cardPlace: '美利坚 哥潭市',
     cardTip: '關注',
+    cardTip2: '已關注',
     cardNav: '林黛玉一拳打死鲁智深🤏',
     cardTag1: '正确的',
     cardTag2: '中肯的',
+    cardTag3: '一阵见血的',
     cardContent:
       '看到麦当劳却不进去吃，说明这个人文学造诣和自我修养不足，他理解不了这种内在的阳春白雪的高雅艺术，他只能看到外表的辞藻堆砌，参不透其中深奥的精神内核，他整个人的层次就卡在这里了，只能度过一个相对失败的人生。麦门。🙏',
     cardOpen: '展开',
@@ -54,7 +56,7 @@ export default {
     avatarText1: '查看大图',
     avatarText2: '查看上一张大头照',
     avatarText3: '更换头像',
-    avatarText4: '没有更多了',
+    avatarText4: '没有更多了'
   },
   router: {
     home: '主页'
