@@ -59,6 +59,30 @@ export default {
     avatarText4: '没有更多了'
   },
   router: {
-    home: '主页'
+    homeTitle: '主页',
+    login: '登录',
+    qq: '扣扣登录',
+    register: '注册',
+    articleTitle: '百科',
+    notifyTitle: '消息通知',
+    userTitle: '个人中心',
+    consult: '审判',
+    sunny: '兰博基牛',
+    snake: '贪吃蛇',
+    map: '地图',
+    text: '文本编辑器',
+    patientTitle: '档案',
+    addressTitle: '地址',
+    order: '订单',
+    fast: '极速拍档',
+    dep: '充值',
+    illness: '战况描述',
+    pay: '支付',
+    id: '详情',
+    room: '房间',
+    OrderPay: '支付订单',
+    OrderDetail: '订单详情',
+    OrderLogistics: '物流详情',
+    sos: '只因',
   }
 }

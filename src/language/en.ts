@@ -1,3 +1,5 @@
+import { title } from 'process'
+
 export default {
   message: {
     tipsText: 'Please sign your name',
@@ -58,5 +60,32 @@ export default {
     avatarText2: 'View previous picture',
     avatarText3: 'Change the profile picture',
     avatarText4: 'No more'
+  },
+  router: {
+    homeTitle: 'Home',
+    login: 'Login',
+    qq: 'QQ',
+    register: 'Register',
+    articleTitle: 'Article',
+    notifyTitle: 'Notify',
+    userTitle: 'User',
+    consult: 'Consult',
+    sunny: 'Sunny',
+    snake: 'Snake',
+    map: 'Map',
+    text: 'Text',
+    patientTitle: 'Patient',
+    addressTitle: 'Address',
+    order: 'Order',
+    fast: 'Fast',
+    dep: 'Deposit',
+    illness: 'Illness',
+    pay: 'Pay',
+    id: 'Detail',
+    room: 'Room',
+    OrderPay: 'OrderPay',
+    OrderDetail: 'OrderDetail',
+    OrderLogistics: 'OrderLogistics',
+    sos: 'ikun',
   }
 }
