@@ -156,6 +156,8 @@ const handerChangeL = () => {
   let lang = locale.value === 'en' ? 'zh' : 'en'
   langStores.saveLangue(lang)
   locale.value = lang
+  // 刷新路由
+  window.location.reload()
 }
 
 // 静态资源动态引入 轮播图
@@ -188,7 +190,6 @@ onMounted(() => {
     })
   }
 })
-
 </script>
 
 <template>

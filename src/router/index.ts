@@ -3,8 +3,7 @@ import { useUserStore } from '@/stores/index'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import { useI18n } from 'vue-i18n'
-import router from '@/router'
-import i18n from '@/language/i18n.ts'
+import i18n from '@/language/i18n'
 NProgress.configure({
   showSpinner: false
 })
