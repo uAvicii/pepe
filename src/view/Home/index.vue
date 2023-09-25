@@ -29,7 +29,7 @@ let actions = ref<any[]>([]) // 历史记录列表
 const showHistory = ref(false) // 显示历史记录
 const searchs = ref<Ref | null>(null) // ref
 
-const key = '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' // openAI key
+const key = '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' // openAI key
 const openai = new OpenAI({ apiKey: key, dangerouslyAllowBrowser: true }) // openAI 实例
 let synth = window.speechSynthesis // 语音合成器
 
