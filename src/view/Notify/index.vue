@@ -1,117 +1,70 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import edc1 from '@/assets/edc1.jpg'
-import edc2 from '@/assets/edc2.jpg'
+import { ref, nextTick } from 'vue' // 引入ref
 
-const imgList = [edc1, edc2, edc1, edc2, edc1, edc2, edc1, edc2]
+import { gsap } from 'gsap' // 引入gsap
 
-let lineHeight = ref('')
-let lineColor = ref('')
-setInterval(() => {
-  // 随机数 最大600 最小0
-  lineHeight.value = Math.floor(Math.random() * 600) + 'px'
-  // 随机颜色
-  lineColor.value = '#' + Math.floor(Math.random() * 16777215).toString(16)
-}, 600)
+// 异步加载动画
+nextTick(() => {
+  gsap.set('svg', { opacity: 1 })
+
+  gsap.to('.ball', {
+    keyframes: {
+      '0%': { yPercent: 0, scaleX: 1, scaleY: 1 },
+      '7%': { yPercent: 5, scaleY: 0.9, scaleX: 1.1, ease: 'sine.in' },
+      '25%': { yPercent: 100, scaleY: 1.15, scaleX: 0.9, ease: 'sine.in' },
+      '50%': { yPercent: 500, scaleX: 1, scaleY: 1, ease: 'none' },
+      '60%': { scaleX: 1.6, scaleY: 0.4, ease: 'none' },
+      '65%': { yPercent: 500, scaleX: 1, scaleY: 1 },
+      '100%': { yPercent: 0, scaleX: 1, scaleY: 1 },
+      easeEach: 'sine.out'
+    },
+    duration: 0.8,
+    repeat: -1,
+    transformOrigin: 'center bottom'
+  })
+
+  gsap.to('.shadow', {
+    scale: 0.7,
+    duration: 0.4,
+    repeat: -1,
+    yoyo: true,
+    ease: 'sine.inOut',
+    transformOrigin: 'center'
+  })
+})
 </script>
 
 <template>
-  <p>ss</p>
-  <!-- <div class="content">
-    <div v-for="(url, index) in imgList" :key="index">
-      <van-image :src="url"></van-image>
-    </div>
-  </div> -->
-  <div class="line">s</div>
+  <div class="body">
+    <svg viewBox="0 0 100 200">
+      <ellipse class="shadow" cx="50" cy="188" rx="15" ry="5" />
+
+      <circle class="ball" cx="50" cy="22" r="15" />
+    </svg>
+  </div>
 </template>
 
 <style lang="scss" scoped>
-.content {
-  padding: 0 10px;
+body {
+  padding: 0;
+  height: 100vh;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  div {
-    width: 49.5%;
-    height: 130px;
-    // background-color: aqua;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    // 第偶数个子元素
-    &:nth-child(2n) {
-      justify-content: start;
-      .van-image {
-        animation: imgR 2s infinite;
-      }
-    }
-    // 第奇数个子元素
-    &:nth-child(2n + 1) {
-      justify-content: end;
-      .van-image {
-        animation: imgL 2s infinite;
-      }
-    }
-    &:nth-child(1) .van-image {
-      animation: imgL 1.5s infinite;
-    }
-    &:nth-child(2) .van-image {
-      animation: imgR 1.5s infinite;
-    }
-    &:nth-child(3) .van-image {
-      animation: imgL 2s infinite;
-    }
-    &:nth-child(4) .van-image {
-      animation: imgR 0.5s infinite;
-    }
-    &:nth-child(5) .van-image {
-      animation: imgL 0.5s infinite;
-    }
-    &:nth-child(6) .van-image {
-      animation: imgR 2.5s infinite;
-    }
-    &:nth-child(7) .van-image {
-      animation: imgL 3s infinite;
-    }
-    &:nth-child(8) .van-image {
-      animation: imgR 3s infinite;
-    }
-    .van-image {
-      width: 99px;
-      height: 99px;
-    }
-    @keyframes imgL {
-      0% {
-        transform: translateX(0) scale(1);
-      }
-      50% {
-        transform: translateX(-60%) scale(1.2);
-      }
-      100% {
-        transform: translateX(0) scale(1);
-      }
-    }
-    @keyframes imgR {
-      0% {
-        transform: translateX(0) scale(1);
-      }
-      50% {
-        transform: translateX(60%) scale(1.2);
-      }
-      100% {
-        transform: translateX(0) scale(1);
-      }
-    }
+  align-items: center;
+  justify-content: center;
+  background-color: #262626;
+  svg {
+    width: 100vw;
+    max-height: 90vh;
+    max-width: 500px;
+    opacity: 0;
   }
-}
-.line {
-  position: fixed;
-  bottom: 45px;
-  left: 50%;
-  transform: translateX(-50%);
-  height: v-bind(lineHeight);
-  background-color: v-bind(lineColor);
-  border-radius: 50%;
-  transition: all 1s;
+
+  circle {
+    fill: #88ce02;
+  }
+
+  .shadow {
+    opacity: 0.2;
+  }
 }
 </style>

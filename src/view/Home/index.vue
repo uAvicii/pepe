@@ -29,7 +29,7 @@ let actions = ref<any[]>([]) // 历史记录列表
 const showHistory = ref(false) // 显示历史记录
 const searchs = ref<Ref | null>(null) // ref
 
-const key = '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' // openAI key
+const key = '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' // openAI key
 const openai = new OpenAI({ apiKey: key, dangerouslyAllowBrowser: true }) // openAI 实例
 let synth = window.speechSynthesis // 语音合成器
 
@@ -119,14 +119,26 @@ const onSelect = async (e: any) => {
   inputElement.selectionEnd = inputValueLength
 }
 
-// 搜索
+// 讽刺聊天
+// const marvChat = async((value: string) => {
+//   const response = await openai.chat.completions.create({
+//     model: 'gpt-3.5-turbo',
+//     messages: [{ role: 'system', content: value }],
+//     temperature: 0.5,
+//     max_tokens: 256
+//   })
+// })
+
+// 搜索 chatGPT
 const onSearch = async (value: string) => {
   isShow.value = true
   const time = moment().format('YYYY-MM-DD HH:mm:ss')
   store.saveSearchHistory(value)
   const completion = await openai.chat.completions.create({
-    messages: [{ role: 'system', content: value }],
-    model: 'gpt-3.5-turbo'
+    model: 'gpt-3.5-turbo',
+    messages: [{ role: 'user', content: value }],
+    temperature: 0.8,
+    max_tokens: 256
   })
   if (completion) isShow.value = false
   showCenter.value = true
@@ -221,7 +233,7 @@ onMounted(() => {
                 <CpIcon @click="stt" name="home-mc" />
               </template>
               <template #action>
-                <div @click="createImg" class="GenImg">GenImg</div>
+                <div @click="createImg" class="GenImg">TGPI</div>
               </template>
             </van-search>
           </template>
