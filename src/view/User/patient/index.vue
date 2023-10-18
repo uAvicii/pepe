@@ -125,6 +125,14 @@ const onNext = () => {
   store.setId(selectId.value)
   router.push('/consult/pay')
 }
+
+// 获取 url中的参数
+const url = new URLSearchParams(window.location.search)
+console.log(url.get('isSelect'))
+
+const url2 = new URL(window.location.href)
+const params = url2.searchParams
+console.log(params.get('isSelect'))
 </script>
 
 <template>
