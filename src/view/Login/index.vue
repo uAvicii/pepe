@@ -30,7 +30,7 @@ const onLogin = async () => {
   // 使用pinia保存用户信息
   store.saveUser(res.data.data)
   // 提示
-  showSuccessToast('登陆成功')
+  showSuccessToast('登录成功')
   // 跳转首页
   const returnPath = route.query.returnPath
   if (returnPath) {

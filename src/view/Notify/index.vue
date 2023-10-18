@@ -2,7 +2,7 @@
 import { ref, nextTick } from 'vue' // 引入ref
 
 import { gsap } from 'gsap' // 引入gsap
-import { MotionPathPlugin } from 'gsap/MotionPathPlugin' // 注册MotionPathPlugin插件
+import { MotionPathPlugin } from 'gsap/MotionPathPlugin' // 引入MotionPathPlugin插件
 import { Draggable } from 'gsap/Draggable' // 引入Draggable插件
 
 // 异步加载动画
@@ -36,7 +36,7 @@ nextTick(() => {
 
   /* <----------> */
 
-  gsap.registerPlugin(MotionPathPlugin, MotionPathHelper)
+  gsap.registerPlugin(MotionPathPlugin, MotionPathHelper) // 注册MotionPathPlugin,MotionPathHelper插件
 
   gsap.set('.astronaut', { scale: 0.5, autoAlpha: 1 })
 
@@ -57,7 +57,7 @@ nextTick(() => {
 
   /* <----------> */
 
-  gsap.registerPlugin(Draggable, InertiaPlugin)
+  gsap.registerPlugin(Draggable, InertiaPlugin) // 注册Draggable,InertiaPlugin插件
 
   Draggable.create('.green', { bounds: 'body' })
 
@@ -224,7 +224,6 @@ body {
     align-items: center;
     justify-content: space-around;
     margin: 0;
-    // z-index: -1;
     .box {
       width: 77px;
       height: 77px;
