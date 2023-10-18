@@ -2,8 +2,8 @@
 import { ref, nextTick } from 'vue' // 引入ref
 
 import { gsap } from 'gsap' // 引入gsap
-// 注册MotionPathPlugin插件
-import { MotionPathPlugin } from 'gsap/MotionPathPlugin'
+import { MotionPathPlugin } from 'gsap/MotionPathPlugin' // 注册MotionPathPlugin插件
+import { Draggable } from 'gsap/Draggable' // 引入Draggable插件
 
 // 异步加载动画
 nextTick(() => {
@@ -34,7 +34,9 @@ nextTick(() => {
     transformOrigin: 'center' // 设置变换原点
   })
 
-  gsap.registerPlugin(MotionPathPlugin)
+  /* <----------> */
+
+  gsap.registerPlugin(MotionPathPlugin, MotionPathHelper)
 
   gsap.set('.astronaut', { scale: 0.5, autoAlpha: 1 })
 
@@ -52,6 +54,16 @@ nextTick(() => {
     }
   })
   MotionPathHelper.create('.astronaut')
+
+  /* <----------> */
+
+  gsap.registerPlugin(Draggable, InertiaPlugin)
+
+  Draggable.create('.green', { bounds: 'body' })
+
+  Draggable.create('.purple', { inertia: true, bounds: 'body' })
+
+  Draggable.create('.orange', { inertia: true, type: 'rotation', bounds: 'body' })
 })
 </script>
 
@@ -62,6 +74,8 @@ nextTick(() => {
 
       <circle class="ball" cx="50" cy="22" r="15" />
     </svg>
+
+    <!--  -->
 
     <svg id="motionPath" viewBox="-20 0 557 190">
       <path
@@ -145,6 +159,16 @@ nextTick(() => {
         </g>
       </g>
     </svg>
+
+    <!--  -->
+
+    <div id="boxer">
+      <div class="box green">drag me</div>
+
+      <div class="box purple">flick me</div>
+
+      <div class="box orange">spin me</div>
+    </div>
   </div>
 </template>
 
@@ -189,5 +213,52 @@ body {
   #motionPath .astronaut {
     visibility: hidden;
   }
+
+  #boxer {
+    position: absolute;
+    bottom: 20%;
+    left: 0;
+    width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin: 0;
+    // z-index: -1;
+    .box {
+      width: 77px;
+      height: 77px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .green {
+      background-color: #88ce02;
+    }
+    .purple {
+      background-color: #a02fce;
+    }
+    .orange {
+      background-color: #fca702;
+    }
+
+    h1 {
+      position: fixed;
+      width: 100%;
+      text-align: center;
+      top: 0;
+    }
+  }
+}
+</style>
+<style>
+.copy-motion-path {
+  width: 200px;
+  height: auto;
+  text-align: center;
+  bottom: 58px !important;
+  display: inline-block !important;
 }
 </style>
