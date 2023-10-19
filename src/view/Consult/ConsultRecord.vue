@@ -5,11 +5,11 @@ import { ConsultType } from '@/enums'
 
 <template>
   <div class="consult-page">
-    <cp-nav-bar title="击杀集锦" />
+    <cp-nav-bar title="LIST" />
     <van-tabs sticky>
-      <van-tab title="极速问诊"> <consult-list :type="ConsultType.Fast" /> </van-tab>
-      <van-tab title="找killer"><consult-list :type="ConsultType.Doctor" /></van-tab>
-      <van-tab title="开药问诊"><consult-list :type="ConsultType.Medication" /></van-tab>
+      <van-tab title="Q&A"> <consult-list :type="ConsultType.Fast" /> </van-tab>
+      <van-tab title="LOOK-FOR"><consult-list :type="ConsultType.Doctor" /></van-tab>
+      <van-tab title="OTHER"><consult-list :type="ConsultType.Medication" /></van-tab>
     </van-tabs>
   </div>
 </template>

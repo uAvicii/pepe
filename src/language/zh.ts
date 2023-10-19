@@ -16,9 +16,9 @@ export default {
     rText: '只因',
     rText2: '五星高中生',
     bannerText1: '瑟提',
-    bannerText2: '本拉登',
+    bannerText2: '艾瑞莉娅',
     bannerText3: '鱿鱼须',
-    bannerText4: '麦克阿瑟',
+    bannerText4: '萨科',
     tabText1: '喜歡的影片',
     tabText2: '媒體庫',
     tabText3: '觀看歷史',
@@ -49,7 +49,7 @@ export default {
     orderStatus4: '已完成',
     subTitle: '快捷工具',
     label1: '阿帕奇',
-    label2: '本拉登',
+    label2: '贪吃蛇',
     label3: '档案',
     label4: '设置',
     logOut: '退出登录',
@@ -83,6 +83,6 @@ export default {
     OrderPay: '支付订单',
     OrderDetail: '订单详情',
     OrderLogistics: '物流详情',
-    sos: '只因',
+    sos: '只因'
   }
 }

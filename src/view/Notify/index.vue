@@ -254,10 +254,6 @@ body {
 </style>
 <style>
 .copy-motion-path {
-  width: 200px;
-  height: auto;
-  text-align: center;
-  bottom: 58px !important;
-  display: inline-block !important;
+  display: none !important;
 }
 </style>
