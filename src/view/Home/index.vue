@@ -28,6 +28,7 @@ const showPopover = ref(false) // 历史记录显示
 let actions = ref<any[]>([]) // 历史记录列表
 const showHistory = ref(false) // 显示历史记录
 const searchs = ref<Ref | null>(null) // ref
+const progress = ref(0)
 
 const key = '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' // openAI key
 const openai = new OpenAI({ apiKey: key, dangerouslyAllowBrowser: true }) // openAI 实例
@@ -119,16 +120,6 @@ const onSelect = async (e: any) => {
   inputElement.selectionEnd = inputValueLength
 }
 
-// 讽刺聊天
-// const marvChat = async((value: string) => {
-//   const response = await openai.chat.completions.create({
-//     model: 'gpt-3.5-turbo',
-//     messages: [{ role: 'system', content: value }],
-//     temperature: 0.5,
-//     max_tokens: 256
-//   })
-// })
-
 // 搜索 chatGPT
 const onSearch = async (value: string) => {
   isShow.value = true
@@ -180,6 +171,24 @@ const showimageUrl = (i: any) => {
     showIndex: false
   })
 }
+
+// 监听页面滚动条滚动事件
+window.addEventListener('scroll', () => {
+  // 获取页面滚动条滚动距离
+  let scrollTop = document.documentElement.scrollTop || document.body.scrollTop
+  // 获取页面滚动条总高度
+  let scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight
+  // 获取窗口可视范围高度
+  let clientHeight = document.documentElement.clientHeight || document.body.clientHeight
+  // 滚动条到底部的条件
+  if (scrollTop + clientHeight >= scrollHeight) {
+    // 滚动条到底部了
+    progress.value = 100
+  } else {
+    // 滚动条没有到底部
+    progress.value = (scrollTop / (scrollHeight - clientHeight)) * 100
+  }
+})
 
 // 动画
 onMounted(() => {
@@ -334,6 +343,8 @@ onMounted(() => {
       {{ historyList }}</van-popup
     >
     <van-back-top right="7.5vw" bottom="15vh" />
+
+    <div class="progressBar"></div>
   </div>
 </template>
 
@@ -478,6 +489,16 @@ onMounted(() => {
   left: 51%;
   top: 19%;
   transform: translateX(-50%);
+}
+
+.progressBar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background-color: #0a74da;
+  width: v-bind("progress + '%'");
+  z-index: 9999999999;
 }
 </style>
 
