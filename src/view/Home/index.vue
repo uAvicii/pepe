@@ -30,7 +30,7 @@ const showHistory = ref(false) // 显示历史记录
 const searchs = ref<Ref | null>(null) // ref
 const progress = ref(0)
 
-const key = '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' // openAI key
+const key = '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' // openAI
 const openai = new OpenAI({ apiKey: key, dangerouslyAllowBrowser: true }) // openAI 实例
 let synth = window.speechSynthesis // 语音合成器
 
