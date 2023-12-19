@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory, useRouter } from 'vue-router'
+import { createRouter, createWebHistory, useRouter, createWebHashHistory } from 'vue-router'
 import { useUserStore } from '@/stores/index'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
@@ -9,7 +9,8 @@ NProgress.configure({
 })
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  // history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHashHistory(),
   routes: [
     {
       path: '/login',
@@ -128,7 +129,7 @@ const router = createRouter({
     {
       path: '/room',
       component: () => import('@/view/Room/index.vue'),
-      meta: { title: '面壁室', label: 'router.room'  },
+      meta: { title: '面壁室', label: 'router.room' },
       beforeEnter(to) {
         if (to.query.payResult === 'false') return '/consult'
       }
@@ -136,7 +137,7 @@ const router = createRouter({
     {
       path: '/order/pay',
       component: () => import('@/view/Order/OrderPay.vue'),
-      meta: { title: '魔法支付',label: 'router.OrderPay' }
+      meta: { title: '魔法支付', label: 'router.OrderPay' }
     },
     {
       path: '/order/:id',
