@@ -52,7 +52,7 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
   },
-  base: '/pepe2077',
+  base: '/2077',
   build: {
     outDir: 'dist',
     assetsDir: 'assets'
