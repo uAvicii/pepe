@@ -43,15 +43,18 @@ export default defineConfig({
       '/api': {
         target: 'https://consult-api.itheima.net', // 这里配置您的后端服务器地址
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ''),
-      },
-    },
+        rewrite: (path) => path.replace(/^\/api/, '')
+      }
+    }
   },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
+  },
+  base: '/pepe2077',
+  build: {
+    outDir: 'dist',
+    assetsDir: 'assets'
   }
 })
-
-
