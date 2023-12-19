@@ -30,7 +30,7 @@ const showHistory = ref(false) // 显示历史记录
 const searchs = ref<Ref | null>(null) // ref
 const progress = ref(0)
 
-const key = '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' // openAI
+const key = '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' // openAI
 const openai = new OpenAI({ apiKey: key, dangerouslyAllowBrowser: true }) // openAI 实例
 let synth = window.speechSynthesis // 语音合成器
 
@@ -56,7 +56,6 @@ const stt = async (e: any) => {
 
 //openAI Create image
 async function createImg() {
-  showPopover.value = false
   if (!values.value) return
   tts('正在生成图片,please wait')
   isShow.value = true
@@ -122,28 +121,30 @@ const onSelect = async (e: any) => {
 
 // 搜索 chatGPT
 const onSearch = async (value: string) => {
+  if (!value) return showFailToast('please input')
   isShow.value = true
   const time = moment().format('YYYY-MM-DD HH:mm:ss')
   store.saveSearchHistory(value)
-  const completion = await openai.chat.completions.create({
-    model: 'gpt-3.5-turbo',
-    messages: [{ role: 'user', content: value }],
-    temperature: 0.8,
-    max_tokens: 256
-  })
-  if (completion) isShow.value = false
-  showCenter.value = true
-  searchResult.value = completion.choices[0].message.content as string
-  tts(searchResult.value)
+  const completion = await openai.chat.completions
+    .create({
+      model: 'gpt-3.5-turbo',
+      messages: [{ role: 'user', content: value }],
+      temperature: 0.8,
+      max_tokens: 256
+    })
+    .catch((err) => {
+      isShow.value = false
+      showFailToast(err.message)
+      return
+    })
+  if (completion) {
+    isShow.value = false
+    showCenter.value = true
+    searchResult.value = completion?.choices[0].message.content as string
+    tts(searchResult.value)
 
-  // axios.get(`https://rj9gijf3ua.us.aircode.run/chat?question=${value}`).then((res) => {
-  //   if (res) isShow.value = false
-  //   showCenter.value = true
-  //   searchResult.value = res.data.reply
-  //   tts(searchResult.value)
-  // })
-  historyList.value = store.searchHistory
-  // historyList.value = historyList.value.reverse()
+    historyList.value = store.searchHistory
+  }
 }
 
 // 关闭历史记录弹窗
