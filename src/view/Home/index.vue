@@ -193,6 +193,8 @@ window.addEventListener('scroll', () => {
 
 // 动画
 onMounted(() => {
+  console.log(stores.consult.pictures)
+
   const element = document.querySelector('.box-item') as HTMLElement | null
   const elements = Array.from(document.querySelectorAll('.box-item')) as HTMLElement[]
   if (element) {
@@ -302,12 +304,13 @@ onMounted(() => {
         </van-col>
       </van-row>
     </div>
-
-    <div class="home-banner">
+    <div class="home-banner" v-show="stores.consult">
       <van-swipe indicator-color="#fff" :autoplay="2000">
-        <van-swipe-item v-for="index in 9" :key="index">
+        <!-- <van-swipe-item v-for="index in 9" :key="index">
           <img :src="imgList(index)" @click="showimageUrl(index)" />
-          <!-- <img :src="'./src/assets/pepe'+index+'.jpg'" /> -->
+        </van-swipe-item> -->
+        <van-swipe-item v-for="i in stores.consult.pictures" :key="i.url">
+          <img :src="i.url" @click="showimageUrl(i.url)" />
         </van-swipe-item>
       </van-swipe>
     </div>
@@ -465,7 +468,7 @@ onMounted(() => {
 
 .home-banner {
   padding: 10px 15px;
-  height: 200px;
+  // height: 200px;
   img {
     width: 100%;
     height: 200px;
