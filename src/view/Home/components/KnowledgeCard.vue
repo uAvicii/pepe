@@ -46,14 +46,16 @@ const handerFocus = () => {
         <span># {{ t('home.cardTag2') }}</span>
         <span># {{ t('home.cardTag3') }}</span>
       </p>
-      <!-- <p class="intro">{{ t('home.cardContent') }}</p> -->
-      <van-text-ellipsis
+      <p class="intro">
+        <span>{{ t('home.cardContent') }}</span>
+      </p>
+      <!-- <van-text-ellipsis
         class="intro"
         rows="4"
         :content="t('home.cardContent')"
         :expand-text="t('home.cardOpen')"
         :collapse-text="t('home.cardColse')"
-      />
+      /> -->
       <div class="imgs">
         <van-image v-for="i in imgList" :key="i" :src="i" @click="showPhoto(i)" />
       </div>
@@ -109,10 +111,17 @@ const handerFocus = () => {
         font-size: 12px;
       }
     }
-    .intro {
+    .intro span {
       margin-top: 7px;
       line-height: 2;
       color: var(--cp-text3);
+      background: linear-gradient(to right, pink, hotpink) no-repeat right bottom;
+      background-size: 0 2px;
+      transition: background-size 1300ms;
+    }
+    .intro span:hover {
+      background-position-x: left;
+      background-size: 100% 2px;
     }
     .imgs {
       margin-top: 7px;

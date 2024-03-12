@@ -76,7 +76,7 @@ async function createImg() {
   }
 }
 
-// 聚焦 显示 历史记录
+// 聚焦 显示 历史记录 
 const onFocus = () => {
   setTimeout(() => {
     if (values.value) return (showPopover.value = false)
@@ -355,7 +355,7 @@ onMounted(() => {
 <style lang="scss" scoped>
 .home-page {
   padding-bottom: 50px;
-  ::v-deep() {
+  :deep() {
     .van-search {
       padding: 0;
       width: 345px;
@@ -474,7 +474,7 @@ onMounted(() => {
     height: 200px;
   }
 }
-::v-deep .van-popup {
+:deep(.van-popup) {
   width: 300px;
   max-height: 500px;
   // 换行
@@ -485,10 +485,10 @@ onMounted(() => {
   padding: 5px 5px;
   transform: translateY(-244.2px);
 }
-::v-deep .van-overlay {
+:deep(.van-overlay) {
   z-index: 999999;
 }
-::v-deep .van-loading {
+:deep(.van-loading) {
   position: absolute;
   left: 51%;
   top: 19%;
