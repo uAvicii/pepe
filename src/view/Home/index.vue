@@ -31,8 +31,10 @@ const searchs = ref<Ref | null>(null) // ref
 const progress = ref(0)
 
 const key = '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' // openAI
+// 设置
 const openai = new OpenAI({ apiKey: key, dangerouslyAllowBrowser: true }) // openAI 实例
 let synth = window.speechSynthesis // 语音合成器
+
 
 // 文字转语音
 const tts = (text: string) => {
@@ -82,12 +84,9 @@ const onFocus = () => {
     if (values.value) return (showPopover.value = false)
     showPopover.value = true
 
-    actions.value = store.searchHistory
-      .map((item: any) => {
-        return { text: item }
-      })
-      .reverse()
-      .slice(0, 7)
+    actions.value = store.searchHistory.map((item: any) => {
+      return { text: item }
+    }).reverse().slice(0, 7)
   })
 }
 

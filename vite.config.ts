@@ -41,7 +41,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://consult-api.itheima.net', // 这里配置您的后端服务器地址
+        target: 'https://consult-api.itheima.net',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, '')
       }
@@ -52,9 +52,8 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
   },
-  base: '/2077',
+  // base: '/2077',
   build: {
     outDir: 'dist',
-    assetsDir: 'assets'
   }
 })

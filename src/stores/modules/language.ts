@@ -5,11 +5,11 @@ export const useLangueStore = defineStore(
   'language',
   () => {
     const langue = ref()
- 
+
     const saveLangue = (u: any) => {
-        langue.value = u
+      langue.value = u
     }
- 
+
     return {
       langue,
       saveLangue
