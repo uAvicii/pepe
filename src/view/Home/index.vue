@@ -29,6 +29,7 @@ let actions = ref<any[]>([]) // 历史记录列表
 const showHistory = ref(false) // 显示历史记录
 const searchs = ref<Ref | null>(null) // ref
 const progress = ref(0)
+const testText = ret('test')
 
 const key = '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' // openAI
 const openai = new OpenAI({ apiKey: key, dangerouslyAllowBrowser: true }) // openAI 实例
