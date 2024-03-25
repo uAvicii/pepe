@@ -112,3 +112,13 @@ function outerFunction() {
 
 const myInnerFunc = outerFunction()
 myInnerFunc() // 输出: 'I am outside!'
+
+// 递归
+function factorial(n) {
+  if (n === 0) {
+    return 1
+  }
+  return n * factorial(n - 1)
+}
+
+console.log('递归\n', factorial(5)) // 120
